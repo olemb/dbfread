@@ -120,7 +120,6 @@ class DBF(list):
                                   self.header.day)
 
         self.deleted = []
-        self.index = {}
 
         if not peek:
             self._load()
@@ -276,19 +275,6 @@ class DBF(list):
                 elif sep == b'*':
                     row = self._read_record(f, fpt)
                     self.deleted.append(row)
-
-        #
-        # Build index
-        #
-        key = self.fields[0].name
-        for row in self:
-            self.index[row[key]] = row
-
-    def __getitem__(self, key): 
-        try:
-            return list.__getitem__(self, key)
-        except TypeError:
-            return self.index[key]
 
     def __repr__(self):
         return '%s(%r, encoding=%r)' % (
