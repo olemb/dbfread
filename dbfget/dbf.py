@@ -12,6 +12,10 @@ from .common import parse_string
 from .ifiles import ifind
 from .fpt import FPT
 
+# Todo:
+#   - file is opened twice.
+#
+
 DBFHeader = StructParser(
     'DBFHeader',
     '<BBBBLHHHBBLLLBBH',
@@ -116,6 +120,7 @@ class DBF(list):
                                   self.header.day)
 
         self.deleted = []
+        self.index = {}
 
         if not peek:
             self._load()
@@ -125,50 +130,46 @@ class DBF(list):
         # Todo: more checks
         # http://www.clicketyclick.dk/databases/xbase/format/dbf_check.html#CHECK_DBF
         #
-        try:
-            with open(self.filename, mode='rb') as f:
-                self.header = DBFHeader.read(f)
+        with open(self.filename, mode='rb') as f:
+            self.header = DBFHeader.read(f)
 
-                #
-                # Read field headers
-                #
-                while 1:
-                    sep = f.read(1)
-                    if sep in (b'\x0d', '\n', ''):
-                        # End of field headers
-                        break
+            #
+            # Read field headers
+            #
+            while 1:
+                sep = f.read(1)
+                if sep in (b'\x0d', '\n', ''):
+                    # End of field headers
+                    break
 
-                    fh = DBFField.read(f, prepend=sep)
-                    # We need to fix the name and type
+                fh = DBFField.read(f, prepend=sep)
+                # We need to fix the name and type
 
-                    fieldname = parse_string(fh.name, self.encoding)
-                    if self.lowernames:
-                        fieldname = fieldname.lower()
-                    fieldtype = parse_string(fh.type, self.encoding)
+                fieldname = parse_string(fh.name, self.encoding)
+                if self.lowernames:
+                    fieldname = fieldname.lower()
+                fieldtype = parse_string(fh.type, self.encoding)
 
-                    fh = fh._replace(name=fieldname,
-                                     type=fieldtype)
+                fh = fh._replace(name=fieldname,
+                                 type=fieldtype)
 
-                    self.field_names.append(fh.name)
+                self.field_names.append(fh.name)
 
-                    self.fields.append(fh)
+                self.fields.append(fh)
 
-                if len(self.fields) < 1:
-                    raise ValueError('dbf file must have at least one field: %s' % self.filename)
+            if len(self.fields) < 1:
+                raise ValueError('dbf file must have at least one field: %s' % self.filename)
 
-            # Check for memo file
-            field_types = set([f.type for f in self.fields])
-            if 'M' in field_types:
-                fn = os.path.splitext(self.filename)[0] + '.fpt'
-                match = ifind(self.filename, ext='.fpt')
-                if match:
-                    self.memofilename = match
-                else:
-                    # Todo: warn and return field as byte string?
-                    raise IOError('Missing memo file: %r' % fn)
-        except Exception as err:
-            # raise self._add_filename_to_err(err)
-            raise  # Todo: fix above line
+        # Check for memo file
+        field_types = set([f.type for f in self.fields])
+        if 'M' in field_types:
+            fn = os.path.splitext(self.filename)[0] + '.fpt'
+            match = ifind(self.filename, ext='.fpt')
+            if match:
+                self.memofilename = match
+            else:
+                # Todo: warn and return field as byte string?
+                raise IOError('Missing memo file: %r' % fn)
 
     def _add_filename_to_err(self, err):
         """Add filename to the exception text to make it more helpful.
@@ -232,52 +233,68 @@ class DBF(list):
  
     def _load(self):
 
+        #
+        # Raw mode
+        #
+        if self.raw:
+            # Skip sanity checks, since we return the fields raw.
+            pass
+        else:
+            # Check headers for possible format errors
+            # We do that here because doing it for every record
+            # would be costly, and doing it in _read_headers()
+            # could prevent the file from being opened and inspected.
+
+            # Todo: write sanity check
+            # self.sanity_check()
+
+            pass
+
+        #
+        # Get memo file
+        #
+        if self.memofilename and not self.raw:
+            fpt = FPT(self.memofilename)
+        else:
+            fpt = None
+
+        #
+        # Read records
+        #
+        with open(self.filename, mode='rb') as f:
+            # Skip header
+            f.seek(self.header.headerlen)
+
+            while 1:
+                sep = f.read(1)
+
+                if sep == b'':
+                    break  # End of file reached
+                elif sep == b' ':
+                    row = self._read_record(f, fpt)
+                    self.append(row)
+                elif sep == b'*':
+                    row = self._read_record(f, fpt)
+                    self.deleted.append(row)
+
+        #
+        # Build index
+        #
+        key = self.fields[0].name
+        for row in self:
+            self.index[row[key]] = row
+
+    def __getitem__(self, key): 
         try:
-            if self.memofilename:
-                fpt = FPT(self.memofilename)
-            else:
-                fpt = None
-
-            if self.raw:
-                # Skip sanity checks, since we return the fields raw.
-                pass
-            else:
-                # Check headers for possible format errors
-                # We do that here because doing it for every record
-                # would be costly, and doing it in _read_headers()
-                # could prevent the file from being opened and inspected.
-                
-                # Todo: write sanity check
-                # self.sanity_check()
-
-                pass
-
-            with open(self.filename, mode='rb') as f:
-                # Skip header
-                f.seek(self.header.headerlen)
-
-                while 1:
-                    sep = f.read(1)
-
-                    if sep == b'':
-                        return  # End of file reached
-                    elif sep == b' ':
-                        row = self._read_record(f, fpt)
-                        self.append(row)
-                    elif sep == b'*':
-                        row = self._read_record(f, fpt)
-                        self.deleted.append(row)
-
-        except Exception as err:
-            # raise self._add_filename_to_err(err)
-            raise  # Todo: fix above line
+            return list.__getitem__(self, key)
+        except TypeError:
+            return self.index[key]
 
     def __repr__(self):
-        return '%s(%r, encoding=%r, raw=%r)' % (
+        return '%s(%r, encoding=%r)' % (
             self.__class__.__name__,
             self.filename,
-            self.encoding,
-            self.raw)
+            self.encoding)
 
     #
     # Context manager
