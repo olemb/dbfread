@@ -1,7 +1,7 @@
 dbfget - Python library for getting data out of DBF files
 =========================================================
 
-Requires Python 3.2 or 2.7 (works without change in both)
+Requires Python 2.7 or 3.2 (works without change in both)
 
 Project page: http://nerdly.info/ole/dbf/
 
@@ -19,28 +19,47 @@ Simple example::
     ...     print(p['NAME'], p['BIRTHDAY'], p['BEARDED'])
     George 1982-12-16 True
     Wendy 1984-02-10 False
+
+
+Installing
+----------
+
+Python 2::
+
+  sudo python setup.py install
+
+Python 3::
+
+  sudo python3 setup.py install
     
 
 Features
 --------
 
-  - supports all data types and convert to native Python types
+  - the table object is a subclass of list
+  - records are dictionaries
+  - data is converted to native Python types
+    (see Supported field types below)
+  - records can optionally be returned as any kind of object
+    (using the recfactory option, which defaults to ``dict``)
   - reads memo fields (.fpt) and returns them as unicode strings
-    (binary memo fields are not yet supported)
-  - returns records as dictionary (or alternative format, such as OrderedDict)
-  - explicit code page conversion to unicode
-  - option to lowercase field names
-  - file name case agnostic (KabReg.dbf will match KABREG.FPT)
+    (binary memo fields are returned as byte strings)
+  - strings are decoded and returned as unicode
+    (defaults to 'latin1', unless you supply a the ``encoding``
+    option)
+  - file name case agnostic (``read('kabreg.dbf')`` will find
+    ``KabReg.dbf`` and the memo file ``KABREG.FPT``). This
+    (behaviour can be turned off by passing ``ignorecase=False``)
 
 
 Possible future features
 ------------------------
 
-  - transparent code page conversion to unicode where possible
-    (this is tricky)
-  - method to read deleted records
+  - auto-detection of code page / encoding. This is tricky, since
+    the value is stored in only one byte, which is vendor specific,
+    and in most files I've seen is just set to 0.
   - easy export to SQL / CSV
-  - raw mode (to get values as byte strings)
+  - raw mode (to get all values as raw byte strings)
 
     
 Status
