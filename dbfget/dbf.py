@@ -86,7 +86,7 @@ class DBF(list):
     def __init__(self, filename,
                  encoding='latin1',  # Todo: is this a good default?
                  raw=False,
-                 ignorecase=False,
+                 ignorecase=True,
                  lowernames=False,
                  parserclass=FieldParser,
                  recfactory=dict,
