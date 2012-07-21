@@ -8,24 +8,8 @@ __version__ = '0.1.0'
 
 from .dbf import DBF as read
 
-#
-# Todo: this should have inherited from OrderedDict,
-# but that doesn't seem to work.
-#
-class DictObject(dict):
-    def __setattr__(self, name, value):
-        self[name] = value
+class RowObject(object):
+    def __init__(self, items):
+        self.__dict__.update(items)
 
-    def __getattr__(self, name):
-        try:
-            return self[name]
-        except KeyError:
-            raise AttributeError(name)
-
-    def __delattr__(self, name):
-        try:
-            del self[name]
-        except KeyError:
-            raise AttributeError(name)
-
-__all__ = ['DictObject', 'read']
+__all__ = ['objfactory', 'read']

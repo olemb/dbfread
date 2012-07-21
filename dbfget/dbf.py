@@ -228,7 +228,10 @@ class DBF(list):
 
             items.append(FieldValue(name=field.name, value=value))
 
-        row = self.recfactory(items)
+        if self.recfactory:
+            row = self.recfactory(items)
+        else:
+            row = items
 
         return row
 

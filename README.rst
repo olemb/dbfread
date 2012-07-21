@@ -1,7 +1,7 @@
 dbfget - Python library for getting data out of DBF files
 =========================================================
 
-Requires Python 2.7 or 3.2 (works without change in both)
+Requires Python 2.7 or 3.2 (works in both without change)
 
 Project page: http://nerdly.info/ole/dbf/
 
@@ -9,16 +9,80 @@ License: MIT
 
 Latest version of the source code: https://github.com/olemb/dbfget/
 
-Simple example::
+
+Status
+------
+
+The API is still not quite finalized. I am hoping for some feedback.
+
+More examples, documentation and testing is needed.
+
+My goal is to make ``dbfget`` THE library for getting data out of old
+dbf files. I am aware of other projects such as
+http://dbfpy.sourceforge.net/ but they seem to have slightly different
+goals. I would like to cooperate and share ideas and code with anyone
+out there working on their own dbf library. I will try to get in touch
+with some of you, but if you read this and haven't heard from me,
+don't hesitate to send me an email.
+
+
+Example
+-------
+
+
+Real world example (Telemator table data)::
 
     >>> import dbfget
+    >>>
     >>> 
-    >>> people = dbfget.read('people.dbf')
-    >>> 
-    >>> for p in people:
-    ...     print(p['NAME'], p['BIRTHDAY'], p['BEARDED'])
-    George 1982-12-16 True
-    Wendy 1984-02-10 False
+    >>> cables = dbfget.read('/telemator/stamnett/kabreg.dbf')
+    >>> len(cables)
+    552
+    >>> cables[0]
+    {'CABLE': 'ROOM1-ROOM2#2'
+     'END_A': 'ROOM1',
+     'END_B': 'ROOM2',
+     'NUMCORES': 12, 
+     'UPDWHEN': datetime.datetime(2010, 5, 27, 9, 38, 20),
+     ... etc ... }
+
+```dbfget.read()``` returns a list of dictionaries, but we can tweak
+it to return whatever we want. How about Python objects?
+
+::
+
+    >>> cables = dbfget.read('/telemator/stamnett/kabreg.dbf',
+                             lowernames=True,
+                             recfactory=dbfget.RowObject)
+    >>> for c in cables:
+    ...     print('Cable %s has %s cores' % (c.cable, c.numcores))
+    Cable ROOM1-ROOM2#2 has 12 cores 
+    Cable SNIP_SNUDDELI_SNUPP has 24 cores
+
+(I'm making these cable and end names up, by the way, we don't really
+name things like that here. :) )
+
+Other options::
+
+   recfactory=None  # Just return the raw tuples
+   recfactory=collections.OrderedDict
+
+Any callable which takes a list of ```(name, value)``` tuples will do.
+
+Other options::
+   
+   lowernames=True    # field names will be converted to lowercase   
+   ignorecase=False   # treat file names with different case as different files
+
+All text in field names and values is converted into unicode. For
+this, ```dbfget``` needs to know the encoding. You can pass this with::
+
+   encoding='cp1254'     # text is Turkish (code page 1254)
+   encoding='shift-jis'  # text is Japanese SHIFT-JIS encoded
+
+There is currently no way for ```dbfget``` to find the encoding on its
+own, so you do need to pass some value, or just make do with whatever
+the default value ```latin1``` produces.
 
 
 Installing
