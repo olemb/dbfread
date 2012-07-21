@@ -92,12 +92,6 @@ class DBF(list):
                  recfactory=dict,
                  peek=False):
 
-        if ignorecase:
-            self.filename = ifind(filename)
-        else:
-            self.filename = filename
-        self.memofilename = None
-
         self.encoding = encoding
         self.recfactory = recfactory
         self.raw = raw
@@ -107,7 +101,18 @@ class DBF(list):
 
         self._field_parser = self.parserclass(self.encoding)
 
+        # Name part before .dbf is the table name
+        self.name = os.path.basename(filename)
+        self.name = os.path.splitext(self.name)[0]
+        self.name = self.name.lower()
+
+        if ignorecase:
+            self.filename = ifind(filename)
+        else:
+            self.filename = filename
+
         # Filled in by self._read_headers()
+        self.memofilename = None
         self.header = None
         self.fields = []       # namedtuples
         self.field_names = []  # strings
