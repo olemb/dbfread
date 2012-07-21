@@ -78,9 +78,6 @@ def flip_year(year):
 class DBF(list):
     """
     Class to read DBF files.
-
-    This needs major refactoring. A couple of methods
-    are getting a little out of hand.
     """
 
     def __init__(self, filename,
@@ -228,11 +225,8 @@ class DBF(list):
 
             items.append(FieldValue(name=field.name, value=value))
 
-        if self.recfactory:
-            row = self.recfactory(items)
-        else:
-            row = items
-
+        row = self.recfactory(items)
+        
         return row
 
     def skip_record():

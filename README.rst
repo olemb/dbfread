@@ -53,7 +53,7 @@ it to return whatever we want. How about Python objects?
 
     >>> cables = dbfget.read('/telemator/stamnett/kabreg.dbf',
                              lowernames=True,
-                             recfactory=dbfget.RowObject)
+                             recfactory=dbfget.RecObject)
     >>> for c in cables:
     ...     print('Cable %s has %s cores' % (c.cable, c.numcores))
     Cable ROOM1-ROOM2#2 has 12 cores 
@@ -64,8 +64,9 @@ name things like that here. :) )
 
 Other options::
 
-   recfactory=None  # Just return the raw tuples
-   recfactory=collections.OrderedDict
+   recfactory=dbfget.RecObject         # As above
+   recfactory=collections.OrderedDict  # Keep ordering of fields
+   # Todo: If I want this, I need to study how dbapi does this.
 
 Any callable which takes a list of ```(name, value)``` tuples will do.
 

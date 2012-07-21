@@ -8,7 +8,7 @@ __version__ = '0.1.0'
 
 from .dbf import DBF as read
 
-class RowObject(object):
+class RecObject(object):
     def __init__(self, items):
         self.__dict__.update(items)
 
