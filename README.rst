@@ -55,6 +55,24 @@ The library has not been widely tested on other data, but I intend for
 it to be able to read ANY dbf file. If you have a file it can't read,
 or find a bug, I'd love to hear from you.
 
+   
+Supported field types
+----------------------
+
+=  ==========  ====================================================================
+:  Field type   Converted to
+=  ==========  ====================================================================
+0  flags       int
+C  text        unicode string
+D  date        datetime.date or None
+F  float       float or None
+I  integer     int or None
+L  logical     True, False or None
+M  memo        unicode string (memo type) or byte string (picture and object type)
+N  numeric     int, float or None
+T  time        datetime.datetime
+=  ==========  ====================================================================
+
 
 Contact
 --------
