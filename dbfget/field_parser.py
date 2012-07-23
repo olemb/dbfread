@@ -90,18 +90,18 @@ class FieldParser:
     def parseN(self, field, data):
         "Parse numeric field ('N') (' '-padded text) and return int, float or None"
 
-        if data.strip():
-            try:
-                return int(data)
-            except ValueError:
-                try:
-                    # Account for , in numeric fields                                                        
-                    fdata = data.replace(',', '.')
-                    return float(fdata)
-                except:
-                    # raise ValueError('Illegal value for numeric field %s: %r' % (field.name, data))                          return None
-        else:
+        if not data.strip():
             return None
+
+        try:
+            return int(data)
+        except ValueError:
+            try:
+                # Account for , in numeric fields                                                        
+                fdata = data.replace(',', '.')
+                return float(fdata)
+            except:
+                return None
 
     def parseT(self, field, data):
         "Parse time field ('T') and return datetime.datetime or None"
