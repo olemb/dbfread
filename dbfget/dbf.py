@@ -11,6 +11,7 @@ from .field_parser import FieldParser
 from .common import parse_string
 from .ifiles import ifind
 from .fpt import FPT
+from .codepages import get_codepage
 
 DBFHeader = StructParser(
     'DBFHeader',
@@ -69,7 +70,7 @@ class DBF(list):
     """
 
     def __init__(self, filename,
-                 encoding='latin1',  # Todo: is this a good default?
+                 encoding=None,
                  raw=False,
                  ignorecase=True,
                  lowernames=False,
@@ -83,8 +84,6 @@ class DBF(list):
         self.ignorecase = ignorecase
         self.lowernames = lowernames
         self.parserclass = parserclass
-
-        self._field_parser = self.parserclass(self.encoding)
 
         # Name part before .dbf is the table name
         self.name = os.path.basename(filename)
@@ -104,6 +103,8 @@ class DBF(list):
 
         with open(self.filename, mode='rb') as self.file:
             self._read_headers()
+            self._field_parser = self.parserclass(self.encoding)
+
             self._check_headers()
             
             self.date = datetime.date(expand_year(self.header.year),
@@ -123,6 +124,9 @@ class DBF(list):
         # http://www.clicketyclick.dk/databases/xbase/format/dbf_check.html#CHECK_DBF
         #
         self.header = DBFHeader.read(self.file)
+
+        if self.encoding is None:
+            self.encoding = get_codepage(self.header.language_driver)
 
         #
         # Read field headers
