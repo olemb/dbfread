@@ -247,13 +247,4 @@ class DBF(list):
             self.__class__.__name__,
             self.filename,
             self.encoding)
-
-    #
-    # Context manager
-    # Todo: why is this a context manager?
-    #
-    def __enter__(self):
-        return self
-
-    def __exit__(self, type, value, traceback):
-        pass
+x
