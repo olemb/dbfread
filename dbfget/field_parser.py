@@ -89,14 +89,17 @@ class FieldParser:
 
     def parseN(self, field, data):
         "Parse numeric field ('N') (' '-padded text) and return int, float or None"
+
         if data.strip():
             try:
                 return int(data)
             except ValueError:
                 try:
-                    return float(data)
+                    # Account for , in numeric fields                                                        
+                    fdata = data.replace(',', '.')
+                    return float(fdata)
                 except:
-                    raise ValueError('Illegal value for numeric field: %r' % data)
+                    # raise ValueError('Illegal value for numeric field %s: %r' % (field.name, data))                          return None
         else:
             return None
 
