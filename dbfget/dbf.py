@@ -218,9 +218,6 @@ class DBF(list):
         
         return row
 
-    def skip_record(self):
-        self.file.seek(self.header.recordlen - len(sep), 1)
- 
     def _load(self):
 
         #
@@ -232,12 +229,13 @@ class DBF(list):
             fpt = None
 
         #
-        # Read records
-        #
-
         # Skip header
+        #
         self.file.seek(self.header.headerlen, 0)
 
+        #
+        # Read records
+        #
         while 1:
             sep = self.file.read(1)
 
