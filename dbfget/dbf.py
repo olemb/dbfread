@@ -12,10 +12,6 @@ from .common import parse_string
 from .ifiles import ifind
 from .fpt import FPT
 
-# Todo:
-#   - file is opened twice.
-#
-
 DBFHeader = StructParser(
     'DBFHeader',
     '<BBBBLHHHBBLLLBBH',
@@ -114,52 +110,53 @@ class DBF(list):
         self.fields = []       # namedtuples
         self.field_names = []  # strings
 
-        self._read_headers()
-        self._check_headers()
-
-        self.date = datetime.date(flip_year(self.header.year),
-                                  self.header.month,
-                                  self.header.day)
-
-        self.deleted = []
-
-        if not peek:
-            self._load()
+        with open(self.filename, mode='rb') as self.file:
+            self._read_headers()
+            self._check_headers()
+            
+            self.date = datetime.date(flip_year(self.header.year),
+                                      self.header.month,
+                                      self.header.day)
+            
+            self.deleted = []
+            
+            if not peek:
+                self._load()
 
     def _read_headers(self):
         #
         # Todo: more checks
         # http://www.clicketyclick.dk/databases/xbase/format/dbf_check.html#CHECK_DBF
         #
-        with open(self.filename, mode='rb') as f:
-            self.header = DBFHeader.read(f)
+        self.header = DBFHeader.read(self.file)
 
-            #
-            # Read field headers
-            #
-            while 1:
-                sep = f.read(1)
-                if sep in (b'\x0d', '\n', ''):
-                    # End of field headers
-                    break
+        #
+        # Read field headers
+        #
+        while 1:
+            sep = self.file.read(1)
+            if sep in (b'\x0d', '\n', ''):
+                # End of field headers
+                break
 
-                fh = DBFField.read(f, prepend=sep)
-                # We need to fix the name and type
+            fh = DBFField.read(self.file, prepend=sep)
+            # We need to fix the name and type
 
-                fieldname = parse_string(fh.name, self.encoding)
-                if self.lowernames:
-                    fieldname = fieldname.lower()
-                fieldtype = parse_string(fh.type, self.encoding)
+            fieldname = parse_string(fh.name, self.encoding)
+            if self.lowernames:
+                fieldname = fieldname.lower()
+            fieldtype = parse_string(fh.type, self.encoding)
 
-                fh = fh._replace(name=fieldname,
-                                 type=fieldtype)
+            fh = fh._replace(name=fieldname,
+                             type=fieldtype)
 
-                self.field_names.append(fh.name)
+            self.field_names.append(fh.name)
 
-                self.fields.append(fh)
+            self.fields.append(fh)
 
-            if len(self.fields) < 1:
-                raise ValueError('dbf file must have at least one field: %s' % self.filename)
+        if len(self.fields) < 1:
+            raise ValueError('dbf file must have at least one field: %s' % self.filename)
+
 
         # Check for memo file
         field_types = set([f.type for f in self.fields])
@@ -171,14 +168,6 @@ class DBF(list):
             else:
                 # Todo: warn and return field as byte string?
                 raise IOError('Missing memo file: %r' % fn)
-
-    def _add_filename_to_err(self, err):
-        """Add filename to the exception text to make it more helpful.
-        This is a temporary measure to help development and testing."""
-        msg, rest = err.args[0], err.args[1:]
-        msg = '(in %s) %s' % (self.filename, msg)
-        err.args = (msg,) + rest
-        return err
 
     def _check_headers(self):
         """Check headers for possible format errors."""
@@ -198,10 +187,10 @@ class DBF(list):
                 # Todo: return as byte string?
                 ValueError('Unknown field type: %r' % (field.type))
 
-    def _read_record(self, f, fpt=None):
+    def _read_record(self, fpt=None):
         items = []  # List of Field
         for field in self.fields:
-            value = f.read(field.length)
+            value = self.file.read(field.length)
             if self.raw:
                 value = value  # Just return the byte string
             else:
@@ -229,27 +218,10 @@ class DBF(list):
         
         return row
 
-    def skip_record():
-        f.seek(self.header.recordlen - len(sep), 1)
+    def skip_record(self):
+        self.file.seek(self.header.recordlen - len(sep), 1)
  
     def _load(self):
-
-        #
-        # Raw mode
-        #
-        if self.raw:
-            # Skip sanity checks, since we return the fields raw.
-            pass
-        else:
-            # Check headers for possible format errors
-            # We do that here because doing it for every record
-            # would be costly, and doing it in _read_headers()
-            # could prevent the file from being opened and inspected.
-
-            # Todo: write sanity check
-            # self.sanity_check()
-
-            pass
 
         #
         # Get memo file
@@ -262,21 +234,21 @@ class DBF(list):
         #
         # Read records
         #
-        with open(self.filename, mode='rb') as f:
-            # Skip header
-            f.seek(self.header.headerlen)
 
-            while 1:
-                sep = f.read(1)
+        # Skip header
+        self.file.seek(self.header.headerlen, 0)
 
-                if sep == b'':
-                    break  # End of file reached
-                elif sep == b' ':
-                    row = self._read_record(f, fpt)
-                    self.append(row)
-                elif sep == b'*':
-                    row = self._read_record(f, fpt)
-                    self.deleted.append(row)
+        while 1:
+            sep = self.file.read(1)
+
+            if sep == b'':
+                break  # End of file reached
+            elif sep == b' ':
+                row = self._read_record(fpt)
+                self.append(row)
+            elif sep == b'*':
+                row = self._read_record(fpt)
+                self.deleted.append(row)
 
     def __repr__(self):
         return '%s(%r, encoding=%r)' % (
@@ -286,6 +258,7 @@ class DBF(list):
 
     #
     # Context manager
+    # Todo: why is this a context manager?
     #
     def __enter__(self):
         return self
