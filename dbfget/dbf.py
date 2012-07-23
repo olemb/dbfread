@@ -53,23 +53,15 @@ DBFField = StructParser(
 FieldValue = collections.namedtuple('Field', 'name value')
 
 
-def flip_year(year):
+def expand_year(year):
     """
-    Convert 2-digit year to 4-digit year, or 4-digit year to 2-digit year
+    Convert 2-digit year to 4-digit year.
     """
     
-    if year > 100:
-        # Convert 4-digit year to 2-digit
-        if year < 2000:
-            return year - 1900
-        else:
-            return year - 2000
+    if year < 80:
+        return 2000 + year
     else:
-        # Convert 2-digit year to 4-digit
-        if year < 80:
-            return 2000 + year
-        else:
-            return 1900 + year
+        return 1900 + year
 
 class DBF(list):
     """
@@ -114,7 +106,7 @@ class DBF(list):
             self._read_headers()
             self._check_headers()
             
-            self.date = datetime.date(flip_year(self.header.year),
+            self.date = datetime.date(expand_year(self.header.year),
                                       self.header.month,
                                       self.header.day)
             
