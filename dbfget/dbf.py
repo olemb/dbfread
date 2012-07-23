@@ -115,6 +115,8 @@ class DBF(list):
             if not peek:
                 self._load()
 
+        del self.file
+
     def _read_headers(self):
         #
         # Todo: more checks
