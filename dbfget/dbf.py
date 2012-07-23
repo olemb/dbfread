@@ -247,4 +247,3 @@ class DBF(list):
             self.__class__.__name__,
             self.filename,
             self.encoding)
-x
