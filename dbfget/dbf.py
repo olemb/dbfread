@@ -79,6 +79,7 @@ class DBF(list):
                  peek=False):
 
         self.encoding = encoding
+
         self.recfactory = recfactory
         self.raw = raw
         self.ignorecase = ignorecase
@@ -116,7 +117,14 @@ class DBF(list):
             if not peek:
                 self._load()
 
+        # Declutter namespace a bit
         del self.file
+        del self.raw
+        del self.recfactory
+        del self.memofilename
+        del self.ignorecase
+        del self.lowernames
+        del self.parserclass
 
     def _read_headers(self):
         #
