@@ -4,7 +4,6 @@
 """
 dbf2sqlite - convert dbf files into sqlite database
 
-2011
 Ole Martin Bjørndalen
 University of Tromsø
 
