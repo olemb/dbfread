@@ -3,8 +3,6 @@ dbfget - Python library for getting data out of DBF files
 
 Requires Python 2.7 or 3.2 (works in both without change)
 
-Project page: http://nerdly.info/ole/dbf/
-
 License: MIT
 
 Latest version of the source code: https://github.com/olemb/dbfget/
