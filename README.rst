@@ -57,25 +57,6 @@ Python 3::
   sudo python3 setup.py install
     
 
-Features
---------
-
-  - the table object is a subclass of list
-  - records are dictionaries
-  - data is converted to native Python types
-    (see Supported field types below)
-  - records can optionally be returned as any kind of object
-    (using the recfactory option, which defaults to ``dict``)
-  - reads memo fields (.fpt) and returns them as unicode strings
-    (binary memo fields are returned as byte strings)
-  - strings are decoded and returned as unicode
-    (defaults to 'latin1', unless you supply a the ``encoding``
-    option)
-  - file name case agnostic (``read('kabreg.dbf')`` will find
-    ``KabReg.dbf`` and the memo file ``KABREG.FPT``). This
-    (behaviour can be turned off by passing ``ignorecase=False``)
-
-
 Supported field types
 ----------------------
 
@@ -92,16 +73,6 @@ M  memo        unicode string (memo type) or byte string (picture and object typ
 N  numeric     int, float or None
 T  time        datetime.datetime
 =  ==========  ====================================================================
-
-
-Possible future features
-------------------------
-
-  - auto-detection of code page / encoding. This is tricky, since
-    the value is stored in only one byte, which is vendor specific,
-    and in most files I've seen is just set to 0.
-  - easy export to SQL / CSV
-  - raw mode (to get all values as raw byte strings)
 
     
 More examples
