@@ -129,7 +129,9 @@ If you combine that with this option::
 the simple example above becomes::
 
     >>> import dbfget
-    >>> cables = dbfget.read('cables.dbf')
+    >>> cables = dbfget.read('cables.dbf',
+                             recfactory=dbfget.RecObject,
+                             lowernames=True)
     >>> for c in cables:
     ...     print c.cable, c.length
 
