@@ -29,6 +29,15 @@ There is also a list of deleted records, should you need to recover them::
     >>> len(cables.deleted)
     3
 
+A tool is included in the extras directory to convert dbf into sqlite, for
+example::
+
+    dbf2sqlite -o stamnett.sqlite kabreg.dbf endreg.dbf
+
+This will create one table for each dbf file. You can also omit the
+``-o stamnett.sqlite`` option to have the SQL printed directly to
+stdout.
+
 
 Status
 ------
