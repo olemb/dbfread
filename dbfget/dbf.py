@@ -11,7 +11,7 @@ from .field_parser import FieldParser
 from .common import parse_string
 from .ifiles import ifind
 from .fpt import FPT
-from .codepages import get_codepage
+from .codepages import guess_encoding
 
 DBFHeader = StructParser(
     'DBFHeader',
@@ -134,7 +134,7 @@ class DBF(list):
         self.header = DBFHeader.read(self.file)
 
         if self.encoding is None:
-            self.encoding = get_codepage(self.header.language_driver)
+            self.encoding = guess_encoding(self.header.language_driver)
 
         #
         # Read field headers

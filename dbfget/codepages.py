@@ -65,8 +65,8 @@ codepages = {
         0x98 : ('mac_greek', 'Greek Macintosh'),
         }
 
-def get_codepage(byte):
+def guess_encoding(byte):
     if byte in codepages:
         return codepages[byte][0]
     else:
-        return 'ascii'
+        raise IOError('Unable to guess encoding (for 0x%02x), please use encoding option to override.' % byte)
