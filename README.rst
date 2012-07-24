@@ -75,39 +75,6 @@ T  time        datetime.datetime
 =  ==========  ====================================================================
 
     
-More examples
--------------
-
-The table object has a lot of useful attributes::
-
-    >>> cables.name
-    'cables'
-    
-    >>> cables.date
-    datetime.date(2012, 7, 11)
-
-    >>> cables.encoding
-    'cp1252'
-
-    >>> cables.field_names
-    [u'CABLE', u'OWNER', u'USAGE', u'CORETYPE', u'NUMCORES',
-    u'END_A', u'END_B', u'LENGTH', u'DTPLACED', u'COVERAGE', u'REMARKM',
-    u'TYPECODE', u'BROKEN', u'AUTROUTBLK', u'UPDWHEN', u'UPDVER', u'UPDUSER',
-    u'SPEED', u'TSLST]
-
-    >>> cables.fields
-    [DBFField(name=u'CABLE', type=u'C', address=1, length=25, decimal_count=0,
-    reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
-    reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
-    ... etc. ...]
-
-    >>> cables.header
-    DBFHeader(dbversion=48, year=12, month=7, day=11, numrecords=555,
-    headerlen=2408, recordlen=632, reserved1=0, incomplete_transaction=0,
-    encryption_flag=0, free_record_thread=0, reserved2=0, reserved3=0,
-    mdx_flag=3, language_driver=3, reserved4=0)
-
-
 Options
 -------
 
@@ -146,6 +113,44 @@ it will treat ```Cables.FPT``` as the same file as ```CABLES.fpt```. You can tur
 off this behaviour with::
 
    ignorecase=False
+
+
+Table attributes
+----------------
+
+The table object has a lot of attributes, which can be useful for
+introspection. Some simple ones::
+
+    >>> cables.name
+    'cables'
+    
+    >>> cables.date
+    datetime.date(2012, 7, 11)
+
+    >>> cables.encoding
+    'cp1252'
+
+A list of field names can be useful for producing CSV files, for example::
+
+    >>> cables.field_names
+    [u'CABLE', u'OWNER', u'USAGE', u'CORETYPE', u'NUMCORES',
+    u'END_A', u'END_B', u'LENGTH', u'DTPLACED', u'COVERAGE', u'REMARKM',
+    u'TYPECODE', u'BROKEN', u'AUTROUTBLK', u'UPDWHEN', u'UPDVER', u'UPDUSER',
+    u'SPEED', u'TSLST]
+
+The file header and field headers are namedtuples::
+
+    >>> cables.header
+    DBFHeader(dbversion=48, year=12, month=7, day=11, numrecords=555,
+    headerlen=2408, recordlen=632, reserved1=0, incomplete_transaction=0,
+    encryption_flag=0, free_record_thread=0, reserved2=0, reserved3=0,
+    mdx_flag=3, language_driver=3, reserved4=0)
+    
+    >>> cables.fields
+    [DBFField(name=u'CABLE', type=u'C', address=1, length=25, decimal_count=0,
+    reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
+    reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
+    ... etc. ...]
 
 
 Contact
