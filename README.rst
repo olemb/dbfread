@@ -121,6 +121,11 @@ off this behaviour with::
 
    ignorecase=False
 
+There are also two "undocumented" options, which I use mostly for debugging::
+
+   peek=True  # Doesn't load any data, only reads headers
+   raw=True   # Returns all data values as raw bytestrins
+
 
 Table attributes
 ----------------
