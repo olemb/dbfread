@@ -59,11 +59,11 @@ class FieldParser:
 
     def parseL(self, field, data):
         "Parse logical field and return True, False or None"
-        if char in b'TtYy':
+        if data in b'TtYy':
             return True
-        elif char in b'FfNn':
+        elif data in b'FfNn':
             return False
-        elif char == b' ':
+        elif data == b' ':
             return None
         else:
             # Todo: return something? (But that would be misleading!)
