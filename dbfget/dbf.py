@@ -93,6 +93,8 @@ class DBF(list):
 
         if ignorecase:
             self.filename = ifind(filename)
+            if not self.filename:
+                raise IOError('No such file: %r' % filename)
         else:
             self.filename = filename
 
