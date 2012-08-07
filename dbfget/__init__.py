@@ -6,7 +6,9 @@ __url__ = 'http://nerdly.info/ole/'
 __license__ = 'MIT'
 __version__ = '0.1.0x'
 
-from .dbf import DBF as read
+from .dbf import Table
+
+get = Table  # Shortcut
 
 class RecObject(object):
     def __init__(self, items):

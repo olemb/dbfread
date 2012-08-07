@@ -14,7 +14,7 @@ Example
 ::
 
     >>> import dbfget
-    >>> cables = dbfget.read('cables.dbf')
+    >>> cables = dbfget.get('cables.dbf')
 
 This returns a table object, which is a subclass of list. The list
 contains all records from the table as normal Python dictionaries::
@@ -24,10 +24,21 @@ contains all records from the table as normal Python dictionaries::
     >>> for c in cables:
     ...     print c['CABLE'], c['LENGTH']
 
-There is also a list of deleted records, should you need to recover them::
+By default, all records are read into memory. If you would instead
+like to iterate through them as they come off the file, you can use
+the ```load=False`` option::
 
-    >>> len(cables.deleted)
-    3
+    >>> cables = dbfget.get('cables.dbf', load=False)
+    >>> for c in cables:
+    ...     print c['CABLE'], c['LENGTH']
+
+When records are loaded, the table behaves like a list. When records
+are not loaded it behaves like an iterator. (It is still a list, just an
+empty one, so len(table) will return 0 even though there are records in
+the file.)
+
+You can use the load() and unload() methods to load and unload records.
+This will also switch between list and iteration protocols.
 
 A tool is included in the extras directory to convert dbf into sqlite, for
 example::
@@ -41,10 +52,6 @@ stdout.
 
 Status
 ------
-
-The API is not completely stable. For example, I may decide to rename
-the ```dbfget.read``` function ```dbfget.get()```. Feedback is very
-welcome.
 
 This code in various incarnations has been in production at the
 University of Tromsø since 2001. The current version reads all data
@@ -89,8 +96,8 @@ T  time        datetime.datetime
 Options
 -------
 
-By default, dbfget.read() will try to guess the character encoding
-from the language_driver byte. This doesn't always succeed. You can
+By default, dbfget.get() will try to guess the character encoding from
+the language_driver byte. This doesn't always succeed. You can
 override the encoding with the option::
 
    encoding='latin1'
@@ -107,9 +114,9 @@ If you combine that with this option::
 the simple example above becomes::
 
     >>> import dbfget
-    >>> cables = dbfget.read('cables.dbf',
-                             recfactory=dbfget.RecObject,
-                             lowernames=True)
+    >>> cables = dbfget.get('cables.dbf',
+                            recfactory=dbfget.RecObject,
+                            lowernames=True)
     >>> for c in cables:
     ...     print c.cable, c.length
 
@@ -125,9 +132,8 @@ off this behaviour with::
 
    ignorecase=False
 
-There are also two "undocumented" options, which I use mostly for debugging::
+There is also an "undocumented" option, which I use mostly for debugging::
 
-   peek=True  # Doesn't load any data, only reads headers
    raw=True   # Returns all data values as raw bytestrins
 
 

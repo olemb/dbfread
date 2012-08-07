@@ -64,27 +64,28 @@ def expand_year(year):
     else:
         return 1900 + year
 
-class DBF(list):
+class Table(list):
     """
     Class to read DBF files.
     """
 
     def __init__(self, filename,
                  encoding=None,
-                 raw=False,
+                 load=True,
                  ignorecase=True,
                  lowernames=False,
                  parserclass=FieldParser,
                  recfactory=dict,
-                 peek=False):
+                 raw=False):
+
+        self.loaded = False
 
         self.encoding = encoding
-
-        self.recfactory = recfactory
-        self.raw = raw
         self.ignorecase = ignorecase
         self.lowernames = lowernames
         self.parserclass = parserclass
+        self.recfactory = recfactory
+        self.raw = raw
 
         # Name part before .dbf is the table name
         self.name = os.path.basename(filename)
@@ -97,15 +98,14 @@ class DBF(list):
                 raise IOError('No such file: %r' % filename)
         else:
             self.filename = filename
-
         # Filled in by self._read_headers()
         self.memofilename = None
         self.header = None
         self.fields = []       # namedtuples
         self.field_names = []  # strings
 
-        with open(self.filename, mode='rb') as self.file:
-            self._read_headers()
+        with open(self.filename, mode='rb') as f:
+            self._read_headers(f)
             self._field_parser = self.parserclass(self.encoding)
 
             self._check_headers()
@@ -114,26 +114,25 @@ class DBF(list):
                                       self.header.month,
                                       self.header.day)
             
-            self.deleted = []
-            
-            if not peek:
-                self._load()
+            # self.deleted = []
 
-        # Declutter namespace a bit
-        del self.file
-        del self.raw
-        del self.recfactory
-        del self.memofilename
-        del self.ignorecase
-        del self.lowernames
-        del self.parserclass
+            #
+            # Get memo file
+            #
+            if self.memofilename and not self.raw:
+                self.memofile = FPT(self.memofilename)
+            else:
+                self.memofile = None
 
-    def _read_headers(self):
+            if load:
+                self.load()
+
+    def _read_headers(self, f):
         #
         # Todo: more checks
         # http://www.clicketyclick.dk/databases/xbase/format/dbf_check.html#CHECK_DBF
         #
-        self.header = DBFHeader.read(self.file)
+        self.header = DBFHeader.read(f)
 
         if self.encoding is None:
             self.encoding = guess_encoding(self.header.language_driver)
@@ -142,12 +141,12 @@ class DBF(list):
         # Read field headers
         #
         while 1:
-            sep = self.file.read(1)
+            sep = f.read(1)
             if sep in (b'\x0d', '\n', ''):
                 # End of field headers
                 break
 
-            fh = DBFField.read(self.file, prepend=sep)
+            fh = DBFField.read(f, prepend=sep)
             # We need to fix the name and type
 
             fieldname = parse_string(fh.name, self.encoding)
@@ -167,7 +166,7 @@ class DBF(list):
 
 
         # Check for memo file
-        field_types = set([f.type for f in self.fields])
+        field_types = set([field.type for field in self.fields])
         if 'M' in field_types:
             fn = os.path.splitext(self.filename)[0] + '.fpt'
             match = ifind(self.filename, ext='.fpt')
@@ -195,10 +194,10 @@ class DBF(list):
                 # Todo: return as byte string?
                 ValueError('Unknown field type: %r' % (field.type))
 
-    def _read_record(self, fpt=None):
+    def _read_record(self, f):
         items = []  # List of Field
         for field in self.fields:
-            value = self.file.read(field.length)
+            value = f.read(field.length)
             if self.raw:
                 value = value  # Just return the byte string
             else:
@@ -212,7 +211,7 @@ class DBF(list):
                     if value == None:
                         value = ''
                     else:
-                        fptrecord = fpt[value]
+                        fptrecord = self.fpt[value]
                         if ftprecord.type == 'memo':
                             # Decode to unicode
                             value = parse_string(fptrecord.data, self.encoding)
@@ -226,38 +225,54 @@ class DBF(list):
         
         return row
 
-    def _load(self):
-
-        #
-        # Get memo file
-        #
-        if self.memofilename and not self.raw:
-            fpt = FPT(self.memofilename)
+    def __iter__(self):
+        if self.loaded:
+            #
+            # Records are in memory. Defer to list iterator.
+            #
+            for rec in list.__iter__(self):
+                yield rec
         else:
-            fpt = None
+            #
+            # Iterate through records from file.
+            #
 
-        #
-        # Skip header
-        #
-        self.file.seek(self.header.headerlen, 0)
+            with open(self.filename, 'rb') as f:
+                # Skip header
+                header = DBFHeader.read(f)
+                f.seek(header.headerlen, 0)
+                
+                #
+                # Read records
+                #
+                while 1:
+                    sep = f.read(1)
 
-        #
-        # Read records
-        #
-        while 1:
-            sep = self.file.read(1)
+                    if sep == b'':
+                        break  # End of file reached
+                    elif sep == b' ':
+                        row = self._read_record(f)
+                        yield row
 
-            if sep == b'':
-                break  # End of file reached
-            elif sep == b' ':
-                row = self._read_record(fpt)
-                self.append(row)
-            elif sep == b'*':
-                row = self._read_record(fpt)
-                self.deleted.append(row)
+                    elif sep == b'*':
+                        row = self._read_record(f)
+                        # Todo: deal with deleted records.
+                        # Skip for now.
+                        #    self.deleted.append(row)
 
-    def __repr__(self):
-        return '%s(%r, encoding=%r)' % (
-            self.__class__.__name__,
-            self.filename,
-            self.encoding)
+    def load(self):
+        """
+        Load records from file.
+        """
+        if not self.loaded:
+            self[:] = list(self)
+            self.loaded = True
+
+    def unload(self):
+        """
+        Unload records, returning to a streaming protocol.
+        """
+        if self.loaded:
+            self[:] = []
+            # self.deleted[:] = []
+            self.loaded = False
