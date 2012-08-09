@@ -40,8 +40,8 @@ the file.)
 You can use the load() and unload() methods to load and unload records.
 This will also switch between list and iteration protocols.
 
-A tool is included in the extras directory to convert dbf into sqlite, for
-example::
+A tool is included in the ```examples``` directory to convert dbf into
+sqlite, for example::
 
     dbf2sqlite -o stamnett.sqlite kabreg.dbf endreg.dbf
 
