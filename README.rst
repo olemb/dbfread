@@ -134,7 +134,7 @@ off this behaviour with::
 
 There is also an "undocumented" option, which I use mostly for debugging::
 
-   raw=True   # Returns all data values as raw bytestrins
+   raw=True   # Returns all data values as raw bytestrings
 
 
 Table attributes
