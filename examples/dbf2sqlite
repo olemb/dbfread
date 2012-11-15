@@ -75,9 +75,9 @@ def main():
     cursor = conn.cursor()
 
     for arg in args:
-        add_table(cursor, dbfget.get(arg,
-                                     lowernames=True,
-                                     recfactory=collections.OrderedDict))
+        add_table(cursor, dbfget.read(arg,
+                                      lowernames=True,
+                                      recfactory=collections.OrderedDict))
 
     conn.commit()
 

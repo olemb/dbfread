@@ -14,7 +14,7 @@ Example
 ::
 
     >>> import dbfget
-    >>> cables = dbfget.get('cables.dbf')
+    >>> cables = dbfget.read('cables.dbf')
 
 This returns a table object, which is a subclass of list. The list
 contains all records from the table as normal Python dictionaries::
@@ -28,7 +28,7 @@ By default, all records are read into memory. If you would instead
 like to iterate through them as they come off the file, you can use
 the ```load=False`` option::
 
-    >>> cables = dbfget.get('cables.dbf', load=False)
+    >>> cables = dbfget.read('cables.dbf', load=False)
     >>> for c in cables:
     ...     print c['CABLE'], c['LENGTH']
 
@@ -96,8 +96,8 @@ T  time        datetime.datetime
 Options
 -------
 
-By default, dbfget.get() will try to guess the character encoding from
-the language_driver byte. This doesn't always succeed. You can
+By default, dbfget.read() will try to guess the character encoding
+from the language_driver byte. This doesn't always succeed. You can
 override the encoding with the option::
 
    encoding='latin1'
@@ -114,9 +114,9 @@ If you combine that with this option::
 the simple example above becomes::
 
     >>> import dbfget
-    >>> cables = dbfget.get('cables.dbf',
-                            recfactory=dbfget.RecObject,
-                            lowernames=True)
+    >>> cables = dbfget.read('cables.dbf',
+                             recfactory=dbfget.RecObject,
+                             lowernames=True)
     >>> for c in cables:
     ...     print c.cable, c.length
 
@@ -125,10 +125,10 @@ The ``recfactory`` option takes any callable which accepts a list of
 
    recfactory=collections.OrderedDict
 
-One last option. By default, dbfget will assume that you've copied the DBF files
-from a windows file system, and that the file name casing is all scrambled. Thus,
-it will treat ```Cables.FPT``` as the same file as ```CABLES.fpt```. You can turn
-off this behaviour with::
+One last option. By default, dbfget will assume that you've copied the
+DBF files from a windows file system, and that the file name casing is
+all scrambled. Thus, it will treat ```Cables.FPT``` as the same file
+as ```CABLES.fpt```. You can turn off this behaviour with::
 
    ignorecase=False
 

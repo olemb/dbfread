@@ -8,10 +8,8 @@ __version__ = '0.1.0x'
 
 from .dbf import Table
 
-get = Table  # Shortcut
+read = Table  # Shortcut
 
 class RecObject(object):
     def __init__(self, items):
         self.__dict__.update(items)
-
-__all__ = ['objfactory', 'read']
