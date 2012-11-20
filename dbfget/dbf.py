@@ -221,9 +221,9 @@ class Table(list):
 
             items.append(FieldValue(name=field.name, value=value))
 
-        row = self.recfactory(items)
+        rec = self.recfactory(items)
         
-        return row
+        return rec
 
     def __iter__(self):
         if self.loaded:
@@ -251,14 +251,14 @@ class Table(list):
                     if sep == b'':
                         break  # End of file reached
                     elif sep == b' ':
-                        row = self._read_record(f)
-                        yield row
+                        rec = self._read_record(f)
+                        yield rec
 
                     elif sep == b'*':
-                        row = self._read_record(f)
+                        rec = self._read_record(f)
                         # Todo: deal with deleted records.
                         # Skip for now.
-                        #    self.deleted.append(row)
+                        #    self.deleted.append(rec)
 
     def load(self):
         """
