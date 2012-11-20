@@ -14,23 +14,23 @@ Example
 ::
 
     >>> import dbfget
-    >>> cables = dbfget.read('cables.dbf')
+    >>> table = dbfget.read('cables.dbf')
 
 This returns a table object, which is a subclass of list. The list
 contains all records from the table as normal Python dictionaries::
 
-    >>> len(cables)
+    >>> len(table)
     552
-    >>> for c in cables:
-    ...     print c['CABLE'], c['LENGTH']
+    >>> for rec in table:
+    ...     print rec['CABLE'], rec['LENGTH']
 
 By default, all records are read into memory. If you would instead
 like to iterate through them as they come off the file, you can use
 the ```load=False`` option::
 
-    >>> cables = dbfget.read('cables.dbf', load=False)
-    >>> for c in cables:
-    ...     print c['CABLE'], c['LENGTH']
+    >>> table = dbfget.read('cables.dbf', load=False)
+    >>> for rec in table:
+    ...     print rec['CABLE'], rec['LENGTH']
 
 When records are loaded, the table behaves like a list. When records
 are not loaded it behaves like an iterator. (It is still a list, just an
@@ -114,11 +114,11 @@ If you combine that with this option::
 the simple example above becomes::
 
     >>> import dbfget
-    >>> cables = dbfget.read('cables.dbf',
-                             recfactory=dbfget.RecObject,
-                             lowernames=True)
-    >>> for c in cables:
-    ...     print c.cable, c.length
+    >>> table = dbfget.read('cables.dbf',
+                            recfactory=dbfget.RecObject,
+                            lowernames=True)
+    >>> for rec in table:
+    ...     print rec.cable, rec.length
 
 The ``recfactory`` option takes any callable which accepts a list of
 ```(name, value)``` tuples, for example::
@@ -143,18 +143,18 @@ Table attributes
 The table object has a lot of attributes, which can be useful for
 introspection. Some simple ones::
 
-    >>> cables.name
+    >>> table.name
     'cables'
     
-    >>> cables.date
+    >>> table.date
     datetime.date(2012, 7, 11)
 
-    >>> cables.encoding
+    >>> table.encoding
     'cp1252'
 
 A list of field names can be useful for producing CSV files, for example::
 
-    >>> cables.field_names
+    >>> table.field_names
     [u'CABLE', u'OWNER', u'USAGE', u'CORETYPE', u'NUMCORES',
     u'END_A', u'END_B', u'LENGTH', u'DTPLACED', u'COVERAGE', u'REMARKM',
     u'TYPECODE', u'BROKEN', u'AUTROUTBLK', u'UPDWHEN', u'UPDVER', u'UPDUSER',
@@ -162,13 +162,13 @@ A list of field names can be useful for producing CSV files, for example::
 
 The file header and field headers are namedtuples::
 
-    >>> cables.header
+    >>> table.header
     DBFHeader(dbversion=48, year=12, month=7, day=11, numrecords=555,
     headerlen=2408, recordlen=632, reserved1=0, incomplete_transaction=0,
     encryption_flag=0, free_record_thread=0, reserved2=0, reserved3=0,
     mdx_flag=3, language_driver=3, reserved4=0)
     
-    >>> cables.fields
+    >>> table.fields
     [DBFField(name=u'CABLE', type=u'C', address=1, length=25, decimal_count=0,
     reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
     reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
