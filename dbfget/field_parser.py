@@ -38,9 +38,9 @@ class FieldParser:
     def parseD(self, field, data):
         "Parse date field and return datetime.date or None"
         if data.strip():
-            year = data[:4]
-            month = data[4:6]
-            day = data[6:8]
+            year = int(data[:4])
+            month = int(data[4:6])
+            day = int(data[6:8])
             return datetime.date(year, month, day)
         else:
             return None
