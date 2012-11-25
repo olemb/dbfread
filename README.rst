@@ -17,7 +17,7 @@ Example
     >>> table = dbfread.read('people.dbf')
 
     >>> for rec in table:
-    ...     print (rec['NAME'], rec['BIRTHDAY'])
+    ...     print rec['NAME'], rec['BIRTHDAY']
     Alice 1987-03-01
     Bob 1980-11-12
     
