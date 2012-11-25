@@ -1,11 +1,11 @@
-dbfget - Python library for getting data out of DBF files
+dbfread - Python library for reading data from DBF files
 =========================================================
 
 Requires Python 2.7 or 3.2 (works in both without change)
 
 License: MIT
 
-Latest version of the source code: https://github.com/olemb/dbfget/
+Latest version of the source code: https://github.com/olemb/dbfread/
 
 
 Example
@@ -13,8 +13,8 @@ Example
 
 ::
 
-    >>> import dbfget
-    >>> table = dbfget.read('cables.dbf')
+    >>> import dbfread
+    >>> table = dbfread.read('cables.dbf')
 
 This returns a table object, which is a subclass of list. The list
 contains all records from the table as normal Python dictionaries::
@@ -28,7 +28,7 @@ By default, all records are read into memory. If you would instead
 like to iterate through them as they come off the file, you can use
 the ```load=False`` option::
 
-    >>> table = dbfget.read('cables.dbf', load=False)
+    >>> table = dbfread.read('cables.dbf', load=False)
     >>> for rec in table:
     ...     print rec['CABLE'], rec['LENGTH']
 
@@ -96,7 +96,7 @@ T  time        datetime.datetime
 Options
 -------
 
-By default, dbfget.read() will try to guess the character encoding
+By default, dbfread.read() will try to guess the character encoding
 from the language_driver byte. This doesn't always succeed. You can
 override the encoding with the option::
 
@@ -105,7 +105,7 @@ override the encoding with the option::
 If you want records returned as objects instead of dictionaries, you
 can use this option::
 
-   recfactory=dbfget.RecObject
+   recfactory=dbfread.RecObject
 
 If you combine that with this option::
 
@@ -113,10 +113,10 @@ If you combine that with this option::
 
 the simple example above becomes::
 
-    >>> import dbfget
-    >>> table = dbfget.read('cables.dbf',
-                            recfactory=dbfget.RecObject,
-                            lowernames=True)
+    >>> import dbfread
+    >>> table = dbfread.read('cables.dbf',
+                             recfactory=dbfread.RecObject,
+                             lowernames=True)
     >>> for rec in table:
     ...     print rec.cable, rec.length
 
@@ -125,7 +125,7 @@ The ``recfactory`` option takes any callable which accepts a list of
 
    recfactory=collections.OrderedDict
 
-One last option. By default, dbfget will assume that you've copied the
+One last option. By default, dbfread will assume that you've copied the
 DBF files from a windows file system, and that the file name casing is
 all scrambled. Thus, it will treat ```Cables.FPT``` as the same file
 as ```CABLES.fpt```. You can turn off this behaviour with::

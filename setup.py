@@ -2,7 +2,7 @@
 
 import os
 import sys
-import dbfget
+import dbfread
 
 try:
     from setuptools import setup
@@ -16,21 +16,21 @@ if sys.argv[-1] == "publish":
     sys.exit()
 
 #if sys.argv[-1] == "test":
-#    os.system("python test_dbfget.py")
+#    os.system("python test_dbfread.py")
 #    sys.exit()
 
 required = []
 
 setup(
-    name='dbfget',
-    version=dbfget.__version__,
-    description='easily fetch data from dbf files',
+    name='dbfread',
+    version=dbfread.__version__,
+    description='read data from dbf files',
     long_description=open('README.rst').read(),
-    author=dbfget.__author__,
-    email=dbfget.__email__,
-    url=dbfget.__url__,
+    author=dbfread.__author__,
+    email=dbfread.__email__,
+    url=dbfread.__url__,
     packages=[
-        'dbfget',
+        'dbfread',
     ],
     py_modules=[
     ],
