@@ -23,8 +23,8 @@ Example
     
     >>> for rec in table:
     ...     print rec
-    {'NAME' : 'Alice', 'BIRTHDAY' : datetime.date(1987, 3, 1)}
-    {'NAME' : 'Bob', 'BIRTHDAY' : datetime.date(1980, 11, 12)}
+    {u'NAME' : u'Alice', u'BIRTHDAY' : datetime.date(1987, 3, 1)}
+    {u'NAME' : u'Bob', 'uBIRTHDAY' : datetime.date(1980, 11, 12)}
 
 By default, all records are read into memory. If you would instead
 like to iterate through them as they come off the file, you can use
