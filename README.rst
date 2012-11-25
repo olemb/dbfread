@@ -32,7 +32,7 @@ the ```load=False`` option::
 
     >>> table = dbfread.read('people.dbf', load=False)
     >>> for rec in table:
-    ...     print rec['NAME'], rec['AGE']
+    ...     print rec['NAME'], rec['BIRTHDAY']
 
 When records are loaded, the table behaves like a list. When records
 are not loaded it behaves like an iterator. (It is still a list, just an
@@ -157,7 +157,7 @@ introspection. Some simple ones::
 A list of field names can be useful for producing CSV files, for example::
 
     >>> table.field_names
-    [u'NAME', u'AGE']
+    [u'NAME', u'BIRTHDAY']
 
 The file header and field headers are namedtuples::
 
