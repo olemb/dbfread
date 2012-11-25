@@ -18,7 +18,7 @@ Example
 
     >>> for rec in table:
     ...     print (rec['NAME'], rec['BIRTHDAY'])
-    Bob 1987-03-01
+    Alice 1987-03-01
     Bob 1980-11-12
     
     >>> for rec in table:
