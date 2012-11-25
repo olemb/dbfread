@@ -14,23 +14,21 @@ Example
 ::
 
     >>> import dbfread
-    >>> table = dbfread.read('cables.dbf')
+    >>> table = dbfread.read('people.dbf')
 
 This returns a table object, which is a subclass of list. The list
 contains all records from the table as normal Python dictionaries::
 
-    >>> len(table)
-    552
     >>> for rec in table:
-    ...     print rec['CABLE'], rec['LENGTH']
+    ...     print rec['NAME'], rec['AGE']
 
 By default, all records are read into memory. If you would instead
 like to iterate through them as they come off the file, you can use
 the ```load=False`` option::
 
-    >>> table = dbfread.read('cables.dbf', load=False)
+    >>> table = dbfread.read('people.dbf', load=False)
     >>> for rec in table:
-    ...     print rec['CABLE'], rec['LENGTH']
+    ...     print rec['NAME'], rec['AGE']
 
 When records are loaded, the table behaves like a list. When records
 are not loaded it behaves like an iterator. (It is still a list, just an
@@ -114,7 +112,7 @@ If you combine that with this option::
 the simple example above becomes::
 
     >>> import dbfread
-    >>> table = dbfread.read('cables.dbf',
+    >>> table = dbfread.read('people.dbf',
                              recfactory=dbfread.RecObject,
                              lowernames=True)
     >>> for rec in table:
@@ -127,8 +125,8 @@ The ``recfactory`` option takes any callable which accepts a list of
 
 One last option. By default, dbfread will assume that you've copied the
 DBF files from a windows file system, and that the file name casing is
-all scrambled. Thus, it will treat ```Cables.FPT``` as the same file
-as ```CABLES.fpt```. You can turn off this behaviour with::
+all scrambled. Thus, it will treat ```People.FPT``` as the same file
+as ```PEOPLE.fpt```. You can turn off this behaviour with::
 
    ignorecase=False
 
@@ -144,7 +142,7 @@ The table object has a lot of attributes, which can be useful for
 introspection. Some simple ones::
 
     >>> table.name
-    'cables'
+    'people'
     
     >>> table.date
     datetime.date(2012, 7, 11)
@@ -155,10 +153,7 @@ introspection. Some simple ones::
 A list of field names can be useful for producing CSV files, for example::
 
     >>> table.field_names
-    [u'CABLE', u'OWNER', u'USAGE', u'CORETYPE', u'NUMCORES',
-    u'END_A', u'END_B', u'LENGTH', u'DTPLACED', u'COVERAGE', u'REMARKM',
-    u'TYPECODE', u'BROKEN', u'AUTROUTBLK', u'UPDWHEN', u'UPDVER', u'UPDUSER',
-    u'SPEED', u'TSLST]
+    [u'NAME', u'AGE']
 
 The file header and field headers are namedtuples::
 
@@ -169,7 +164,7 @@ The file header and field headers are namedtuples::
     mdx_flag=3, language_driver=3, reserved4=0)
     
     >>> table.fields
-    [DBFField(name=u'CABLE', type=u'C', address=1, length=25, decimal_count=0,
+    [DBFField(name=u'NAME', type=u'C', address=1, length=25, decimal_count=0,
     reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
     reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
     ... etc. ...]
