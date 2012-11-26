@@ -1,0 +1,97 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+dbf2sqlite - convert dbf files into sqlite database
+
+Ole Martin Bjørndalen
+University of Tromsø
+
+Todo:
+- -v --verbose option
+- handle existing table (-f option?)
+- primary key option? (make first column primary key)
+- create only option?
+- insert only option?
+- options to select columns to insert?
+"""
+
+import os
+import sys
+import optparse
+import sqlite3
+import collections
+
+import dbfread
+
+typemap = {
+    'F' : 'FLOAT',
+    'L' : 'BOOLEAN',
+    'I' : 'INTEGER',
+    'C' : 'TEXT',
+    'N' : 'REAL',  # because it can be integer or float
+    'M' : 'TEXT',
+    'D' : 'DATE',
+    'T' : 'DATETIME',
+    '0' : 'INTEGER',
+}
+
+def add_table(cursor, table):
+    """
+    Add a dbase table to an open sqlite database.
+    """
+
+    cursor.execute('drop table if exists %s' % table.name)
+
+    field_types = {}
+    for f in table.fields:
+        field_types[f.name] = typemap.get(f.type, 'TEXT')
+
+    #
+    # Create the table
+    #
+    defs = ', '.join(['%s %s' % (f, field_types[f]) for f in table.field_names])
+    sql = 'create table %s (%s)' % (table.name, defs)
+    cursor.execute(sql)
+
+    # Create data rows
+    refs = ', '.join([':'+f for f in table.field_names])
+    sql = 'insert into %s values (%s)' % (table.name, refs)
+
+    for rec in table:
+        cursor.execute(sql, list(rec.values()))
+
+def main():
+    parser = optparse.OptionParser(usage='usage: %prog [OPTIONS] file1.dbf ... fileN.dbf')
+    parser.add_option('-o', '--output-file',
+                      action='store', dest='output_file', default=None,
+                      help='sqlite database to write to (default is to print schema to stdout)')
+    (options, args) = parser.parse_args()
+
+    if len(args) == 0:
+        parser.error('No dbf files specified')
+
+    conn = sqlite3.connect(options.output_file or ':memory:')
+    cursor = conn.cursor()
+
+    for arg in args:
+        add_table(cursor, dbfread.read(arg,
+                                       lowernames=True,
+                                       recfactory=collections.OrderedDict))
+
+    conn.commit()
+
+    #
+    # Dump SQL schema and data to stdout if no
+    # database file was specified.
+    #
+    # This currently only works in Python 3,
+    # since Python 2 somehow defaults to 'ascii'
+    # encoding.
+    #
+    if not options.output_file:
+        for line in conn.iterdump():
+            print(line)
+
+if __name__ == '__main__':
+    main()
