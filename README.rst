@@ -120,7 +120,7 @@ the simple example above becomes::
                              recfactory=dbfread.RecObject,
                              lowernames=True)
     >>> for rec in table:
-    ...     print rec.cable, rec.length
+    ...     print rec.name, rec.birthday
 
 The ``recfactory`` option takes any callable which accepts a list of
 ```(name, value)``` tuples, for example::
