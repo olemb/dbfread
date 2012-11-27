@@ -42,16 +42,6 @@ the file.)
 You can use the load() and unload() methods to load and unload records.
 This will also switch between list and iteration protocols.
 
-A tool is included in the ```examples``` directory to convert dbf into
-sqlite, for example::
-
-    dbf2sqlite -o stamnett.sqlite kabreg.dbf endreg.dbf
-
-This will create one table for each dbf file. You can also omit the
-``-o stamnett.sqlite`` option to have the SQL printed directly to
-stdout.
-
-
 Status
 ------
 
@@ -172,6 +162,19 @@ The file header and field headers are namedtuples::
     reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
     reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
     ... etc. ...]
+
+
+dbf2sqlite
+-----------
+
+A tool is included in the ```examples``` directory to convert dbf into
+sqlite, for example::
+
+    dbf2sqlite -o stamnett.sqlite kabreg.dbf endreg.dbf
+
+This will create one table for each dbf file. You can also omit the
+``-o stamnett.sqlite`` option to have the SQL printed directly to
+stdout.
 
 
 Contact
