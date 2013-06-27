@@ -52,10 +52,9 @@ class FPT:
 
     def __getitem__(self, index):
         """Get a memo from the file.
-        Memos are returned as byte strings.
-
-        Returns a Record with attributes
         
+        Returns a Record with attributes.
+        Memos are returned as byte strings.
         """
 
         # Todo: Handle reading block header in middle of a memo?

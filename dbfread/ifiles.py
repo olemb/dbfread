@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-                                                                  
-
-"""                                                                                      
-Functions for dealing with mixed-case files from case-preserving file systems.
+"""
+Functions for dealing with mixed-case files from case-preserving file
+systems.
 
 Todo:
 
@@ -45,8 +45,10 @@ def iglob(pat):
     return glob.glob(ipat(pat))
 
 def ifind(pat, ext=None):
-    """Look for a file in a case insensitive way. Returns filename it
-    a matching file was found, or None if it was not."""
+    """Look for a file in a case insensitive way.
+
+    Returns filename it a matching file was found, or None if it was not.
+    """
 
     if ext:
         pat = os.path.splitext(pat)[0] + ext
@@ -58,7 +60,7 @@ def ifind(pat, ext=None):
         return None
 
 if __name__ == '__main__':
-    print(ipat('mixedcase'))  # => "[Mm]m[Ii]i[Xx]x[Ee]e[Dd]d[Cc]c[Aa]a[Ss]s[Ee]e"
+    print(ipat('mixed'))  # => "[Mm]m[Ii]i[Xx]x[Ee]e[Dd]d"
     print(ifnmatch('test', 'test'))  # => True
     print(ifnmatch('miXEdCaSe', 'mixedcase'))  # => True
     print(ifnmatch('CAMELCASE/CamelCase', 'CamelCase/UPPERCASE'))  # => False

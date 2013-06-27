@@ -16,8 +16,7 @@ class StructParser:
         self.tuple = collections.namedtuple(name, names)
 
     def unpack(self, data):
-        """Unpack struct from binary string and return a named tuple.
-        """
+        """Unpack struct from binary string and return a named tuple."""
         items = zip(self.names, self.struct.unpack(data))
         t = self.tuple(**dict(items))
         return t

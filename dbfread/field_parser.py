@@ -1,5 +1,5 @@
 """
-Parser for a DBF field.
+Parser for DBF fields.
 """
 
 import struct
@@ -10,17 +10,27 @@ from .common import parse_string
 
 class FieldParser:
     def __init__(self, encoding):
+        """Create a new field parser
+
+        encoding is the character encoding to use when parsing
+        strings."""
         self.encoding = encoding
 
     def str(self, data):
-        "Convert binary data to string and strip padding"
+        """Convert binary data to string and strip padding"""
         return parse_string(data, self.encoding)
     
     def field_type_supported(self, field_type):
+        """Checks if the field_type is supported by the parser
+
+        field_type should be a one-character string like 'C' and 'N'.
+        Returns a boolen which is True if the field type is supported.
+        """
         name = 'parse' + field_type
         return hasattr(self, name)
 
     def parse(self, field, data):
+        """Parse field and return value"""
         name = 'parse' + field.type
         if hasattr(self, name):
             return getattr(self, name)(field, data)
@@ -32,11 +42,11 @@ class FieldParser:
         return ord(data)
 
     def parseC(self, field, data):
-        "Parse char field and return unicode string"
+        """Parse char field and return unicode string"""
         return self.str(data)
 
     def parseD(self, field, data):
-        "Parse date field and return datetime.date or None"
+        """Parse date field and return datetime.date or None"""
         if data.strip():
             year = int(data[:4])
             month = int(data[4:6])
@@ -46,19 +56,19 @@ class FieldParser:
             return None
     
     def parseF(self, field, data):
-        "Parse float field and return float or None"
+        """Parse float field and return float or None"""
         if data.strip():
             return float(data)
         else:
             return None
 
     def parseI(self, field, data):
-        "Parse Integer field and return float or None"
+        """Parse Integer field and return float or None"""
         # Todo: is this 4 bytes on every platform?
         return struct.unpack('<i', data)[0]
 
     def parseL(self, field, data):
-        "Parse logical field and return True, False or None"
+        """Parse logical field and return True, False or None"""
         if data in b'TtYy':
             return True
         elif data in b'FfNn':
@@ -70,9 +80,10 @@ class FieldParser:
             ValueError('Illegal value for logical field: %r' % char)
 
     def parseM(self, field, data):
-        """
-        Unpack memo field ('M') and return memo index.
-        Reader is responsible for looking memo up in memo file.
+        """Parse memo field (M)
+
+        Returns memo index (an integer), which can be used to look up
+        the corresponding memo in the memo file.
         """
 
         # Memo field (index as ' '-padded text or
@@ -88,8 +99,10 @@ class FieldParser:
                 raise ValueError('Memo index is not an integer: %r' % index)
 
     def parseN(self, field, data):
-        "Parse numeric field ('N') (' '-padded text) and return int, float or None"
+        """Parse numeric field (N)
 
+        Returns int, float or None if the field is empty.
+        """
         if not data.strip():
             return None
 
@@ -104,7 +117,9 @@ class FieldParser:
                 return None
 
     def parseT(self, field, data):
-        "Parse time field ('T') and return datetime.datetime or None"
+        """Parse time field (T)
+
+        Returns datetime.datetime or None"""
         # Julian day (32-bit little endian)
         # Milliseconds since midnight (32-bit little endian)
         #

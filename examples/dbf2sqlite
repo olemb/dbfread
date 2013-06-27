@@ -25,21 +25,20 @@ import collections
 import dbfread
 
 typemap = {
-    'F' : 'FLOAT',
-    'L' : 'BOOLEAN',
-    'I' : 'INTEGER',
-    'C' : 'TEXT',
-    'N' : 'REAL',  # because it can be integer or float
-    'M' : 'TEXT',
-    'D' : 'DATE',
-    'T' : 'DATETIME',
-    '0' : 'INTEGER',
+    'F': 'FLOAT',
+    'L': 'BOOLEAN',
+    'I': 'INTEGER',
+    'C': 'TEXT',
+    'N': 'REAL',  # because it can be integer or float
+    'M': 'TEXT',
+    'D': 'DATE',
+    'T': 'DATETIME',
+    '0': 'INTEGER',
 }
 
+
 def add_table(cursor, table):
-    """
-    Add a dbase table to an open sqlite database.
-    """
+    """Add a dbase table to an open sqlite database."""
 
     cursor.execute('drop table if exists %s' % table.name)
 
@@ -50,22 +49,28 @@ def add_table(cursor, table):
     #
     # Create the table
     #
-    defs = ', '.join(['%s %s' % (f, field_types[f]) for f in table.field_names])
+    defs = ', '.join(['%s %s' % (f, field_types[f])
+                      for f in table.field_names])
     sql = 'create table %s (%s)' % (table.name, defs)
     cursor.execute(sql)
 
     # Create data rows
-    refs = ', '.join([':'+f for f in table.field_names])
+    refs = ', '.join([':' + f for f in table.field_names])
     sql = 'insert into %s values (%s)' % (table.name, refs)
 
     for rec in table:
         cursor.execute(sql, list(rec.values()))
 
+
 def main():
-    parser = optparse.OptionParser(usage='usage: %prog [OPTIONS] file1.dbf ... fileN.dbf')
+    parser = optparse.OptionParser(
+        usage='usage: %prog [OPTIONS] file1.dbf ... fileN.dbf')
     parser.add_option('-o', '--output-file',
-                      action='store', dest='output_file', default=None,
-                      help='sqlite database to write to (default is to print schema to stdout)')
+                      action='store',
+                      dest='output_file',
+                      default=None,
+                      help='sqlite database to write to '
+                           '(default is to print schema to stdout)')
     (options, args) = parser.parse_args()
 
     if len(args) == 0:

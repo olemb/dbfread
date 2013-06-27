@@ -55,9 +55,7 @@ FieldValue = collections.namedtuple('Field', 'name value')
 
 
 def expand_year(year):
-    """
-    Convert 2-digit year to 4-digit year.
-    """
+    """Convert 2-digit year to 4-digit year."""
     
     if year < 80:
         return 2000 + year
@@ -135,7 +133,10 @@ class Table(list):
         self.header = DBFHeader.read(f)
 
         if self.encoding is None:
-            self.encoding = guess_encoding(self.header.language_driver)
+            try:
+                self.encoding = guess_encoding(self.header.language_driver)
+            except LookupError, err:
+                raise IOError(err.message)
 
         #
         # Read field headers
@@ -178,7 +179,6 @@ class Table(list):
 
     def _check_headers(self):
         """Check headers for possible format errors."""
-
         for field in self.fields:
 
             if field.type == '0' and field.length != 1:
@@ -261,17 +261,13 @@ class Table(list):
                         #    self.deleted.append(rec)
 
     def load(self):
-        """
-        Load records from file.
-        """
+        """Load records from file."""
         if not self.loaded:
             self[:] = list(self)
             self.loaded = True
 
     def unload(self):
-        """
-        Unload records, returning to a streaming protocol.
-        """
+        """Unload records, returning to a streaming protocol."""
         if self.loaded:
             self[:] = []
             # self.deleted[:] = []
