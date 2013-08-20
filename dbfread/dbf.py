@@ -272,3 +272,9 @@ class Table(list):
             self[:] = []
             # self.deleted[:] = []
             self.loaded = False
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        return False
