@@ -180,4 +180,4 @@ stdout.
 Contact
 --------
 
-Ole Martin Bjørndalen - ombdalen@gmail.com - http://nerdly.info/ole/
+Ole Martin Bjørndalen - ombdalen@gmail.com
