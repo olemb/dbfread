@@ -121,7 +121,7 @@ class Table(list):
                 self.memofile = FPT(self.memofilename)
             else:
                 self.memofile = None
-
+        
             if load:
                 self.load()
 
@@ -168,7 +168,7 @@ class Table(list):
 
         # Check for memo file
         field_types = set([field.type for field in self.fields])
-        if 'M' in field_types:
+        if u'M' in field_types:
             fn = os.path.splitext(self.filename)[0] + '.fpt'
             match = ifind(self.filename, ext='.fpt')
             if match:
@@ -208,16 +208,16 @@ class Table(list):
                 # trickery.
                 #
                 if field.type == 'M':
-                    if value == None:
+                    if value is None:
                         value = ''
                     else:
-                        fptrecord = self.fpt[value]
-                        if ftprecord.type == 'memo':
+                        memo = self.memofile[value]
+                        if memo.type == 'memo' and not self.raw:
                             # Decode to unicode
-                            value = parse_string(fptrecord.data, self.encoding)
+                            value = parse_string(memo.data, self.encoding)
                         else:
                             # Byte array
-                            value = fptrecord.data
+                            value = memo.data
 
             items.append(FieldValue(name=field.name, value=value))
 

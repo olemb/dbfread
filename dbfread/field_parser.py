@@ -98,6 +98,8 @@ class FieldParser:
             except ValueError:
                 raise ValueError('Memo index is not an integer: %r' % index)
 
+        return index
+
     def parseN(self, field, data):
         """Parse numeric field (N)
 

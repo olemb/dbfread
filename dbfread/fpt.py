@@ -30,7 +30,7 @@ record_types = {
     0x2 : 'object',
 }
 
-Record = namedtuple('Record', 'type data')
+Record = namedtuple('Record', ['type', 'data'])
 
 
 class FPT:
@@ -62,7 +62,7 @@ class FPT:
         # Todo: Handle wrong sized memo
 
         if index == 0:
-            return b''  # Blank
+            return Record(type='memo', data=b'')
 
         self.file.seek(index * self.header.blocksize)
         block_header = BlockHeader.read(self.file)
@@ -72,4 +72,4 @@ class FPT:
             raise IOError('EOF reached while reading memo')
         
         record_type = record_types.get(block_header.type)
-        return Record(type=record_type, data=block)
+        return Record(type=record_type, data=data)
