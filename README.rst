@@ -94,23 +94,12 @@ override the encoding with the option::
 
    encoding='latin1'
 
-If you want records returned as objects instead of dictionaries, you
-can use this option::
+Use can lower field names with ``lowernames=True``::
 
-   recfactory=dbfread.RecObject
-
-If you combine that with this option::
-
-   lowernames=True
-
-the simple example above becomes::
-
-    >>> import dbfread
     >>> table = dbfread.read('people.dbf',
-                        recfactory=dbfread.RecObject,
-                        lowernames=True)
+                             lowernames=True)
     >>> for rec in table:
-    ...     print rec.name, rec.birthday
+    ...     print rec['name'], rec['birthday']
 
 The ``recfactory`` option takes any callable which accepts a list of
 ```(name, value)``` tuples, for example::

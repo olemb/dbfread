@@ -7,7 +7,3 @@ __license__ = 'MIT'
 __version__ = '0.1.0'
 
 from .dbf import Table as read
-
-class RecObject(object):
-    def __init__(self, items):
-        self.__dict__.update(items)
