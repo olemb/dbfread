@@ -14,7 +14,7 @@ Example
 ::
 
     >>> import dbfread
-    >>> table = dbfread.Table('people.dbf')
+    >>> table = dbfread.read('people.dbf')
 
     >>> for rec in table:
     ...     print rec['NAME'], rec['BIRTHDAY']
@@ -30,7 +30,7 @@ By default, all records are read into memory. If you would instead
 like to iterate through them as they come off the file, you can use
 the ```load=False`` option::
 
-    >>> table = dbfread.Table('people.dbf', load=False)
+    >>> table = dbfread.read('people.dbf', load=False)
     >>> for rec in table:
     ...     print rec['NAME'], rec['BIRTHDAY']
 
@@ -88,7 +88,7 @@ T  time        datetime.datetime
 Options
 -------
 
-By default, dbfread.Table() will try to guess the character encoding
+By default, dbfread.read() will try to guess the character encoding
 from the language_driver byte. This doesn't always succeed. You can
 override the encoding with the option::
 
@@ -106,9 +106,9 @@ If you combine that with this option::
 the simple example above becomes::
 
     >>> import dbfread
-    >>> table = dbfread.Table('people.dbf',
-                              recfactory=dbfread.RecObject,
-                              lowernames=True)
+    >>> table = dbfread.read('people.dbf',
+                        recfactory=dbfread.RecObject,
+                        lowernames=True)
     >>> for rec in table:
     ...     print rec.name, rec.birthday
 

@@ -6,8 +6,6 @@ __url__ = 'http://nerdly.info/ole/'
 __license__ = 'MIT'
 __version__ = '0.1.0'
 
-from .dbf import Table
-# Deprecated shortcut:
 from .dbf import Table as read
 
 class RecObject(object):
