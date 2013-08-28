@@ -136,7 +136,7 @@ class Table(list):
             try:
                 self.encoding = guess_encoding(self.header.language_driver)
             except LookupError, err:
-                raise IOError(err.message)
+                self.encoding = 'latin1'
 
         #
         # Read field headers

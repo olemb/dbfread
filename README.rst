@@ -89,8 +89,8 @@ Options
 -------
 
 By default, dbfread.read() will try to guess the character encoding
-from the language_driver byte. This doesn't always succeed. You can
-override the encoding with the option::
+from the language_driver byte. If it can't guess the encoding it use
+"latin1". You can override the encoding with the option::
 
    encoding='latin1'
 
