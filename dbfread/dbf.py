@@ -122,8 +122,8 @@ class Table(list):
             else:
                 self.memofile = None
         
-            if load:
-                self.load()
+        if load:
+            self.load()
 
     def _read_headers(self, f):
         #
