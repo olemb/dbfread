@@ -35,7 +35,7 @@ class FieldParser:
         if hasattr(self, name):
             return getattr(self, name)(field, data)
         else:
-            raise ValueError('Unknown field type: %r' % field.type)
+            raise ValueError('Unknown field type: {!r}'.format(field.type))
 
     def parse0(self, field, data):
         """Parse flags field and return int"""
@@ -77,7 +77,7 @@ class FieldParser:
             return None
         else:
             # Todo: return something? (But that would be misleading!)
-            ValueError('Illegal value for logical field: %r' % char)
+            ValueError('Illegal value for logical field: {!r}'.format(char))
 
     def parseM(self, field, data):
         """Parse memo field (M)
@@ -96,7 +96,8 @@ class FieldParser:
             try:
                 index = self.str(data)
             except ValueError:
-                raise ValueError('Memo index is not an integer: %r' % index)
+                raise ValueError(
+                    'Memo index is not an integer: {!r}'.format(index))
 
         return index
 

@@ -92,7 +92,7 @@ class Table(list):
         if ignorecase:
             self.filename = ifind(filename)
             if not self.filename:
-                raise IOError('No such file: %r' % filename)
+                raise IOError('No such file: {!r}'.format(filename))
         else:
             self.filename = filename
         # Filled in by self._read_headers()
@@ -159,7 +159,7 @@ class Table(list):
             self.fields.append(fh)
 
         if len(self.fields) < 1:
-            raise ValueError('dbf file must have at least one field: %s' % self.filename)
+            raise ValueError('dbf file must have at least one field: {!r}'.format(self.filename))
 
 
         # Check for memo file
@@ -171,24 +171,24 @@ class Table(list):
                 self.memofilename = match
             else:
                 # Todo: warn and return field as byte string?
-                raise IOError('Missing memo file: %r' % fn)
+                raise IOError('Missing memo file: {!r}'.format(fn))
 
     def _check_headers(self):
         """Check headers for possible format errors."""
         for field in self.fields:
 
             if field.type == '0' and field.length != 1:
-                    ValueError('Field of type 0 must have length 1 (was %s)' % field.length)
+                    ValueError('Field of type 0 must have length 1 (was {})'.format(field.length))
 
             elif field.type == 'I' and field.length != 4:
-                    ValueError('Field type I must have length 4 (was %s)' % field.length)
+                    ValueError('Field type I must have length 4 (was {})'.format(field.length))
 
             elif field.type == 'L' and field.length != 1:
-                    ValueError('Field type L must have length 1 (was %s)' % field.length)
+                    ValueError('Field type L must have length 1 (was {})'.format(field.length))
 
             elif not self._field_parser.field_type_supported(field.type):
                 # Todo: return as byte string?
-                ValueError('Unknown field type: %r' % (field.type))
+                ValueError('Unknown field type: {!r}'.format(field.type))
 
     def _read_record(self, f):
         items = []  # List of Field
