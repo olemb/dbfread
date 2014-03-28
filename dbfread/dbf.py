@@ -178,17 +178,17 @@ class Table(list):
         for field in self.fields:
 
             if field.type == '0' and field.length != 1:
-                    ValueError('Field of type 0 must have length 1 (was {})'.format(field.length))
+                raise ValueError('Field of type 0 must have length 1 (was {})'.format(field.length))
 
             elif field.type == 'I' and field.length != 4:
-                    ValueError('Field type I must have length 4 (was {})'.format(field.length))
+                raise ValueError('Field type I must have length 4 (was {})'.format(field.length))
 
             elif field.type == 'L' and field.length != 1:
-                    ValueError('Field type L must have length 1 (was {})'.format(field.length))
+                raise ValueError('Field type L must have length 1 (was {})'.format(field.length))
 
             elif not self._field_parser.field_type_supported(field.type):
                 # Todo: return as byte string?
-                ValueError('Unknown field type: {!r}'.format(field.type))
+                raise ValueError('Unknown field type: {!r}'.format(field.type))
 
     def _read_record(self, f):
         items = []  # List of Field
