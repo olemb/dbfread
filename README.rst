@@ -1,11 +1,11 @@
 dbfread - Python library for reading data from DBF files
 =========================================================
 
-Requires Python 2.7 or 3.2 (works in both without change)
+Requires Python 2.7 or 3.2.
 
 License: MIT
 
-Latest version of the source code: https://github.com/olemb/dbfread/
+Latest version of the source code: http://github.com/olemb/dbfread/
 
 
 Example
@@ -17,12 +17,12 @@ Example
     >>> table = dbfread.read('people.dbf')
 
     >>> for rec in table:
-    ...     print rec['NAME'], rec['BIRTHDAY']
+    ...     print(rec['NAME'], rec['BIRTHDAY'])
     Alice 1987-03-01
     Bob 1980-11-12
     
     >>> for rec in table:
-    ...     print rec
+    ...     print(rec)
     {u'NAME' : u'Alice', u'BIRTHDAY' : datetime.date(1987, 3, 1)}
     {u'NAME' : u'Bob', 'uBIRTHDAY' : datetime.date(1980, 11, 12)}
 
@@ -90,7 +90,7 @@ Use can lower field names with ``lowernames=True``::
     >>> table = dbfread.read('people.dbf',
                              lowernames=True)
     >>> for rec in table:
-    ...     print rec['name'], rec['birthday']
+    ...     print(rec['name'], rec['birthday'])
 
 The ``recfactory`` option takes any callable which accepts a list of
 ```(name, value)``` tuples, for example::
