@@ -77,7 +77,7 @@ class FieldParser:
             return None
         else:
             # Todo: return something? (But that would be misleading!)
-            ValueError('Illegal value for logical field: {!r}'.format(char))
+            raise ValueError('Illegal value for logical field: {!r}'.format(char))
 
     def parseM(self, field, data):
         """Parse memo field (M)
