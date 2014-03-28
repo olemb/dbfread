@@ -30,6 +30,8 @@ Example
 All records will be read into memory. The Table class is a subclass of
 list, so you can use all the normal list operations on it.
 
+Deleted records are available in ``table.deleted``.
+
 
 Status
 ------

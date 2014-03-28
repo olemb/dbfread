@@ -86,6 +86,8 @@ class Table(list):
         self.name = os.path.basename(filename)
         self.name = os.path.splitext(self.name)[0]
         self.name = self.name.lower()
+        
+        self.deleted = []
 
         if ignorecase:
             self.filename = ifind(filename)
@@ -109,8 +111,6 @@ class Table(list):
                                       self.header.month,
                                       self.header.day)
             
-            # self.deleted = []
-
             #
             # Get memo file
             #
@@ -234,8 +234,7 @@ class Table(list):
                 self.append(self._read_record(f))
 
             elif sep == b'*':
-                # self.deleted.append(self._read_record(f))
-                pass
+                self.deleted.append(self._read_record(f))
 
     def __enter__(self):
         return self
