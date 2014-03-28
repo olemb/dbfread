@@ -135,7 +135,7 @@ class Table(list):
         if self.encoding is None:
             try:
                 self.encoding = guess_encoding(self.header.language_driver)
-            except LookupError, err:
+            except LookupError as err:
                 self.encoding = 'latin1'
 
         #
