@@ -160,4 +160,4 @@ stdout.
 Contact
 --------
 
-Ole Martin Bjørndalen - ombdalen@gmail.com
+Ole Martin Bjorndalen - ombdalen@gmail.com
