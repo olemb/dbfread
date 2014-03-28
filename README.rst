@@ -26,21 +26,10 @@ Example
     {u'NAME' : u'Alice', u'BIRTHDAY' : datetime.date(1987, 3, 1)}
     {u'NAME' : u'Bob', 'uBIRTHDAY' : datetime.date(1980, 11, 12)}
 
-By default, all records are read into memory. If you would instead
-like to iterate through them as they come off the file, you can use
-the ```load=False`` option::
 
-    >>> table = dbfread.read('people.dbf', load=False)
-    >>> for rec in table:
-    ...     print rec['NAME'], rec['BIRTHDAY']
+All records will be read into memory. The Table class is a subclass of
+list, so you can use all the normal list operations on it.
 
-When records are loaded, the table behaves like a list. When records
-are not loaded it behaves like an iterator. (It is still a list, just an
-empty one, so len(table) will return 0 even though there are records in
-the file.)
-
-You can use the load() and unload() methods to load and unload records.
-This will also switch between list and iteration protocols.
 
 Status
 ------
@@ -88,8 +77,8 @@ T  time        datetime.datetime
 Options
 -------
 
-By default, dbfread.read() will try to guess the character encoding
-from the language_driver byte. If it can't guess the encoding it use
+By default, dbfread will try to guess the character encoding from the
+language_driver byte. If it can't guess the encoding it uses
 "latin1". You can override the encoding with the option::
 
    encoding='latin1'

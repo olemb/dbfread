@@ -69,14 +69,11 @@ class Table(list):
 
     def __init__(self, filename,
                  encoding=None,
-                 load=True,
                  ignorecase=True,
                  lowernames=False,
                  parserclass=FieldParser,
                  recfactory=dict,
                  raw=False):
-
-        self.loaded = False
 
         self.encoding = encoding
         self.ignorecase = ignorecase
@@ -122,9 +119,8 @@ class Table(list):
             else:
                 self.memofile = None
         
-        if load:
-            self.load()
-
+            self._load_records(f)
+        
     def _read_headers(self, f):
         #
         # Todo: more checks
@@ -225,53 +221,21 @@ class Table(list):
         
         return rec
 
-    def __iter__(self):
-        if self.loaded:
-            #
-            # Records are in memory. Defer to list iterator.
-            #
-            for rec in list.__iter__(self):
-                yield rec
-        else:
-            #
-            # Iterate through records from file.
-            #
+    def _load_records(self, f):
+        # Skip to start of record.
+        f.seek(self.header.headerlen, 0)
 
-            with open(self.filename, 'rb') as f:
-                # Skip header
-                header = DBFHeader.read(f)
-                f.seek(header.headerlen, 0)
-                
-                #
-                # Read records
-                #
-                while 1:
-                    sep = f.read(1)
+        while True:
+            sep = f.read(1)
 
-                    if sep == b'':
-                        break  # End of file reached
-                    elif sep == b' ':
-                        rec = self._read_record(f)
-                        yield rec
+            if sep == b'':
+                break  # End of file reached
+            elif sep == b' ':
+                self.append(self._read_record(f))
 
-                    elif sep == b'*':
-                        rec = self._read_record(f)
-                        # Todo: deal with deleted records.
-                        # Skip for now.
-                        #    self.deleted.append(rec)
-
-    def load(self):
-        """Load records from file."""
-        if not self.loaded:
-            self[:] = list(self)
-            self.loaded = True
-
-    def unload(self):
-        """Unload records, returning to a streaming protocol."""
-        if self.loaded:
-            self[:] = []
-            # self.deleted[:] = []
-            self.loaded = False
+            elif sep == b'*':
+                # self.deleted.append(self._read_record(f))
+                pass
 
     def __enter__(self):
         return self
