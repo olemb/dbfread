@@ -164,7 +164,7 @@ class Table(list):
 
         # Check for memo file
         field_types = set([field.type for field in self.fields])
-        if u'M' in field_types:
+        if 'M' in field_types:
             fn = os.path.splitext(self.filename)[0] + '.fpt'
             match = ifind(self.filename, ext='.fpt')
             if match:
