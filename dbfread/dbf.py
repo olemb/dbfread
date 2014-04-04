@@ -235,9 +235,3 @@ class Table(list):
 
             elif sep == b'*':
                 self.deleted.append(self._read_record(f))
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, type, value, traceback):
-        return False
