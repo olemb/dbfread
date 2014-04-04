@@ -47,17 +47,18 @@ class FieldParser:
 
     def parseD(self, field, data):
         """Parse date field and return datetime.date or None"""
-        if data.strip():
+        try:
             year = int(data[:4])
             month = int(data[4:6])
             day = int(data[6:8])
             
-            try: 
-                return datetime.date(year, month, day)
-            except ValueError:
+            return datetime.date(year, month, day)
+        except ValueError:
+            if data.strip(b' ') == b'' or data.strip(b'0') == b'':
+                # All spaces or all zeroes are NULL values.
                 return None
-        else:
-            return None
+            else:
+                raise ValueError('invalid date {!r}'.format(data))
     
     def parseF(self, field, data):
         """Parse float field and return float or None"""
