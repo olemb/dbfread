@@ -96,6 +96,10 @@ class FieldParser:
             # Todo: is this 4 bytes on every platform?
             return struct.unpack('<I', data)[0]
         else:
+            # All spaces is a NULL value.
+            if data.strip() == b'':
+                return None
+
             # Integer as a string.
             try:
                 return int(self.str(data))
