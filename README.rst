@@ -85,7 +85,7 @@ language_driver byte. If it can't guess the encoding it uses
 
    encoding='latin1'
 
-Use can lower field names with ``lowernames=True``::
+You can lower field names with ``lowernames=True``::
 
     >>> table = dbfread.read('people.dbf',
                              lowernames=True)
