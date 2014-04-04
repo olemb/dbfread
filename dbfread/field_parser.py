@@ -78,7 +78,7 @@ class FieldParser:
             return True
         elif data in b'FfNn':
             return False
-        elif data == b' ':
+        elif data in b'? ':
             return None
         else:
             # Todo: return something? (But that would be misleading!)
