@@ -51,7 +51,11 @@ class FieldParser:
             year = int(data[:4])
             month = int(data[4:6])
             day = int(data[6:8])
-            return datetime.date(year, month, day)
+            
+            try: 
+                return datetime.date(year, month, day)
+            except ValueError:
+                return None
         else:
             return None
     
