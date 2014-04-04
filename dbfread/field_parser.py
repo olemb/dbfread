@@ -85,21 +85,19 @@ class FieldParser:
         Returns memo index (an integer), which can be used to look up
         the corresponding memo in the memo file.
         """
-
         # Memo field (index as ' '-padded text or
         # 4 byte unsigned integer little endian. The index is used
         # to look up the entry in the memo file.)
         if field.length == 4:
             # Todo: is this 4 bytes on every platform?
-            index = struct.unpack('<I', data)[0]
+            return struct.unpack('<I', data)[0]
         else:
+            # Integer as a string.
             try:
-                index = self.str(data)
+                return int(self.str(data))
             except ValueError:
                 raise ValueError(
-                    'Memo index is not an integer: {!r}'.format(index))
-
-        return index
+                    'Memo index is not an integer: {!r}'.format(data))
 
     def parseN(self, field, data):
         """Parse numeric field (N)
