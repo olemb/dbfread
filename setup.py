@@ -15,9 +15,9 @@ if sys.argv[-1] == "publish":
     os.system("python setup.py sdist upload")
     sys.exit()
 
-#if sys.argv[-1] == "test":
-#    os.system("python test_dbfread.py")
-#    sys.exit()
+if sys.argv[-1] == "test":
+    os.system("python run_tests.py")
+    sys.exit()
 
 required = []
 
@@ -25,15 +25,14 @@ setup(
     name='dbfread',
     version=dbfread.__version__,
     description='read data from dbf files',
-    long_description=open('README.rst').read(),
+    long_description=open('README.rst', 'rt').read(),
     author=dbfread.__author__,
     email=dbfread.__email__,
     url=dbfread.__url__,
-    packages=[
-        'dbfread',
-    ],
-    py_modules=[
-    ],
+    package_data={'': ['LICENSE']},
+    package_dir={'dbfread': 'dbfread'},
+    packages = ['dbfread'],
+    include_package_data=True,
     # install_requires=required,  # Unknown option in Python 3
     license='MIT',
     classifiers=(
