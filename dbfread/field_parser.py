@@ -93,7 +93,7 @@ class FieldParser:
         # Memo field (index as ' '-padded text or
         # 4 byte unsigned integer little endian. The index is used
         # to look up the entry in the memo file.)
-        if field.length == 4:
+        if len(data) == 4:
             # Todo: is this 4 bytes on every platform?
             return struct.unpack('<I', data)[0]
         else:
