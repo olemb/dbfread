@@ -54,8 +54,8 @@ class FieldParser:
             
             return datetime.date(year, month, day)
         except ValueError:
-            if data.strip(b' ') == b'' or data.strip(b'0') == b'':
-                # All spaces or all zeroes are NULL values.
+            if data.strip(b' ').strip(b'0') == b'':
+                # A record containing only spaces and/or zeros is a NULL value.
                 return None
             else:
                 raise ValueError('invalid date {!r}'.format(data))
