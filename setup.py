@@ -27,7 +27,7 @@ setup(
     description='read data from dbf files',
     long_description=open('README.rst', 'rt').read(),
     author=dbfread.__author__,
-    email=dbfread.__email__,
+    author_email=dbfread.__email__,
     url=dbfread.__url__,
     package_data={'': ['LICENSE']},
     package_dir={'dbfread': 'dbfread'},
