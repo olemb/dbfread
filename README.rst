@@ -112,7 +112,7 @@ There is also an "undocumented" option, which I use mostly for debugging::
 Table attributes
 ----------------
 
-The table object has a lot of attributes, which can be useful for
+The table object has a lot of attributes that can be useful for
 introspection. Some simple ones::
 
     >>> table.name
@@ -124,7 +124,7 @@ introspection. Some simple ones::
     >>> table.encoding
     'cp1252'
 
-A list of field names can be useful for producing CSV files, for example::
+A list of field names can be used for producing CSV files, for example::
 
     >>> table.field_names
     [u'NAME', u'BIRTHDAY']
@@ -147,12 +147,12 @@ The file header and field headers are namedtuples::
 dbf2sqlite
 -----------
 
-A tool is included in the ```examples``` directory to convert dbf into
+A tool is included in the ```examples``` directory to convert DBF into
 sqlite, for example::
 
     dbf2sqlite -o stamnett.sqlite kabreg.dbf endreg.dbf
 
-This will create one table for each dbf file. You can also omit the
+This will create one table for each DBF file. You can also omit the
 ``-o stamnett.sqlite`` option to have the SQL printed directly to
 stdout.
 
