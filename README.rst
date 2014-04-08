@@ -61,19 +61,19 @@ Python 3::
 Supported field types
 ----------------------
 
-=  ==========  ====================================================================
+=  ==========  ================================================================
 :  Field type   Converted to
-=  ==========  ====================================================================
+=  ==========  ================================================================
 0  flags       int
 C  text        unicode string
 D  date        datetime.date or None
 F  float       float or None
 I  integer     int or None
 L  logical     True, False or None
-M  memo        unicode string (memo type) or byte string (picture and object type)
+M  memo        unicode string (memo) or byte string (picture or object)
 N  numeric     int, float or None
 T  time        datetime.datetime
-=  ==========  ====================================================================
+=  ==========  ================================================================
 
     
 Options
