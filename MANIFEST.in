@@ -1,1 +1,1 @@
-include README.rst LICENSE
+include README.rst LICENSE CHANGELOG.rst tests.py run_tests.py
