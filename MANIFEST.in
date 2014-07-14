@@ -1,1 +1,3 @@
 include README.rst LICENSE CHANGELOG.rst tests.py run_tests.py
+include examples/dbf2sqlite
+
