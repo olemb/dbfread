@@ -150,10 +150,10 @@ dbf2sqlite
 A tool is included in the ```examples``` directory to convert DBF into
 sqlite, for example::
 
-    dbf2sqlite -o stamnett.sqlite kabreg.dbf endreg.dbf
+    dbf2sqlite -o example.sqlite table1.dbf table2.dbf
 
 This will create one table for each DBF file. You can also omit the
-``-o stamnett.sqlite`` option to have the SQL printed directly to
+``-o example.sqlite`` option to have the SQL printed directly to
 stdout.
 
 
