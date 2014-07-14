@@ -18,7 +18,7 @@ Todo:
 
 import os
 import sys
-import optparse
+import argparse
 import sqlite3
 import collections
 
@@ -61,28 +61,46 @@ def add_table(cursor, table):
     for rec in table:
         cursor.execute(sql, list(rec.values()))
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='usage: %prog [OPTIONS] table1.dbf ... tableN.dbf')
+    arg = parser.add_argument
+
+    arg('-o', '--output-file',
+        action='store',
+        dest='output_file',
+        default=None,
+        help='sqlite database to write to '
+        '(default is to print schema to stdout)')
+
+    arg('-e', '--encoding',
+        action='store',
+        dest='encoding',
+        default=None,
+        help='character encoding in DBF file')
+
+    arg('tables',
+        metavar='TABLE',
+        nargs='+',
+        help='tables to add to sqlite database')
+
+    return parser.parse_args()
 
 def main():
-    parser = optparse.OptionParser(
-        usage='usage: %prog [OPTIONS] file1.dbf ... fileN.dbf')
-    parser.add_option('-o', '--output-file',
-                      action='store',
-                      dest='output_file',
-                      default=None,
-                      help='sqlite database to write to '
-                           '(default is to print schema to stdout)')
-    (options, args) = parser.parse_args()
+    args = parse_args()
 
-    if len(args) == 0:
-        parser.error('No dbf files specified')
-
-    conn = sqlite3.connect(options.output_file or ':memory:')
+    conn = sqlite3.connect(args.output_file or ':memory:')
     cursor = conn.cursor()
 
-    for arg in args:
-        add_table(cursor, dbfread.read(arg,
-                                       lowernames=True,
-                                       recfactory=collections.OrderedDict))
+    for table_file in args.tables:
+        try:
+            add_table(cursor, dbfread.read(table_file,
+                                           lowernames=True,
+                                           recfactory=collections.OrderedDict,
+                                           encoding=args.encoding))
+        except UnicodeDecodeError:
+            sys.exit('Unable to guess character encoding.'
+                     ' Please use --encoding to specify.')
 
     conn.commit()
 
@@ -94,7 +112,7 @@ def main():
     # since Python 2 somehow defaults to 'ascii'
     # encoding.
     #
-    if not options.output_file:
+    if not args.output_file:
         for line in conn.iterdump():
             print(line)
 
