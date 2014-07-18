@@ -92,7 +92,7 @@ class Table(list):
                  lowernames=False,
                  parserclass=FieldParser,
                  recfactory=dict,
-                 load=False,
+                 load=True,
                  raw=False):
 
         self.encoding = encoding
@@ -108,6 +108,7 @@ class Table(list):
         self.name = self.name.lower()
         
         self.deleted = []
+        self.loaded = False
 
         if ignorecase:
             self.filename = ifind(filename)
@@ -145,14 +146,14 @@ class Table(list):
             self.unload()
  
     def load(self):
-        # Todo: check if already loaded.
-        self.records = list(RecordIterator(self))
+        del self[:]
+        for record in self:
+            self.append(record)
         self.deleted = list(RecordIterator(self, deleted=True))
         self.loaded = True
 
     def unload(self):
-        # Todo: delete references to this table in iterators.
-        self.records = RecordIterator(self)
+        del self[:]
         self.deleted = RecordIterator(self, deleted=True)
         self.loaded = False
 
@@ -288,29 +289,22 @@ class Table(list):
                     self._skip_record(infile)
 
     def __iter__(self):
-        for record in self.records:
-            yield record
+        if self.loaded:
+            for record in list.__iter__(self):
+                yield record
+        else:
+            for record in RecordIterator(self):
+                yield record            
 
     def __len__(self):
-        return len(self.records)
+        if self.loaded:
+            return list.__len__(self)
+        else:
+            return len(RecordIterator(self))
 
     def __repr__(self):
-        return '<DBF table {!r}>'.format(self.filename)
+        if self.loaded:
+            return list.__repr__(self)
+        else:
+            return '<unloaded DBF table {!r}>'.format(self.filename)
 
-
-class LegacyTable(list):
-    """
-    This is for backwards compatability with 0.1.0
-    where records were loaded by default.
-
-    It forwards attributes to the records attribute so
-    you can use the table as a list.
-    """
-    def __init__(self, *args, **kwargs):
-        kwargs['load'] = True
-        self._table = Table(*args, **kwargs)
-        self[:] = self.records
-        self._table.records = self
-
-    def __getattr__(self, name):
-        return getattr(self._table, name)
