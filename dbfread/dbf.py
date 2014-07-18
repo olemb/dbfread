@@ -298,7 +298,7 @@ class Table(list):
         return '<DBF table {!r}>'.format(self.filename)
 
 
-class LegacyTable(Table, list):
+class LegacyTable(list):
     """
     This is for backwards compatability with 0.1.0
     where records were loaded by default.
@@ -308,14 +308,9 @@ class LegacyTable(Table, list):
     """
     def __init__(self, *args, **kwargs):
         kwargs['load'] = True
-        Table.__init__(self, *args, **kwargs)
+        self._table = Table(*args, **kwargs)
         self[:] = self.records
-        self.records = self
-        print('!')
+        self._table.records = self
 
     def __getattr__(self, name):
-        return getattr(self.records, name)
-
-    def __len__(self):
-        return list.__len__(self)
-
+        return getattr(self._table, name)
