@@ -62,6 +62,25 @@ def expand_year(year):
     else:
         return 1900 + year
 
+
+class RecordIterator(object):
+    def __init__(self, table, deleted=False):
+        self._deleted = deleted
+        self._table = table
+
+    def __iter__(self):
+        for record in self._table._iter_records(deleted=self._deleted,
+                                                read=True):
+            yield record
+ 
+    def __len__(self):
+        num_records = 0
+        for _ in self._table._iter_records(deleted=self._deleted,
+                                           read=False):
+            num_records += 1
+        return num_records
+
+
 class Table(list):
     """
     Class to read DBF files.
@@ -73,6 +92,7 @@ class Table(list):
                  lowernames=False,
                  parserclass=FieldParser,
                  recfactory=dict,
+                 load=False,
                  raw=False):
 
         self.encoding = encoding
@@ -119,8 +139,23 @@ class Table(list):
             else:
                 self.memofile = None
         
-            self._load_records(f)
-        
+        if load:
+            self.load()
+        else:
+            self.unload()
+ 
+    def load(self):
+        # Todo: check if already loaded.
+        self.records = list(RecordIterator(self))
+        self.deleted = list(RecordIterator(self, deleted=True))
+        self.loaded = True
+
+    def unload(self):
+        # Todo: delete references to this table in iterators.
+        self.records = RecordIterator(self)
+        self.deleted = RecordIterator(self, deleted=True)
+        self.loaded = False
+
     def _read_headers(self, f):
         #
         # Todo: more checks
@@ -221,17 +256,66 @@ class Table(list):
         
         return rec
 
-    def _load_records(self, f):
-        # Skip to start of record.
-        f.seek(self.header.headerlen, 0)
+    def _skip_record(self, infile):
+        # Seek ahead by size of record.
+        infile.seek(sum(field.length for field in self.fields), 1)
 
-        while True:
-            sep = f.read(1)
+    def _iter_records(self, deleted=False, read=False):
+        with open(self.filename, 'rb') as infile:
+            # Skip to first record.
+            infile.seek(self.header.headerlen, 0)
+            while True:
+                sep = infile.read(1)
 
-            if sep == b'':
-                break  # End of file reached
-            elif sep == b' ':
-                self.append(self._read_record(f))
+                if sep == b'' or sep == b'\x1a':
+                    return  # End of file reached
+                elif sep not in b' *':
+                    raise IOError("invalid record separator '{}'".format(sep))
 
-            elif sep == b'*':
-                self.deleted.append(self._read_record(f))
+                if deleted and sep == b'*':
+                    interesting_record = True
+                elif not deleted and sep == b' ':
+                    interesting_record = True
+                else:
+                    interesting_record = False
+
+                if interesting_record:
+                    if read:
+                        yield self._read_record(infile)
+                    else:
+                        yield self._skip_record(infile)
+                else:
+                    self._skip_record(infile)
+
+    def __iter__(self):
+        for record in self.records:
+            yield record
+
+    def __len__(self):
+        return len(self.records)
+
+    def __repr__(self):
+        return '<DBF table {!r}>'.format(self.filename)
+
+
+class LegacyTable(Table, list):
+    """
+    This is for backwards compatability with 0.1.0
+    where records were loaded by default.
+
+    It forwards attributes to the records attribute so
+    you can use the table as a list.
+    """
+    def __init__(self, *args, **kwargs):
+        kwargs['load'] = True
+        Table.__init__(self, *args, **kwargs)
+        self[:] = self.records
+        self.records = self
+        print('!')
+
+    def __getattr__(self, name):
+        return getattr(self.records, name)
+
+    def __len__(self):
+        return list.__len__(self)
+
