@@ -33,6 +33,28 @@ list, so you can use all the normal list operations on it.
 Deleted records are available in ``table.deleted``.
 
 
+Streaming API
+-------------
+
+To save memory you can instead stream records off disk as you need
+them by adding `load=False`::
+
+   for record in dbfread.read('people.dbf', load=False):
+       ...
+
+This will iterate through records straight from disk instead of reading them all into memory at once. It also works for deleted records::
+
+   for record in table.deleted:
+       ...
+
+You can still do `len(table)` and `len(table.deleted)`, but this will
+now scan the file to count records.
+
+This also allow you to open and inspect a table before you load any
+records. You can call `table.load()` to load the records as before.
+
+
+
 Status
 ------
 
@@ -78,6 +100,12 @@ T  time        datetime.datetime
     
 Options
 -------
+
+(This needs to be rewritten for clarity.)
+
+To stream records off disk instead of loading the into memory you can pass::
+
+   load=False
 
 By default, dbfread will try to guess the character encoding from the
 language_driver byte. If it can't guess the encoding it uses
@@ -142,6 +170,15 @@ The file header and field headers are namedtuples::
     reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
     reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
     ... etc. ...]
+
+
+Methods
+--------
+
+::
+
+    load()
+    unload()
 
 
 dbf2sqlite
