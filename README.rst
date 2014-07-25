@@ -11,7 +11,7 @@ Latest version of the source code: http://github.com/olemb/dbfread/
 Example
 -------
 
-::
+To open a DBF file and iterate through records::
 
     >>> import dbfread
     >>> for record in dbfread.open('birthdays.dbf'):
@@ -24,11 +24,9 @@ If you have enough memory you can load the whole table into a list::
     >>> dbfread.read('birthdays.dbf')[1:]
     [{'NAME': 'Bob', 'BIRTHDAY': datetime.date(1980, 11, 12)}]
 
-Both functions return a ``Table`` object. It also behaves like a list
-of records are loaded. (It's a subclass of ``list``.) See below for
-attributes and methods.
-
-You can use ``load()`` later to load records.
+Both functions return a ``Table`` object. If records are loaded it
+also behaves like a list of records. (It's a subclass of ``list``.)
+See below for attributes and methods.
 
 
 Installing
