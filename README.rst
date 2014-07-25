@@ -14,45 +14,26 @@ Example
 ::
 
     >>> import dbfread
-    >>> table = dbfread.read('people.dbf')
+    >>> for record in dbfread.open('birthdays.dbf'):
+    ...     print(record)
+    {'NAME' : 'Alice', 'BIRTHDAY' : datetime.date(1987, 3, 1)}
+    {'NAME' : 'Bob', 'BIRTHDAY' : datetime.date(1980, 11, 12)}
 
-    >>> for rec in table:
-    ...     print(rec['NAME'], rec['BIRTHDAY'])
-    Alice 1987-03-01
-    Bob 1980-11-12
-    
-    >>> for rec in table:
-    ...     print(rec)
-    {u'NAME' : u'Alice', u'BIRTHDAY' : datetime.date(1987, 3, 1)}
-    {u'NAME' : u'Bob', 'uBIRTHDAY' : datetime.date(1980, 11, 12)}
+`open()` returns a `Table` object with useful attributes::
 
+    >>> table = dbfread.open('birthdays.dbf')
+    >>> table.field_names
+    ['NAME', 'BIRTHDAY']
 
-All records will be read into memory. The Table class is a subclass of
-list, so you can use all the normal list operations on it.
+Records can be loaded into memory by passing the `load=True` flag or
+calling `table.load()` later::
 
-Deleted records are available in ``table.deleted``.
+    >>> table = dbfread.open('birtdays.dbf', load=True)
+    >>> table[1:]
+    ... [{'NAME' : 'Bob', 'BIRTHDAY' : datetime.date(1980, 11, 12)}]
 
-
-Streaming API
--------------
-
-To save memory you can instead stream records off disk as you need
-them by adding `load=False`::
-
-   for record in dbfread.read('people.dbf', load=False):
-       ...
-
-This will iterate through records straight from disk instead of reading them all into memory at once. It also works for deleted records::
-
-   for record in table.deleted:
-       ...
-
-You can still do `len(table)` and `len(table.deleted)`, but this will
-now scan the file to count records.
-
-This also allow you to open and inspect a table before you load any
-records. You can call `table.load()` to load the records as before.
-
+The `Table` object is a subclass of `list` so has all the usual list
+operations.
 
 
 Status
@@ -103,9 +84,12 @@ Options
 
 (This needs to be rewritten for clarity.)
 
-To stream records off disk instead of loading the into memory you can pass::
+If you want to access all records as a list you can pass::
 
-   load=False
+   load=True
+
+The Table object will now behave like a list and deleted records will
+be available in the `deleted` attribute.
 
 By default, dbfread will try to guess the character encoding from the
 language_driver byte. If it can't guess the encoding it uses
@@ -115,7 +99,7 @@ language_driver byte. If it can't guess the encoding it uses
 
 You can lower field names with ``lowernames=True``::
 
-    >>> table = dbfread.read('people.dbf',
+    >>> table = dbfread.read('birthdays.dbf',
                              lowernames=True)
     >>> for rec in table:
     ...     print(rec['name'], rec['birthday'])
@@ -127,8 +111,8 @@ The ``recfactory`` option takes any callable which accepts a list of
 
 One last option. By default, dbfread will assume that you've copied the
 DBF files from a windows file system, and that the file name casing is
-all scrambled. Thus, it will treat ```People.FPT``` as the same file
-as ```PEOPLE.fpt```. You can turn off this behaviour with::
+all scrambled. Thus, it will treat ```Birthdays.FPT``` as the same file
+as ```BIRTHDAYS.fpt```. You can turn off this behaviour with::
 
    ignorecase=False
 
@@ -144,7 +128,7 @@ The table object has a lot of attributes that can be useful for
 introspection. Some simple ones::
 
     >>> table.name
-    'people'
+    'birthdays'
     
     >>> table.date
     datetime.date(2012, 7, 11)
