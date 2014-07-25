@@ -92,26 +92,26 @@ Options for open() and read()
 -----------------------------
 
 :load=True: Load all records into memory. The ``Table`` object will
-            behave as a list of records, and the ``deleted`` attribute
-            will be a list of deleted records. This defaults to
-            ``False`` for ``open()`` and ``True`` for ``read()``.
+    behave as a list of records, and the ``deleted`` attribute will be
+    a list of deleted records. This defaults to ``False`` for
+    ``open()`` and ``True`` for ``read()``.
 
 :encoding='latin1': By default, dbfread will try to guess the
-                    character encoding from the language_driver
-                    byte. If this fails it uses "latin1". You can
-                    override this with the ``encoding`` argument.
+    character encoding from the language_driver byte. If this fails it
+    uses "latin1". You can override this with the ``encoding``
+    argument.
 
 :lowernames=True: Field names in DBF files are usually in
-                  uppercase. This converts them to lowercase.
+    uppercase. This converts them to lowercase.
 
 :recfactory=OrderedDict: Takes any function that will be used to
-                         produce new records. The function should take
-                         a list of ``(name, value)`` tuples.
+    produce new records. The function should take a list of ``(name,
+    value)`` tuples.
 
-:ignorecase=False: The Windows file system is case preserving, which means 
+:ignorecase=False: The default is to ignore case in filenames.
 
 :raw=True: Returns all data values as bytestrings. This can be used
-           for debugging or for doing your own decoding.
+    for debugging or for doing your own decoding.
 
 All list methods are also available when records are loaded.
 
