@@ -1,8 +1,10 @@
 0.2.0 - 
 -------------------
 
-* records can now be streamed from the file one, making it possible to
+* records can now be streamed from the file, making it possible to
   read data files that are too large to fit in memory.
+
+* documentation is more readable and complete.
 
 * now installs correctly with easy_install.
 
