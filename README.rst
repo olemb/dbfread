@@ -21,7 +21,8 @@ To open a DBF file and iterate through records::
 
 If you have enough memory you can load the whole table into a list::
 
-    >>> dbfread.read('birthdays.dbf')[1:]
+    >>> table = dbfread.read('birthdays.dbf')
+    >>> table[1]
     [{'NAME': 'Bob', 'BIRTHDAY': datetime.date(1980, 11, 12)}]
 
 Both functions return a ``Table`` object. If records are loaded it
