@@ -94,11 +94,11 @@ def main():
 
     for table_file in args.tables:
         try:
-            add_table(cursor, dbfread.Table(table_file,
-                                            load=False,
-                                            lowernames=True,
-                                            recfactory=collections.OrderedDict,
-                                            encoding=args.encoding))
+            add_table(cursor, dbfread.open(table_file,
+                                           load=False,
+                                           lowernames=True,
+                                           recfactory=collections.OrderedDict,
+                                           encoding=args.encoding))
         except UnicodeDecodeError:
             sys.exit('Unable to guess character encoding.'
                      ' Please use --encoding to specify.')
