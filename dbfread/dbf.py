@@ -122,8 +122,8 @@ class Table(list):
         self.fields = []       # namedtuples
         self.field_names = []  # strings
 
-        with open(self.filename, mode='rb') as f:
-            self._read_headers(f)
+        with open(self.filename, mode='rb') as infile:
+            self._read_headers(infile)
             self._field_parser = self.parserclass(self.encoding)
 
             self._check_headers()
@@ -157,12 +157,12 @@ class Table(list):
         self.deleted = RecordIterator(self, deleted=True)
         self.loaded = False
 
-    def _read_headers(self, f):
+    def _read_headers(self, infile):
         #
         # Todo: more checks
         # http://www.clicketyclick.dk/databases/xbase/format/dbf_check.html#CHECK_DBF
         #
-        self.header = DBFHeader.read(f)
+        self.header = DBFHeader.read(infile)
 
         if self.encoding is None:
             try:
@@ -174,12 +174,12 @@ class Table(list):
         # Read field headers
         #
         while 1:
-            sep = f.read(1)
+            sep = infile.read(1)
             if sep in (b'\x0d', '\n', ''):
                 # End of field headers
                 break
 
-            fh = DBFField.read(f, prepend=sep)
+            fh = DBFField.read(infile, prepend=sep)
             # We need to fix the name and type
 
             fieldname = parse_string(fh.name, self.encoding)
@@ -230,10 +230,10 @@ class Table(list):
                 # Todo: return as byte string?
                 raise ValueError('Unknown field type: {!r}'.format(field.type))
 
-    def _read_record(self, f):
+    def _read_record(self, infile):
         items = []  # List of Field
         for field in self.fields:
-            value = f.read(field.length)
+            value = infile.read(field.length)
             if self.raw:
                 value = value  # Just return the byte string
             else:
