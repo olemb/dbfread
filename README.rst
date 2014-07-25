@@ -174,6 +174,9 @@ encoding
 ignorecase, lowernames, parserclass, recfactory, raw
   These correspond to the keyword arguments below.
 
+memofilename
+  File name of the memo file, or ``None`` if there is no memo file.
+
 header
   The file header. Example::
 
