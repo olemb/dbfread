@@ -73,3 +73,11 @@ class FPT:
         
         record_type = record_types.get(block_header.type)
         return Record(type=record_type, data=data)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.file.close()
+        return False
+

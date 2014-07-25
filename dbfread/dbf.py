@@ -81,6 +81,19 @@ class RecordIterator(object):
         return num_records
 
 
+class FakeMemoFile(object):
+    def __getitem__(self, i):
+        return ''
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        return False
+
+_FAKE_MEMOFILE = FakeMemoFile()
+
+
 class Table(list):
     """
     Class to read DBF files.
@@ -132,18 +145,16 @@ class Table(list):
                                       self.header.month,
                                       self.header.day)
             
-            #
-            # Get memo file
-            #
-            if self.memofilename and not self.raw:
-                self.memofile = FPT(self.memofilename)
-            else:
-                self.memofile = None
-        
         if load:
             self.load()
         else:
             self.unload()
+
+    def _get_memofile(self):
+        if self.memofilename and not self.raw:
+            return FPT(self.memofilename)
+        else:
+            return _FAKE_MEMOFILE
  
     def load(self):
         if not self.loaded:
@@ -233,7 +244,7 @@ class Table(list):
                 # Todo: return as byte string?
                 raise ValueError('Unknown field type: {!r}'.format(field.type))
 
-    def _read_record(self, infile):
+    def _read_record(self, infile, memofile):
         items = []  # List of Field
         for field in self.fields:
             value = infile.read(field.length)
@@ -250,7 +261,7 @@ class Table(list):
                     if value is None:
                         value = ''
                     else:
-                        memo = self.memofile[value]
+                        memo = memofile[value]
                         if memo.type == 'memo' and not self.raw:
                             # Decode to unicode
                             value = parse_string(memo.data, self.encoding)
@@ -267,7 +278,8 @@ class Table(list):
         infile.seek(sum(field.length for field in self.fields), 1)
 
     def _iter_records(self, deleted=False, read=False):
-        with open(self.filename, 'rb') as infile:
+        with open(self.filename, 'rb') as infile, \
+              self._get_memofile() as memofile:
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
             while True:
@@ -287,7 +299,7 @@ class Table(list):
 
                 if interesting_record:
                     if read:
-                        yield self._read_record(infile)
+                        yield self._read_record(infile, memofile)
                     else:
                         yield self._skip_record(infile)
                 else:
