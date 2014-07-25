@@ -16,14 +16,16 @@ To open a DBF file and iterate through records::
     >>> import dbfread
     >>> for record in dbfread.open('people.dbf'):
     ...     print(record)
-    {'NAME': 'Alice', 'BIRTHDAY': datetime.date(1987, 3, 1)}
-    {'NAME': 'Bob', 'BIRTHDAY': datetime.date(1980, 11, 12)}
+    ... 
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
+    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
 If you have enough memory you can load the whole table into a list::
 
+    >>> import dbfread
     >>> people = dbfread.read('people.dbf')
     >>> people[1]
-    [{'NAME': 'Bob', 'BIRTHDAY': datetime.date(1980, 11, 12)}]
+    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
 Both functions return a ``Table`` object. If records are loaded it
 also behaves like a list of records. (It's a subclass of ``list``.)
