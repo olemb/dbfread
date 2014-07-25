@@ -95,7 +95,6 @@ def main():
     for table_file in args.tables:
         try:
             add_table(cursor, dbfread.open(table_file,
-                                           load=False,
                                            lowernames=True,
                                            recfactory=collections.OrderedDict,
                                            encoding=args.encoding))
