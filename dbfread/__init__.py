@@ -8,8 +8,9 @@ __version__ = '0.1.0'
 
 from .dbf import Table
 
-def read(*args, **kwargs):
-    kwargs['load'] = True
-    return Table(*args, **kwargs)
-
 open = Table
+
+def read(*args, **kwargs):
+    if not 'load' in kwargs:
+        kwargs['load'] = True
+    return open(*args, **kwargs)
