@@ -1,5 +1,8 @@
-0.1.1 - 
+0.2.0 - 
 -------------------
+
+* added open() function which returns a Table object where records are not
+  loaded.
 
 * now installs correctly with easy_install.
 
