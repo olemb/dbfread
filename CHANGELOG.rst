@@ -1,8 +1,7 @@
 0.2.0 - 
 -------------------
 
-* added open() function which returns a Table object where records are not
-  loaded.
+* records can now be read one by one from the file. (open() function)
 
 * now installs correctly with easy_install.
 
