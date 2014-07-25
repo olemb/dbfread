@@ -11,7 +11,7 @@ Latest version of the source code: http://github.com/olemb/dbfread/
 Example
 -------
 
-To open a DBF file and iterate through records::
+::
 
     >>> import dbfread
     >>> for record in dbfread.open('people.dbf'):
