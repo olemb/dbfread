@@ -91,27 +91,31 @@ T  time        datetime.datetime
 Options for open() and read()
 -----------------------------
 
-:load=True: Load all records into memory. The ``Table`` object will
-    behave as a list of records, and the ``deleted`` attribute will be
-    a list of deleted records. This defaults to ``False`` for
-    ``open()`` and ``True`` for ``read()``.
+load=True
+  Load all records into memory. The ``Table`` object will behave as a
+  list of records, and the ``deleted`` attribute will be a list of
+  deleted records. This defaults to ``False`` for ``open()`` and
+  ``True`` for ``read()``.
 
-:encoding='latin1': By default, dbfread will try to guess the
-    character encoding from the language_driver byte. If this fails it
-    uses "latin1". You can override this with the ``encoding``
-    argument.
+encoding='latin1'
+  By default, dbfread will try to guess the character encoding from
+  the language_driver byte. If this fails it uses "latin1". You can
+  override this with the ``encoding`` argument.
 
-:lowernames=True: Field names in DBF files are usually in
-    uppercase. This converts them to lowercase.
+lowernames=True
+  Field names in DBF files are usually in
+  uppercase. This converts them to lowercase.
 
-:recfactory=OrderedDict: Takes any function that will be used to
-    produce new records. The function should take a list of ``(name,
-    value)`` tuples.
+recfactory=OrderedDict
+  Takes any function that will be used to produce new records. The
+  function should take a list of ``(name, value)`` tuples.
 
-:ignorecase=False: The default is to ignore case in filenames.
+ignorecase=False
+  The default is to ignore case in filenames.
 
-:raw=True: Returns all data values as bytestrings. This can be used
-    for debugging or for doing your own decoding.
+raw=True
+  Returns all data values as bytestrings. This can be used for
+  debugging or for doing your own decoding.
 
 All list methods are also available when records are loaded.
 
@@ -119,52 +123,63 @@ All list methods are also available when records are loaded.
 Table attributes
 ----------------
 
-:deleted: Deleted records. If records are in memory this is a list of
-          records, if not it is a ``RecordIterator`` object. In any
-          case you can iterate over it and call ``len()`` on it.
+deleted
+  Deleted records. If records are in memory this is a list of records,
+  if not it is a ``RecordIterator`` object. In any case you can
+  iterate over it and call ``len()`` on it.
 
-:loaded: ``True`` if records are loaded into memory.
+loaded
+  ``True`` if records are loaded into memory.
 
-:name: Name of the table. This is the lowercased stem of the filename,
-       for example the file ``/home/me/SHOES.dbf`` will have the name
-       ``shoes``.
+name
+  Name of the table. This is the lowercased stem of the filename, for
+  example the file ``/home/me/SHOES.dbf`` will have the name
+  ``shoes``.
 
-:date: Date when the file was last written to. (``datetime.datetime``)
+date
+  Date when the file was last written to (as ``datetime.datetime``).
 
-:encoding: Character encoding used in the file. This is determined by
-           the ``lanugage_driver`` byte in the header or by the
-           ``encoding`` keyword argument.
+encoding
+  Character encoding used in the file. This is determined by the
+  ``language_driver`` byte in the header or by the
+  ``encoding`` keyword argument.
 
-:field_names: A list of field names in the order they appear in the
-              file. This can for example be used to produce the header
-              line in a CSV file.
+field_names
+  A list of field names in the order they appear in the file. This can
+  for example be used to produce the header line in a CSV file.
 
-:header: The file header. Example:
+header
+  The file header. Example::
 
-         ``DBFHeader(dbversion=48, year=12, month=7, day=11, numrecords=555,
-         headerlen=2408, recordlen=632, reserved1=0, incomplete_transaction=0,
-         encryption_flag=0, free_record_thread=0, reserved2=0, reserved3=0,
-         mdx_flag=3, language_driver=3, reserved4=0)``
+      DBFHeader(dbversion=48, year=12, month=7, day=11, numrecords=555,
+      headerlen=2408, recordlen=632, reserved1=0, incomplete_transaction=0,
+      encryption_flag=0, free_record_thread=0, reserved2=0, reserved3=0,
+      mdx_flag=3, language_driver=3, reserved4=0)
 
-:fields: A list of field headers from the file. Example:
+fields
+  A list of field headers from the file. Example::
 
-    ``[DBFField(name=u'NAME', type=u'C', address=1, length=25, decimal_count=0,
-    reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
-    reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
-    ... etc. ...]``
+      [DBFField(name=u'NAME', type=u'C', address=1, length=25, decimal_count=0,
+      reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
+      reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
+      ... etc. ...]
 
 
 Methods
 --------
 
-:load(): Load records into memory.
+load()
+   Load records into memory.
 
-:unload(): Unload records from memory.
+unload()
+   Unload records from memory.
 
-:__len__(): Returns number of records in the file. If records are not
-            loaded this will scan the file to count records.
+__len__()
+   Return number of records in the file. If records are not
+   loaded this will scan the file to count records.
 
-:__iter__(): Iterate through records.
+__iter__()
+   Iterate through records.
 
 
 
