@@ -1,7 +1,7 @@
 dbfread - Python library for reading data from DBF files
 =========================================================
 
-Requires Python 2.7 or 3.2.
+Requires Python 3.2 or 2.7.
 
 License: MIT
 
@@ -16,25 +16,29 @@ Example
     >>> import dbfread
     >>> for record in dbfread.open('birthdays.dbf'):
     ...     print(record)
-    {'NAME' : 'Alice', 'BIRTHDAY' : datetime.date(1987, 3, 1)}
-    {'NAME' : 'Bob', 'BIRTHDAY' : datetime.date(1980, 11, 12)}
+    {'NAME': 'Alice', 'BIRTHDAY': datetime.date(1987, 3, 1)}
+    {'NAME': 'Bob', 'BIRTHDAY': datetime.date(1980, 11, 12)}
 
-`open()` returns a `Table` object with useful attributes::
+If you have enough memory you can load the whole table into a list::
 
-    >>> table = dbfread.open('birthdays.dbf')
-    >>> table.field_names
-    ['NAME', 'BIRTHDAY']
+    >>> dbfread.read('birthdays.dbf')[1:]
+    [{'NAME': 'Bob', 'BIRTHDAY': datetime.date(1980, 11, 12)}]
 
-Records can be loaded into memory by passing the `load=True` flag or
-calling `table.load()` later::
+Both functions return a ``Table`` object. It also behaves like a list
+of records are loaded. (It's a subclass of ``list``.) See below for
+attributes and methods.
 
-    >>> table = dbfread.open('birtdays.dbf', load=True)
-    >>> table[1:]
-    ... [{'NAME' : 'Bob', 'BIRTHDAY' : datetime.date(1980, 11, 12)}]
+You can use ``load()`` later to load records.
 
-The `Table` object is a subclass of `list` so has all the usual list
-operations.
 
+Installing
+----------
+
+::
+
+  pip install dbfread
+
+    
 
 Status
 ------
@@ -49,24 +53,12 @@ it to be able to read any DBF file. If you have a file it can't read,
 or find a bug, I'd love to hear from you.
 
 
-Installing
-----------
+Supported Field Types
+---------------------
 
-Python 2::
-
-  sudo python setup.py install
-
-Python 3::
-
-  sudo python3 setup.py install
-    
-
-Supported field types
-----------------------
-
-=  ==========  ================================================================
+=  ==========  ========================================================
 :  Field type   Converted to
-=  ==========  ================================================================
+=  ==========  ========================================================
 0  flags       int
 C  text        unicode string
 D  date        datetime.date or None
@@ -76,99 +68,91 @@ L  logical     True, False or None
 M  memo        unicode string (memo) or byte string (picture or object)
 N  numeric     int, float or None
 T  time        datetime.datetime
-=  ==========  ================================================================
+=  ==========  ========================================================
 
-    
-Options
--------
 
-(This needs to be rewritten for clarity.)
+Options for open() and read()
+-----------------------------
 
-If you want to access all records as a list you can pass::
+:load=True: Load all records into memory. The ``Table`` object will
+            behave as a list of records, and the ``deleted`` attribute
+            will be a list of deleted records. This defaults to
+            ``False`` for ``open()`` and ``True`` for ``read()``.
 
-   load=True
+:encoding='latin1': By default, dbfread will try to guess the
+                    character encoding from the language_driver
+                    byte. If this fails it uses "latin1". You can
+                    override this with the ``encoding`` argument.
 
-The Table object will now behave like a list and deleted records will
-be available in the `deleted` attribute.
+:lowernames=True: Field names in DBF files are usually in
+                  uppercase. This converts them to lowercase.
 
-By default, dbfread will try to guess the character encoding from the
-language_driver byte. If it can't guess the encoding it uses
-"latin1". You can override the encoding with the option::
+:recfactory=OrderedDict: Takes any function that will be used to
+                         produce new records. The function should take
+                         a list of ``(name, value)`` tuples.
 
-   encoding='latin1'
+:ignorecase=False: The Windows file system is case preserving, which means 
 
-You can lower field names with ``lowernames=True``::
-
-    >>> table = dbfread.read('birthdays.dbf',
-                             lowernames=True)
-    >>> for rec in table:
-    ...     print(rec['name'], rec['birthday'])
-
-The ``recfactory`` option takes any callable which accepts a list of
-```(name, value)``` tuples, for example::
-
-   recfactory=collections.OrderedDict
-
-One last option. By default, dbfread will assume that you've copied the
-DBF files from a windows file system, and that the file name casing is
-all scrambled. Thus, it will treat ```Birthdays.FPT``` as the same file
-as ```BIRTHDAYS.fpt```. You can turn off this behaviour with::
-
-   ignorecase=False
-
-There is also an "undocumented" option, which I use mostly for debugging::
-
-   raw=True   # Returns all data values as raw bytestrings
+:raw=True: Returns all data values as bytestrings. This can be used
+           for debugging or for doing your own decoding.
 
 
 Table attributes
 ----------------
 
-The table object has a lot of attributes that can be useful for
-introspection. Some simple ones::
+:deleted: Deleted records. If records are in memory this is a list of
+          records, if not it is a ``RecordIterator`` object. In any
+          case you can iterate over it and call ``len()`` on it.
 
-    >>> table.name
-    'birthdays'
-    
-    >>> table.date
-    datetime.date(2012, 7, 11)
+:loaded: ``True`` if records are loaded into memory.
 
-    >>> table.encoding
-    'cp1252'
+:name: Name of the table. This is the lowercased stem of the filename,
+       for example the file ``/home/me/SHOES.dbf`` will have the name
+       ``shoes``.
 
-A list of field names can be used for producing CSV files, for example::
+:date: Date when the file was last written to. (``datetime.datetime``)
 
-    >>> table.field_names
-    [u'NAME', u'BIRTHDAY']
+:encoding: Character encoding used in the file. This is determined by
+           the ``lanugage_driver`` byte in the header or by the
+           ``encoding`` keyword argument.
 
-The file header and field headers are namedtuples::
+:field_names: A list of field names in the order they appear in the
+              file. This can for example be used to produce the header
+              line in a CSV file.
 
-    >>> table.header
-    DBFHeader(dbversion=48, year=12, month=7, day=11, numrecords=555,
-    headerlen=2408, recordlen=632, reserved1=0, incomplete_transaction=0,
-    encryption_flag=0, free_record_thread=0, reserved2=0, reserved3=0,
-    mdx_flag=3, language_driver=3, reserved4=0)
-    
-    >>> table.fields
-    [DBFField(name=u'NAME', type=u'C', address=1, length=25, decimal_count=0,
+:header: The file header. Example:
+
+         ``DBFHeader(dbversion=48, year=12, month=7, day=11, numrecords=555,
+         headerlen=2408, recordlen=632, reserved1=0, incomplete_transaction=0,
+         encryption_flag=0, free_record_thread=0, reserved2=0, reserved3=0,
+         mdx_flag=3, language_driver=3, reserved4=0)``
+
+:fields: A list of field headers from the file. Example:
+
+    ``[DBFField(name=u'NAME', type=u'C', address=1, length=25, decimal_count=0,
     reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
     reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
-    ... etc. ...]
+    ... etc. ...]``
 
 
 Methods
 --------
 
-::
+:load(): Load records into memory.
 
-    load()
-    unload()
+:unload(): Unload records from memory.
+
+:__len__(): Returns number of records in the file. If records are not
+            loaded this will scan the file to count records.
+
+:__iter__(): Iterate through records.
+
 
 
 dbf2sqlite
 -----------
 
-A tool is included in the ```examples``` directory to convert DBF into
+A tool is included in the ``examples`` directory to convert DBF into
 sqlite, for example::
 
     dbf2sqlite -o example.sqlite table1.dbf table2.dbf
@@ -176,6 +160,11 @@ sqlite, for example::
 This will create one table for each DBF file. You can also omit the
 ``-o example.sqlite`` option to have the SQL printed directly to
 stdout.
+
+If you get character encoding errors you can pass ``--encoding`` to
+override the encoding, for example::
+
+   dbf2sqlite --encoding=latin1 ...
 
 
 Contact
