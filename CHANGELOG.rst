@@ -1,4 +1,4 @@
-1.0.1 - 
+1.0.1 - 2014-07-26
 ------------------
 
 * bugfix: deleted records were ignored when using open().
