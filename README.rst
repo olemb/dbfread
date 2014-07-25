@@ -31,8 +31,8 @@ Both functions return a ``Table`` object. If records are loaded it
 also behaves like a list of records. (It's a subclass of ``list``.)
 See below for attributes and methods.
 
-Using `dataset <http://dataset.readthedocs.org/en/latest/>`_, DBF data
-can easily be moved into a more modern database::
+Using `dataset <http://dataset.readthedocs.org/en/latest/>`_ it's easy
+to move DBF data into a more modern database::
 
     import dataset
     import dbfread
