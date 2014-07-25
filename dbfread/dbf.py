@@ -261,10 +261,8 @@ class Table(list):
 
             items.append(FieldValue(name=field.name, value=value))
 
-        rec = self.recfactory(items)
+        return self.recfactory(items)
         
-        return rec
-
     def _skip_record(self, infile):
         # Seek ahead by size of record.
         infile.seek(sum(field.length for field in self.fields), 1)
