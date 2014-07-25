@@ -7,4 +7,9 @@ __license__ = 'MIT'
 __version__ = '0.1.0'
 
 from .dbf import Table
-read = Table
+
+def read(*args, **kwargs):
+    kwargs['load'] = True
+    return Table(*args, **kwargs)
+
+open = Table

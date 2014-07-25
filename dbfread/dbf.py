@@ -92,7 +92,7 @@ class Table(list):
                  lowernames=False,
                  parserclass=FieldParser,
                  recfactory=dict,
-                 load=True,
+                 load=False,
                  raw=False):
 
         self.encoding = encoding
