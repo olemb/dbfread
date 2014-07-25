@@ -146,16 +146,20 @@ class Table(list):
             self.unload()
  
     def load(self):
-        del self[:]
-        for record in self:
-            self.append(record)
-        self.deleted = list(RecordIterator(self, deleted=True))
-        self.loaded = True
+        if not self.loaded:
+            del self[:]
+            for record in RecordIterator(self):
+                self.append(record)
+
+            self.deleted = list(RecordIterator(self, deleted=True))
+
+            self.loaded = True
 
     def unload(self):
-        del self[:]
-        self.deleted = RecordIterator(self, deleted=True)
-        self.loaded = False
+        if self.loaded:
+            del self[:]
+            self.deleted = RecordIterator(self, deleted=True)
+            self.loaded = False
 
     def _read_headers(self, infile):
         #
