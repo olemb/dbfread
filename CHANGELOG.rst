@@ -1,5 +1,5 @@
-0.2.0 - 
--------------------
+1.0.0 - 2014-07-25
+------------------
 
 * records can now be streamed from the file, making it possible to
   read data files that are too large to fit in memory.
@@ -13,6 +13,6 @@
 
 
 0.1.0 - 2014-04-08
--------------------
+------------------
 
 Initial release.
