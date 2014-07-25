@@ -32,7 +32,7 @@ also behaves like a list of records. (It's a subclass of ``list``.)
 See below for attributes and methods.
 
 Using `dataset <http://dataset.readthedocs.org/en/latest/>`_ it's easy
-to move DBF data into a more modern database::
+to move your data into a more modern database::
 
     import dataset
     import dbfread
