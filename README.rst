@@ -171,6 +171,9 @@ Methods
 dbf2sqlite
 -----------
 
+(This does not require the `dataset
+<http://dataset.readthedocs.org/en/latest/>`_ package.)
+
 A tool is included in the ``examples`` directory to convert DBF into
 sqlite, for example::
 
