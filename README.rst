@@ -45,6 +45,9 @@ package it's easy to move your data into a more modern database::
 
     print(table.find_one(name='Alice'))
 
+(Pass ``recfactory=collections.OrderedDict`` to ``open()`` if you want
+to preserve field order.)
+
 
 Installing
 ----------
