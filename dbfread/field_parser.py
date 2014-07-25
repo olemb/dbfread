@@ -120,7 +120,7 @@ class FieldParser:
             return int(data)
         except ValueError:
             try:
-                # Account for , in numeric fields                                                        
+                # Account for , in numeric fields
                 fdata = data.replace(',', '.')
                 return float(fdata)
             except:

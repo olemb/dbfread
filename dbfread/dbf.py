@@ -195,7 +195,8 @@ class Table(list):
             self.fields.append(fh)
 
         if len(self.fields) < 1:
-            raise ValueError('dbf file must have at least one field: {!r}'.format(self.filename))
+            message = 'dbf file must have at least one field: {!r}'
+            raise ValueError(message.format(self.filename))
 
 
         # Check for memo file
@@ -214,13 +215,16 @@ class Table(list):
         for field in self.fields:
 
             if field.type == '0' and field.length != 1:
-                raise ValueError('Field of type 0 must have length 1 (was {})'.format(field.length))
+                message = 'Field of type 0 must have length 1 (was {})'
+                raise ValueError(message.format(field.length))
 
             elif field.type == 'I' and field.length != 4:
-                raise ValueError('Field type I must have length 4 (was {})'.format(field.length))
+                message = 'Field type I must have length 4 (was {})'
+                raise ValueError(message.format(field.length))
 
             elif field.type == 'L' and field.length != 1:
-                raise ValueError('Field type L must have length 1 (was {})'.format(field.length))
+                message = 'Field type L must have length 1 (was {})'
+                raise ValueError(message.format(field.length))
 
             elif not self._field_parser.field_type_supported(field.type):
                 # Todo: return as byte string?
@@ -306,5 +310,5 @@ class Table(list):
         if self.loaded:
             return list.__repr__(self)
         else:
-            return '<unloaded DBF table {!r}>'.format(self.filename)
+            return '<Unloaded DBF table {!r}>'.format(self.filename)
 
