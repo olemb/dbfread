@@ -167,6 +167,9 @@ class Table(list):
             self.loaded = True
 
     def unload(self):
+        # self.loaded is not checked here because this
+        # is called by __init__() where self.loaded=False.
+        # Also, unloading twice has no consequences.
         del self[:]
         self.deleted = RecordIterator(self, deleted=True)
         self.loaded = False
