@@ -14,15 +14,15 @@ Example
 To open a DBF file and iterate through records::
 
     >>> import dbfread
-    >>> for record in dbfread.open('birthdays.dbf'):
+    >>> for record in dbfread.open('people.dbf'):
     ...     print(record)
     {'NAME': 'Alice', 'BIRTHDAY': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDAY': datetime.date(1980, 11, 12)}
 
 If you have enough memory you can load the whole table into a list::
 
-    >>> table = dbfread.read('birthdays.dbf')
-    >>> table[1]
+    >>> people = dbfread.read('people.dbf')
+    >>> people[1]
     [{'NAME': 'Bob', 'BIRTHDAY': datetime.date(1980, 11, 12)}]
 
 Both functions return a ``Table`` object. If records are loaded it
