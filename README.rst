@@ -116,6 +116,26 @@ recfactory=OrderedDict
 ignorecase=False
   The default is to ignore case in filenames.
 
+parserclass=MyFieldParser
+  You can add new field types by subclassing the included field parser::
+
+      import dbfread.field_parser
+
+      class MyFieldParser(dbfread.field_parser.FieldParser):
+          """Parse X field (complex number)"""
+          def parseX(self, field, data):
+              real, imag = data.strip().split(',', 1)
+              return complex(float(real), float(imag))
+
+      for record in open('math.dbf', parserclass=MyFieldParser):
+          ...
+
+  (Please let me know if you have new field types that should be
+  supported out of the box.)
+
+write a subclass of dbfread.dbf.field_parser
+  This allows you to add new field types.
+
 raw=True
   Returns all data values as bytestrings. This can be used for
   debugging or for doing your own decoding.
@@ -142,14 +162,17 @@ name
 date
   Date when the file was last written to (as ``datetime.datetime``).
 
-encoding
-  Character encoding used in the file. This is determined by the
-  ``language_driver`` byte in the header or by the
-  ``encoding`` keyword argument.
-
 field_names
   A list of field names in the order they appear in the file. This can
   for example be used to produce the header line in a CSV file.
+
+encoding
+  Character encoding used in the file. This is determined by the
+  ``language_driver`` byte in the header, and can be overriden with the
+  ``encoding`` keyword argument.
+
+ignorecase, lowernames, parserclass, recfactory, raw
+  These correspond to the keyword arguments below.
 
 header
   The file header. Example::
