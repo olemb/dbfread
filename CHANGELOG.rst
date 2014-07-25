@@ -3,6 +3,9 @@
 
 * bugfix: deleted records were ignored when using open().
 
+* memo file is now opened and closed by each iterator instead of
+  staying open all the time.
+
 
 1.0.0 - 2014-07-25
 ------------------
