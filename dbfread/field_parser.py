@@ -55,7 +55,8 @@ class FieldParser:
             return datetime.date(year, month, day)
         except ValueError:
             if data.strip(b' ').strip(b'0') == b'':
-                # A record containing only spaces and/or zeros is a NULL value.
+                # A record containing only spaces and/or zeros is
+                # a NULL value.
                 return None
             else:
                 raise ValueError('invalid date {!r}'.format(data))
@@ -82,7 +83,8 @@ class FieldParser:
             return None
         else:
             # Todo: return something? (But that would be misleading!)
-            raise ValueError('Illegal value for logical field: {!r}'.format(char))
+            message = 'Illegal value for logical field: {!r}'
+            raise ValueError(message.format(char))
 
     def parseM(self, field, data):
         """Parse memo field (M)

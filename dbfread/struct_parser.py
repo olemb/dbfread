@@ -30,4 +30,3 @@ class StructParser:
         """
         data = prepend + file.read(self.struct.size - len(prepend))
         return self.unpack(data)
-

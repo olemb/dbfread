@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-                                                                  
 """
 Functions for dealing with mixed-case files from case-preserving file
 systems.
@@ -19,7 +18,7 @@ def ipat(pat):
 
     (dirname, pat) = os.path.split(pat)
 
-    # Convert '/path/to/test.fpt' => '/path/to/[Tt][Ee][Ss][Tt].[]'                                                                              
+    # Convert '/path/to/test.fpt' => '/path/to/[Tt][Ee][Ss][Tt].[]' 
     newpat = ''
     for c in pat:
         if c.isalpha:
@@ -55,7 +54,7 @@ def ifind(pat, ext=None):
 
     files = iglob(pat)
     if files:
-        return files[0]  # Return an arbitrary file                                                                                              
+        return files[0]  # Return an arbitrary file
     else:
         return None
 
@@ -65,6 +64,6 @@ if __name__ == '__main__':
     print(ifnmatch('miXEdCaSe', 'mixedcase'))  # => True
     print(ifnmatch('CAMELCASE/CamelCase', 'CamelCase/UPPERCASE'))  # => False
     print(ifind(('/etc/PASSwd')))  # => True or false depending on your OS
-    print(ipat(ipat('This will fail')))  # [[Tt][Tt]][[Hh][Hh]] ... etc. => 
+    print(ipat(ipat('This will fail')))  # [[Tt][Tt]][[Hh][Hh]] ... etc. =>
 
 __all__ = [ifnmatch, iglob, ifind]
