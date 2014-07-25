@@ -1,7 +1,6 @@
 # Table from dbf.py by Ethan Furman
 codepages = {
-    # 0x00: ('ascii', "plain ol' ascii"),
-    0x00: ('latin1', "plain ol' ascii"),  # This avoids encoding errors.
+    0x00: ('ascii', "plain ol' ascii"),
     0x01: ('cp437', 'U.S. MS-DOS'),
     0x02: ('cp850', 'International MS-DOS'),
     0x03: ('cp1252', 'Windows ANSI'),
