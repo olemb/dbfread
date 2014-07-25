@@ -97,6 +97,8 @@ Options for open() and read()
 :raw=True: Returns all data values as bytestrings. This can be used
            for debugging or for doing your own decoding.
 
+All list methods are also available when records are loaded.
+
 
 Table attributes
 ----------------
