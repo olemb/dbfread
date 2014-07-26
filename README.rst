@@ -116,6 +116,13 @@ recfactory=OrderedDict
 ignorecase=False
   The default is to ignore case in filenames.
 
+parserclass=MyFieldParser
+  You can add new field types by subclassing
+  ``dbfread.field_parser.FieldParser``. See ``examples/parserclass.py``.
+
+  (Please let me know if you have new field types that should be
+  supported out of the box.)
+
 raw=True
   Returns all data values as bytestrings. This can be used for
   debugging or for doing your own decoding.
@@ -151,7 +158,7 @@ encoding
   ``language_driver`` byte in the header, and can be overriden with the
   ``encoding`` keyword argument.
 
-ignorecase, lowernames, recfactory, raw
+ignorecase, lowernames, recfactory, parserclass, raw
   These correspond to the keyword arguments below.
 
 filename

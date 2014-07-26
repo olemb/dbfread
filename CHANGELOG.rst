@@ -1,4 +1,10 @@
-1.0.2 - 
+1.0.3 - 2014-07-26
+------------------
+
+* reinstated hastily removed parserclass option.
+
+
+1.0.2 - 2014-07-26
 ------------------
 
 * added example record_objects.py.
