@@ -97,7 +97,7 @@ class FieldParser:
         # to look up the entry in the memo file.)
         if len(data) == 4:
             # Todo: is this 4 bytes on every platform?
-            return struct.unpack('<I', data)[0]
+            return struct.unpack('<I', data)[0] or None
         else:
             # All spaces is a NULL value.
             if data.strip() == b'':

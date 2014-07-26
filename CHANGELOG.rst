@@ -4,6 +4,9 @@
 * bugfix: crashed when record list was not terminated with b'\x1a'.
   (Bug first apperad in 1.0.2 after a rewrite.)
 
+* bugfix: memo fields with no value were returned as ''. They are
+  now returned correctly as None.
+
 
 1.0.3 - 2014-07-26
 ------------------

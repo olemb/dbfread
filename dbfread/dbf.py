@@ -256,17 +256,14 @@ class Table(list):
                 # Decoding memo fields requires a little more
                 # trickery.
                 #
-                if field.type == 'M':
-                    if value is None:
-                        value = ''
+                if field.type == 'M' and value is not None:
+                    memo = memofile[value]
+                    if memo.type == 'memo':
+                        # Decode to unicode
+                        value = parse_string(memo.data, self.encoding)
                     else:
-                        memo = memofile[value]
-                        if memo.type == 'memo' and not self.raw:
-                            # Decode to unicode
-                            value = parse_string(memo.data, self.encoding)
-                        else:
-                            # Byte array
-                            value = memo.data
+                        # Byte string
+                        value = memo.data
 
             items.append(FieldValue(name=field.name, value=value))
 

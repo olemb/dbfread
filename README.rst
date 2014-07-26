@@ -85,7 +85,8 @@ D  date        datetime.date or None
 F  float       float or None
 I  integer     int or None
 L  logical     True, False or None
-M  memo        unicode string (memo) or byte string (picture or object)
+M  memo        unicode string (memo), byte string (picture or object)
+               or None
 N  numeric     int, float or None
 T  time        datetime.datetime
 =  ==========  ========================================================
