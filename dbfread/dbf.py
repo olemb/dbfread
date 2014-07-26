@@ -275,8 +275,7 @@ class Table(list):
         return self.recfactory(items)
         
     def _skip_record(self, infile):
-        # Seek ahead by size of record.
-        infile.seek(sum(field.length for field in self.fields), 1)
+        infile.seek(self.header.recordlen - 1, 1)
 
     def _iter_records(self, deleted=False, read=False):
         with open(self.filename, 'rb') as infile, \
