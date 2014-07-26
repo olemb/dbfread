@@ -15,9 +15,4 @@ def parse_string(string, encoding):
 
     Also strips trailing spaces and null bytes.
     """
-    string = _str(string, encoding)
-    
-    string = string.rstrip('\x00')
-    string = string.rstrip(' ')
-
-    return string
+    return _str(string, encoding).rstrip('\x00').rstrip(' ')

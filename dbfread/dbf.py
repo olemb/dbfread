@@ -251,9 +251,7 @@ class Table(list):
         items = []  # List of Field
         for field in self.fields:
             value = infile.read(field.length)
-            if self.raw:
-                value = value  # Just return the byte string
-            else:
+            if not self.raw:
                 value = self._field_parser.parse(field, value)
 
                 #
