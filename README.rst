@@ -1,5 +1,5 @@
 dbfread - Python library for reading data from DBF files
-=========================================================
+========================================================
 
 Requires Python 3.2 or 2.7.
 
@@ -126,7 +126,7 @@ raw=True
 All list methods are also available when records are loaded.
 
 
-Table attributes
+Table Attributes
 ----------------
 
 deleted
@@ -181,7 +181,7 @@ fields
 
 
 Methods
---------
+-------
 
 load()
    Load records into memory.
@@ -199,7 +199,7 @@ __iter__()
 
 
 dbf2sqlite
------------
+----------
 
 (This does not require the `dataset
 <http://dataset.readthedocs.org/en/latest/>`_ package.)
@@ -220,6 +220,6 @@ override the encoding, for example::
 
 
 Contact
---------
+-------
 
 Ole Martin Bjorndalen - ombdalen@gmail.com
