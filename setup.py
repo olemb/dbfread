@@ -18,7 +18,7 @@ if sys.argv[-1] == "test":
 setup(
     name='dbfread',
     version=dbfread.__version__,
-    description='read data from dbf files',
+    description='Read data from dbf files',
     long_description=open('README.rst', 'rt').read(),
     author=dbfread.__author__,
     author_email=dbfread.__email__,
