@@ -64,21 +64,16 @@ def expand_year(year):
 
 
 class RecordIterator(object):
-    def __init__(self, table, deleted=False):
-        self._deleted = deleted
+    def __init__(self, table, wanted_types):
+        self._wanted_types = wanted_types
         self._table = table
 
     def __iter__(self):
-        for record in self._table._iter_records(deleted=self._deleted,
-                                                read=True):
+        for _, record in self._table._iter_records(self._wanted_types):
             yield record
  
     def __len__(self):
-        num_records = 0
-        for _ in self._table._iter_records(deleted=self._deleted,
-                                           read=False):
-            num_records += 1
-        return num_records
+        return self._table._count_records(self._wanted_types)
 
 
 class FakeMemoFile(object):
@@ -159,10 +154,13 @@ class Table(list):
     def load(self):
         if not self.loaded:
             del self[:]
-            for record in RecordIterator(self):
-                self.append(record)
+            self.deleted = []
 
-            self.deleted = list(RecordIterator(self, deleted=True))
+            for record_type, record in self._iter_records(b' *'):
+                if record_type == b' ':
+                    self.append(record)
+                else:
+                    self.deleted.append(record)
 
             self.loaded = True
 
@@ -171,7 +169,7 @@ class Table(list):
         # is called by __init__() where self.loaded=False.
         # Also, unloading twice has no consequences.
         del self[:]
-        self.deleted = RecordIterator(self, deleted=True)
+        self.deleted = RecordIterator(self, b'*')
         self.loaded = False
 
     def _read_headers(self, infile):
@@ -277,7 +275,24 @@ class Table(list):
     def _skip_record(self, infile):
         infile.seek(self.header.recordlen - 1, 1)
 
-    def _iter_records(self, deleted=False, read=False):
+    def _count_records(self, wanted_types=b' '):
+        count = 0
+
+        with open(self.filename, 'rb') as infile:
+            infile.seek(self.header.headerlen, 0)
+            while True:
+                sep = infile.read(1)
+                if sep in wanted_types:
+                    count += 1
+                elif sep in b'\x1a':
+                    # End of records.
+                    # (Separator is b'' or b'\x1a'.)
+                    break
+                self._skip_record(infile)
+
+        return count
+
+    def _iter_records(self, wanted_types=b' '):
         with open(self.filename, 'rb') as infile, \
               self._get_memofile() as memofile:
             # Skip to first record.
@@ -285,23 +300,12 @@ class Table(list):
             while True:
                 sep = infile.read(1)
 
-                if sep == b'' or sep == b'\x1a':
-                    return  # End of file reached
-                elif sep not in b' *':
-                    raise IOError("invalid record separator '{}'".format(sep))
-
-                if deleted and sep == b'*':
-                    interesting_record = True
-                elif not deleted and sep == b' ':
-                    interesting_record = True
-                else:
-                    interesting_record = False
-
-                if interesting_record:
-                    if read:
-                        yield self._read_record(infile, memofile)
-                    else:
-                        yield self._skip_record(infile)
+                if sep in wanted_types:
+                    yield (sep, self._read_record(infile, memofile))
+                elif sep in b'\x1a':
+                    # End of records.
+                    # (Separator is b'' or b'\x1a'.)
+                    break                    
                 else:
                     self._skip_record(infile)
 
@@ -310,14 +314,14 @@ class Table(list):
             for record in list.__iter__(self):
                 yield record
         else:
-            for record in RecordIterator(self):
+            for _, record in self._iter_records():
                 yield record            
 
     def __len__(self):
         if self.loaded:
             return list.__len__(self)
         else:
-            return len(RecordIterator(self))
+            return self._count_records()
 
     def __repr__(self):
         if self.loaded:
