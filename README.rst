@@ -154,7 +154,7 @@ encoding
   ``language_driver`` byte in the header, and can be overriden with the
   ``encoding`` keyword argument.
 
-ignorecase, lowernames, parserclass, recfactory, raw
+ignorecase, lowernames, recfactory, raw
   These correspond to the keyword arguments below.
 
 filename
