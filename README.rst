@@ -116,9 +116,6 @@ recfactory=OrderedDict
 ignorecase=False
   The default is to ignore case in filenames.
 
-write a subclass of dbfread.dbf.field_parser
-  This allows you to add new field types.
-
 raw=True
   Returns all data values as bytestrings. This can be used for
   debugging or for doing your own decoding.
