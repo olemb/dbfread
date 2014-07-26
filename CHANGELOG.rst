@@ -1,7 +1,10 @@
 1.0.2 - 
 ------------------
 
-* add example record_objects.py.
+* added example record_objects.py.
+
+* removed parserclass option to allow for internal changes.  There is
+  currently no (documented) way to add custom field types.
 
 
 1.0.1 - 2014-07-26

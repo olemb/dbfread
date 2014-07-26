@@ -116,23 +116,6 @@ recfactory=OrderedDict
 ignorecase=False
   The default is to ignore case in filenames.
 
-parserclass=MyFieldParser
-  You can add new field types by subclassing the included field parser::
-
-      import dbfread.field_parser
-
-      class MyFieldParser(dbfread.field_parser.FieldParser):
-          """Parse X field (complex number)"""
-          def parseX(self, field, data):
-              real, imag = data.strip().split(',', 1)
-              return complex(float(real), float(imag))
-
-      for record in open('math.dbf', parserclass=MyFieldParser):
-          ...
-
-  (Please let me know if you have new field types that should be
-  supported out of the box.)
-
 write a subclass of dbfread.dbf.field_parser
   This allows you to add new field types.
 

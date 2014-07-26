@@ -98,7 +98,6 @@ class Table(list):
                  encoding=None,
                  ignorecase=True,
                  lowernames=False,
-                 parserclass=FieldParser,
                  recfactory=dict,
                  load=False,
                  raw=False):
@@ -106,7 +105,6 @@ class Table(list):
         self.encoding = encoding
         self.ignorecase = ignorecase
         self.lowernames = lowernames
-        self.parserclass = parserclass
         self.recfactory = recfactory
         self.raw = raw
 
@@ -132,7 +130,7 @@ class Table(list):
 
         with open(self.filename, mode='rb') as infile:
             self._read_headers(infile)
-            self._field_parser = self.parserclass(self.encoding)
+            self._field_parser = FieldParser(self.encoding)
 
             self._check_headers()
             
