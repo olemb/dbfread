@@ -1,3 +1,10 @@
+1.0.4 - 
+------------------
+
+* bugfix: crashed when record list was not terminated with b'\x1a'.
+  (Bug first apperad in 1.0.2 after a rewrite.)
+
+
 1.0.3 - 2014-07-26
 ------------------
 

@@ -282,12 +282,12 @@ class Table(list):
             infile.seek(self.header.headerlen, 0)
             while True:
                 sep = infile.read(1)
-                if sep in record_types:
-                    count += 1
-                elif sep in b'\x1a':
+                if sep in b'\x1a':
                     # End of records.
                     # (Separator is b'' or b'\x1a'.)
                     break
+                elif sep in record_types:
+                    count += 1
                 self._skip_record(infile)
 
         return count
@@ -300,12 +300,12 @@ class Table(list):
             while True:
                 sep = infile.read(1)
 
-                if sep in record_types:
-                    yield (sep, self._read_record(infile, memofile))
-                elif sep in b'\x1a':
+                if sep in b'\x1a':
                     # End of records.
                     # (Separator is b'' or b'\x1a'.)
-                    break                    
+                    break
+                elif sep in record_types:
+                    yield (sep, self._read_record(infile, memofile))
                 else:
                     self._skip_record(infile)
 
