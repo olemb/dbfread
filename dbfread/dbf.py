@@ -279,9 +279,8 @@ class Table(list):
             infile.seek(self.header.headerlen, 0)
             while True:
                 sep = infile.read(1)
-                if sep in b'\x1a':
+                if sep in (b'\x1a', b''):
                     # End of records.
-                    # (Separator is b'' or b'\x1a'.)
                     break
                 elif sep in record_types:
                     count += 1
@@ -297,9 +296,8 @@ class Table(list):
             while True:
                 sep = infile.read(1)
 
-                if sep in b'\x1a':
+                if sep in (b'\x1a', b''):
                     # End of records.
-                    # (Separator is b'' or b'\x1a'.)
                     break
                 elif sep in record_types:
                     yield (sep, self._read_record(infile, memofile))
