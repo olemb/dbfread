@@ -1,4 +1,4 @@
-1.0.4 - 
+1.0.4 - 2014-07-27
 ------------------
 
 * bugfix: crashed when record list was not terminated with b'\x1a'.
@@ -8,6 +8,8 @@
   now returned correctly as None.
 
 * bugfix: field header terminaters were compared with strings.
+
+* added example parserclass_debugstring.py.
 
 
 1.0.3 - 2014-07-26
