@@ -190,7 +190,7 @@ class Table(list):
         #
         while 1:
             sep = infile.read(1)
-            if sep in (b'\x0d', '\n', ''):
+            if sep in (b'\r', b'\n', b''):
                 # End of field headers
                 break
 

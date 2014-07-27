@@ -7,6 +7,8 @@
 * bugfix: memo fields with no value were returned as ''. They are
   now returned correctly as None.
 
+* bugfix: field header terminaters were compared with strings.
+
 
 1.0.3 - 2014-07-26
 ------------------
