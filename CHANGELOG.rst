@@ -1,3 +1,9 @@
+1.0.5 - 
+------------------
+
+* removed circular dependency between table and deleted record iterator.
+
+
 1.0.4 - 2014-07-27
 ------------------
 

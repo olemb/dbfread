@@ -115,7 +115,7 @@ class Table(list):
         self.name = os.path.splitext(self.name)[0]
         self.name = self.name.lower()
         
-        self.deleted = []
+        self._deleted = None
         self.loaded = False
 
         if ignorecase:
@@ -154,13 +154,13 @@ class Table(list):
     def load(self):
         if not self.loaded:
             del self[:]
-            self.deleted = []
+            self._deleted = []
 
             for record_type, record in self._iter_records(b' *'):
                 if record_type == b' ':
                     self.append(record)
                 else:
-                    self.deleted.append(record)
+                    self._deleted.append(record)
 
             self.loaded = True
 
@@ -169,8 +169,15 @@ class Table(list):
         # is called by __init__() where self.loaded=False.
         # Also, unloading twice has no consequences.
         del self[:]
-        self.deleted = RecordIterator(self, b'*')
+        self._deleted = None
         self.loaded = False
+
+    @property
+    def deleted(self):
+        if self._deleted is None:
+            return RecordIterator(self, b'*')
+        else:
+            return self._deleted
 
     def _read_headers(self, infile):
         #
@@ -323,4 +330,3 @@ class Table(list):
             return list.__repr__(self)
         else:
             return '<Unloaded DBF table {!r}>'.format(self.filename)
-
