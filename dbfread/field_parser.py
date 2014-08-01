@@ -92,7 +92,7 @@ class FieldParser:
         else:
             # Todo: return something? (But that would be misleading!)
             message = 'Illegal value for logical field: {!r}'
-            raise ValueError(message.format(char))
+            raise ValueError(message.format(data))
 
     def parseM(self, field, data):
         """Parse memo field (M)
@@ -130,7 +130,7 @@ class FieldParser:
                 return None
             else:
                 # Account for , in numeric fields
-                return float(data.replace(',', '.'))
+                return float(data.replace(b',', b'.'))
 
     def parseT(self, field, data):
         """Parse time field (T)

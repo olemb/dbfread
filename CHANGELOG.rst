@@ -11,6 +11,8 @@
 
 * numeric field (N) parser now handles invalid data correctly.
 
+* added more unit tests.
+
 
 1.0.4 - 2014-07-27
 ------------------
