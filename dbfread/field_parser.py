@@ -129,12 +129,8 @@ class FieldParser:
         try:
             return int(data)
         except ValueError:
-            try:
-                # Account for , in numeric fields
-                fdata = data.replace(',', '.')
-                return float(fdata)
-            except:
-                return None
+            # Account for , in numeric fields
+            return float(data.replace(',', '.'))
 
     def parseT(self, field, data):
         """Parse time field (T)

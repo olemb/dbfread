@@ -9,6 +9,8 @@
 
 * added example ``dbfinfo.py``.
 
+* numeric field (N) parser now handles invalid data correctly
+
 
 1.0.4 - 2014-07-27
 ------------------
