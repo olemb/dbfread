@@ -141,6 +141,8 @@ class Table(list):
                                       self.header.month,
                                       self.header.day)
             
+        self.dbversion = get_dbversion_string(self.header.dbversion)
+
         if load:
             self.load()
         else:
@@ -180,10 +182,6 @@ class Table(list):
         else:
             return self._deleted
 
-    @property
-    def dbversion(self):
-        return get_dbversion_string(self.header.dbversion)
- 
     def _read_headers(self, infile):
         #
         # Todo: more checks
