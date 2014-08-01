@@ -174,10 +174,10 @@ class Table(list):
 
     @property
     def deleted(self):
-        if self._deleted is None:
-            return RecordIterator(self, b'*')
-        else:
+        if self.loaded:
             return self._deleted
+        else:
+            return RecordIterator(self, b'*')
 
     def _read_headers(self, infile):
         #
