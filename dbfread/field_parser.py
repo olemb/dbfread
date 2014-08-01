@@ -15,6 +15,19 @@ class FieldParser:
         encoding is the character encoding to use when parsing
         strings."""
         self.encoding = encoding
+        self._lookup = self._create_lookup_table()
+
+    def _create_lookup_table(self):
+        """Create a lookup table for field types."""
+        lookup = {}
+
+        for name in dir(self):
+            if name.startswith('parse'):
+                field_type = name.lstrip('parse')
+                if field_type:
+                    lookup[field_type] = getattr(self, name)
+
+        return lookup
 
     def str(self, data):
         """Convert binary data to string and strip padding"""
@@ -26,16 +39,16 @@ class FieldParser:
         field_type should be a one-character string like 'C' and 'N'.
         Returns a boolen which is True if the field type is supported.
         """
-        name = 'parse' + field_type
-        return hasattr(self, name)
+        return field_type in self._lookup
 
     def parse(self, field, data):
         """Parse field and return value"""
-        name = 'parse' + field.type
-        if hasattr(self, name):
-            return getattr(self, name)(field, data)
-        else:
+        try:
+            func = self._lookup[field.type]
+        except KeyError:
             raise ValueError('Unknown field type: {!r}'.format(field.type))
+        else:
+            return func(field, data)
 
     def parse0(self, field, data):
         """Parse flags field and return int"""

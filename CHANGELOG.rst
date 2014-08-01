@@ -3,6 +3,8 @@
 
 * removed circular dependency between table and deleted record iterator.
 
+* improved performance of field parsing slightly.
+
 * added ``dbversion`` attribute.
 
 * added example ``dbfinfo.py``.
