@@ -12,6 +12,7 @@ from .common import parse_string
 from .ifiles import ifind
 from .fpt import FPT
 from .codepages import guess_encoding
+from .dbversions import get_dbversion_string
 
 DBFHeader = StructParser(
     'DBFHeader',
@@ -150,7 +151,7 @@ class Table(list):
             return FPT(self.memofilename)
         else:
             return _FAKE_MEMOFILE
- 
+
     def load(self):
         if not self.loaded:
             del self[:]
@@ -179,6 +180,10 @@ class Table(list):
         else:
             return self._deleted
 
+    @property
+    def dbversion(self):
+        return get_dbversion_string(self.header.dbversion)
+ 
     def _read_headers(self, infile):
         #
         # Todo: more checks

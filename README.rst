@@ -142,6 +142,10 @@ deleted
 loaded
   ``True`` if records are loaded into memory.
 
+dbversion
+  The name of the program that created the database or ``Unknown``.
+  This is based on ``header.dbversion`` byte.
+
 name
   Name of the table. This is the lowercased stem of the filename, for
   example the file ``/home/me/SHOES.dbf`` will have the name
