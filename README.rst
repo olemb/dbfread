@@ -1,11 +1,12 @@
 dbfread - Python library for reading data from DBF files
 ========================================================
 
-Requires Python 3.2 or 2.7.
+DBF is a file format used by databases such dBase, Visual FoxPro,
+FoxBase+ and Clipper. dbfread is designed to make it easy to get data
+out of these files.
 
-License: MIT
-
-Latest version of the source code: http://github.com/olemb/dbfread/
+If you also need to write and create DBF files check out `dbfpy
+<https://pypi.python.org/pypi/dbfpy/>`_
 
 
 Example
@@ -36,15 +37,6 @@ to move your data into a more modern database. See
 ``examples/dbf2sqlite``.
 
 
-Installing
-----------
-
-::
-
-  pip install dbfread
-
-    
-
 Status
 ------
 
@@ -58,6 +50,16 @@ files will be supported if I find any examples to test with.
 I intend for dbfread to be able to read any DBF file. If you have a
 file it can't read, or you find a bug, I'd love to hear from you.
 
+
+Requirements and Installing
+---------------------------
+
+dbfread is a pure Python module written for Python 3.2 and 2.7.
+
+::
+
+  pip install dbfread
+    
 
 Supported Field Types
 ---------------------
@@ -213,6 +215,21 @@ If you get character encoding errors you can pass ``--encoding`` to
 override the encoding, for example::
 
    dbf2sqlite --encoding=latin1 ...
+
+
+License
+-------
+
+dbfread is released under the terms of the `MIT license
+<http://en.wikipedia.org/wiki/MIT_License>`_.
+
+
+Source code
+------------
+
+Latest stable release: http://github.com/olemb/dbfread/
+
+Development version: http://github.com/olemb/dbfread/tree/develop/
 
 
 Contact
