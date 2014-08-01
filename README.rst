@@ -103,7 +103,7 @@ recfactory=OrderedDict
   function should take a list of ``(name, value)`` tuples.
 
 ignorecase=False
-  The default is to ignore case in filenames.
+  The default is to ignore case in file names.
 
 parserclass=MyFieldParser
   You can add new field types by subclassing
@@ -113,7 +113,7 @@ parserclass=MyFieldParser
   supported out of the box.)
 
 raw=True
-  Returns all data values as bytestrings. This can be used for
+  Returns all data values as byte strings. This can be used for
   debugging or for doing your own decoding.
 
 All list methods are also available when records are loaded.
