@@ -1,7 +1,7 @@
 1.0.5 - 
 ------------------
 
-* doubled performance of record parsing.
+* more than doubled performance of record parsing.
 
 * removed circular dependency between table and deleted record iterator.
 
@@ -9,7 +9,7 @@
 
 * added example ``dbfinfo.py``.
 
-* numeric field (N) parser now handles invalid data correctly
+* numeric field (N) parser now handles invalid data correctly.
 
 
 1.0.4 - 2014-07-27
