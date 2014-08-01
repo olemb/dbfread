@@ -5,6 +5,8 @@
 
 * added ``dbversion`` attribute.
 
+* added example ``dbfinfo.py``.
+
 
 1.0.4 - 2014-07-27
 ------------------
