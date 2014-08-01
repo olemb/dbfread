@@ -224,6 +224,15 @@ override the encoding, for example::
    dbf2sqlite --encoding=latin1 ...
 
 
+Caveats
+-------
+
+* some files with ``header.dbversion == 0`` do not in fact contain
+  7-bit ASCII encoded strings, resulting in a decoding error.
+
+* there is currently no way to ignore missing memo files.
+
+
 License
 -------
 
