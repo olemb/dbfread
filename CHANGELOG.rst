@@ -1,4 +1,4 @@
-1.0.5 - 
+1.0.5 - 2014-08-01
 ------------------
 
 * more than doubled performance of record parsing.
