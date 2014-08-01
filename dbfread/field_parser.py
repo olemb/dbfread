@@ -123,14 +123,14 @@ class FieldParser:
 
         Returns int, float or None if the field is empty.
         """
-        if not data.strip():
-            return None
-
         try:
             return int(data)
         except ValueError:
-            # Account for , in numeric fields
-            return float(data.replace(',', '.'))
+            if not data.strip():
+                return None
+            else:
+                # Account for , in numeric fields
+                return float(data.replace(',', '.'))
 
     def parseT(self, field, data):
         """Parse time field (T)
