@@ -52,8 +52,6 @@ DBFField = StructParser(
      'index_field_flag',
      ])
 
-FieldValue = collections.namedtuple('Field', 'name value')
-
 
 def expand_year(year):
     """Convert 2-digit year to 4-digit year."""
@@ -250,10 +248,17 @@ class Table(list):
 
     def _read_record(self, infile, memofile):
         items = []  # List of Field
-        for field in self.fields:
-            value = infile.read(field.length)
-            if not self.raw:
-                value = self._field_parser.parse(field, value)
+
+        # Shortcuts for speed.
+        parse = self._field_parser.parse
+        append = items.append
+        read = infile.read
+        
+        if self.raw:
+            items = [(field.name, read(field.length)) for field in self.fields]
+        else:
+            for field in self.fields:
+                value = parse(field, read(field.length))
 
                 #
                 # Decoding memo fields requires a little more
@@ -268,7 +273,7 @@ class Table(list):
                         # Byte string
                         value = memo.data
 
-            items.append(FieldValue(name=field.name, value=value))
+            append((field.name, value))
 
         return self.recfactory(items)
         
