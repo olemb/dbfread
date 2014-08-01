@@ -61,13 +61,12 @@ Installing
 Status
 ------
 
-The library has been used to read FoxPro files with a wide range of
-data types, but is not widely tested with other DBF formats. It should
-still work for most files.
+The library has been used to read Visual FoxPro files with a wide
+range of data types, but is not widely tested with other DBF
+formats. It should still work for most files.
 
-Foxpro memo files (``.FPT``) are fully supported. The alternative
-``.DBT`` memo files will be supported if I find any examples to test
-with.
+``.FPT`` memo files are fully supported. The alternative ``.DBT`` memo
+files will be supported if I find any examples to test with.
 
 I intend for dbfread to be able to read any DBF file. If you have a
 file it can't read, or you find a bug, I'd love to hear from you.
