@@ -142,8 +142,9 @@ loaded
   ``True`` if records are loaded into memory.
 
 dbversion
-  The name of the program that created the database or ``Unknown``.
-  This is based on ``header.dbversion`` byte.
+  The name of the program that created the database (based on the
+  ``dbversion`` byte in the header). Example: ``"FoxBASE+/Dbase III
+  plus, no memory"``.
 
 name
   Name of the table. This is the lowercased stem of the filename, for
