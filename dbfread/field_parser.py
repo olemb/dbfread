@@ -55,18 +55,14 @@ class FieldParser:
 
     def parseC(self, field, data):
         """Parse char field and return unicode string"""
-        return to_string(data.rstrip('\0 '), self.encoding)
+        return to_string(data.rstrip(b'\0 '), self.encoding)
 
     def parseD(self, field, data):
         """Parse date field and return datetime.date or None"""
         try:
-            year = int(data[:4])
-            month = int(data[4:6])
-            day = int(data[6:8])
-            
-            return datetime.date(year, month, day)
+            return datetime.date(int(data[:4]), int(data[4:6]), int(data[6:8]))
         except ValueError:
-            if data.strip(b' ').strip(b'0') == b'':
+            if data.strip(b' 0') == b'':
                 # A record containing only spaces and/or zeros is
                 # a NULL value.
                 return None
