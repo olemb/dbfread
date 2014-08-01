@@ -20,33 +20,20 @@ Example
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-If you have enough memory you can load the whole table into a list::
+Records are read off disk one by one. If you have enough memory you
+can load them all at once. The table will then behave like a list::
 
-    >>> import dbfread
-    >>> people = dbfread.read('people.dbf')
-    >>> people[1]
+    >>> table = dbfread.read('people.dbf')
+    >>> table[1]
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-Both functions return a ``Table`` object. If records are loaded it
-also behaves like a list of records. (It's a subclass of ``list``.)
-See below for attributes and methods.
+Both functions return a ``Table`` object. See below for attributes and
+methods.
 
-Using the `dataset <http://dataset.readthedocs.org/en/latest/>`_
-package it's easy to move your data into a more modern database::
-
-    import dataset
-    import dbfread
-
-    db = dataset.connect('sqlite:///:memory:')
-
-    table = db['people']
-    for record in dbfread.open('people.dbf', lowernames=True):
-        table.insert(record)
-
-    print(table.find_one(name='Alice'))
-
-(Pass ``recfactory=collections.OrderedDict`` to ``open()`` if you want
-to preserve field order.)
+Using `dataset <http://dataset.readthedocs.org/en/latest/>`_ it's easy
+to move your data into a more modern database. See
+``examples/using_dataset.py``. Alternatively you can use the included
+``examples/dbf2sqlite``.
 
 
 Installing
