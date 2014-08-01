@@ -83,36 +83,43 @@ T  time        datetime.datetime
 Options for open() and read()
 -----------------------------
 
-load=True
-  Load all records into memory. The ``Table`` object will behave as a
-  list of records, and the ``deleted`` attribute will be a list of
-  deleted records. This defaults to ``False`` for ``open()`` and
-  ``True`` for ``read()``.
+load=False
+  By default records and deleted records will be read off disk one by
+  one.  If you pass ``True`` all records will be loaded into memory
+  and the ``Table`` object will behave like a list. Deleted records
+  will be available as a list in the ``deleted`` attribute.
 
-encoding='latin1'
-  By default, dbfread will try to guess the character encoding from
+  This defaults to ``True`` for ``read()``.
+ 
+encoding=None
+  By default dbfread will try to guess the character encoding from
   the language_driver byte. If this fails it uses "latin1". You can
   override this with the ``encoding`` argument.
 
-lowernames=True
-  Field names in DBF files are usually in
-  uppercase. This converts them to lowercase.
+lowernames=False
+  Field names are typically uppercase. If you pass ``True`` all field
+  names will be converted to lowercase.
 
-recfactory=OrderedDict
-  Takes any function that will be used to produce new records. The
-  function should take a list of ``(name, value)`` tuples.
+recfactory=dict
+  Takes a function that will be used to produce new records. The
+  function should take a list of ``(name, value)`` tuples. For example
+  if you want to preserve the order of fields you can pass
+  ``recfactory=collections.OrderedDict``.
 
-ignorecase=False
-  The default is to ignore case in file names.
+ignorecase=True
+  Windows uses a case preserving file system which means
+  ``people.dbf`` and ``PEOPLE.DBF`` are the same file. This causes
+  problems in for example Linux where case is significant.  To get
+  around this dbfread ignores case in file names. You can turn this
+  off by passing ``ignorecase=False``.
 
-parserclass=MyFieldParser
-  You can add new field types by subclassing
-  ``dbfread.field_parser.FieldParser``. See ``examples/parserclass.py``.
+parserclass=FieldParser
+  The parser to use when parsing field values. You can use this to add
+  new field types or do custom parsing by subclassing
+  ``dbfread.field_parser.FieldParser``. (See
+  ``examples/parserclass.py`` and ``examples/parserclass_debugstring.py``.
 
-  (Please let me know if you have new field types that should be
-  supported out of the box.)
-
-raw=True
+raw=False
   Returns all data values as byte strings. This can be used for
   debugging or for doing your own decoding.
 
