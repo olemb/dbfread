@@ -309,9 +309,10 @@ class Table(list):
             # Shortcuts for speed.
             read_record = self._read_record
             skip_record = self._skip_record
+            read = infile.read
 
             while True:
-                sep = infile.read(1)
+                sep = read(1)
 
                 if sep == record_type:
                     yield read_record(infile, memofile)
