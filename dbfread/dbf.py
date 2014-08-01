@@ -307,16 +307,20 @@ class Table(list):
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
 
+            # Shortcuts for speed.
+            read_record = self._read_record
+            skip_record = self._skip_record
+
             while True:
                 sep = infile.read(1)
 
                 if sep == record_type:
-                    yield self._read_record(infile, memofile)
+                    yield read_record(infile, memofile)
                 elif sep in (b'\x1a', b''):
                     # End of records.
                     break
                 else:
-                    self._skip_record(infile)
+                    skip_record(infile)
 
     def __iter__(self):
         if self.loaded:
@@ -324,7 +328,7 @@ class Table(list):
                 yield record
         else:
             for record in self._iter_records():
-                yield record            
+                yield record      
 
     def __len__(self):
         if self.loaded:

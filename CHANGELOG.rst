@@ -1,9 +1,9 @@
 1.0.5 - 
 ------------------
 
-* removed circular dependency between table and deleted record iterator.
+* doubled performance of record parsing.
 
-* improved performance of field parsing slightly.
+* removed circular dependency between table and deleted record iterator.
 
 * added ``dbversion`` attribute.
 
