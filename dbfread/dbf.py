@@ -65,16 +65,16 @@ def expand_year(year):
 
 
 class RecordIterator(object):
-    def __init__(self, table, record_types):
-        self._record_types = record_types
+    def __init__(self, table, record_type):
+        self._record_type = record_type
         self._table = table
 
     def __iter__(self):
-        for _, record in self._table._iter_records(self._record_types):
+        for record in self._table._iter_records(self._record_type):
             yield record
  
     def __len__(self):
-        return self._table._count_records(self._record_types)
+        return self._table._count_records(self._record_type)
 
 
 class FakeMemoFile(object):
@@ -156,15 +156,8 @@ class Table(list):
 
     def load(self):
         if not self.loaded:
-            del self[:]
-            self._deleted = []
-
-            for record_type, record in self._iter_records(b' *'):
-                if record_type == b' ':
-                    self.append(record)
-                else:
-                    self._deleted.append(record)
-
+            self[:] = self._iter_records(b' ')
+            self._deleted = list(self._iter_records(b'*'))
             self.loaded = True
 
     def unload(self):
@@ -282,35 +275,38 @@ class Table(list):
     def _skip_record(self, infile):
         infile.seek(self.header.recordlen - 1, 1)
 
-    def _count_records(self, record_types=b' '):
+    def _count_records(self, record_type=b' '):
         count = 0
 
         with open(self.filename, 'rb') as infile:
             infile.seek(self.header.headerlen, 0)
             while True:
                 sep = infile.read(1)
-                if sep in (b'\x1a', b''):
+                if sep == record_type:
+                    count += 1
+                    self._skip_record(infile)
+                elif sep in (b'\x1a', b''):
                     # End of records.
                     break
-                elif sep in record_types:
-                    count += 1
-                self._skip_record(infile)
+                else:
+                    self._skip_record(infile)
 
         return count
 
-    def _iter_records(self, record_types=b' '):
+    def _iter_records(self, record_type=b' '):
         with open(self.filename, 'rb') as infile, \
               self._get_memofile() as memofile:
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
+
             while True:
                 sep = infile.read(1)
 
-                if sep in (b'\x1a', b''):
+                if sep == record_type:
+                    yield self._read_record(infile, memofile)
+                elif sep in (b'\x1a', b''):
                     # End of records.
                     break
-                elif sep in record_types:
-                    yield (sep, self._read_record(infile, memofile))
                 else:
                     self._skip_record(infile)
 
@@ -319,7 +315,7 @@ class Table(list):
             for record in list.__iter__(self):
                 yield record
         else:
-            for _, record in self._iter_records():
+            for record in self._iter_records():
                 yield record            
 
     def __len__(self):
