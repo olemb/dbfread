@@ -1,11 +1,10 @@
 """
 Parser for DBF fields.
 """
-
-import struct
 import datetime
+import struct
 
-from .common import parse_string
+from .common import to_string, parse_string
 
 
 class FieldParser:
@@ -30,7 +29,7 @@ class FieldParser:
         return lookup
 
     def str(self, data):
-        """Convert binary data to string and strip padding"""
+        """Convert binary data to string and strip padding."""
         return parse_string(data, self.encoding)
     
     def field_type_supported(self, field_type):
@@ -56,7 +55,7 @@ class FieldParser:
 
     def parseC(self, field, data):
         """Parse char field and return unicode string"""
-        return self.str(data)
+        return to_string(data.rstrip('\0 '), self.encoding)
 
     def parseD(self, field, data):
         """Parse date field and return datetime.date or None"""
