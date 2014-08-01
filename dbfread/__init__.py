@@ -10,7 +10,10 @@ from .dbf import Table
 
 open = Table
 
-def read(*args, **kwargs):
-    if not 'load' in kwargs:
-        kwargs['load'] = True
-    return open(*args, **kwargs)
+def read(filename, load=True, **kwargs):
+    """Read a DBF file and return a list of records.
+
+    Returns a Table object which is also a list of records.
+    This is an alias for open(filename, load=True).
+    """
+    return open(filename, load=load, **kwargs)
