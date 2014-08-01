@@ -111,8 +111,7 @@ class Table(list):
 
         # Name part before .dbf is the table name
         self.name = os.path.basename(filename)
-        self.name = os.path.splitext(self.name)[0]
-        self.name = self.name.lower()
+        self.name = os.path.splitext(self.name)[0].lower()
         
         self._deleted = None
         self.loaded = False
@@ -123,6 +122,7 @@ class Table(list):
                 raise IOError('No such file: {!r}'.format(filename))
         else:
             self.filename = filename
+
         # Filled in by self._read_headers()
         self.memofilename = None
         self.header = None
@@ -196,7 +196,6 @@ class Table(list):
                 break
 
             fh = DBFField.read(infile, prepend=sep)
-            # We need to fix the name and type
 
             fieldname = parse_string(fh.name, self.encoding)
             if self.lowernames:
