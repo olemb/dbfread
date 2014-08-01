@@ -273,13 +273,16 @@ class Table(list):
         return self.recfactory(items)
         
     def _skip_record(self, infile):
+        # -1 for the record separator which was already read.
         infile.seek(self.header.recordlen - 1, 1)
 
     def _count_records(self, record_type=b' '):
         count = 0
 
         with open(self.filename, 'rb') as infile:
+            # Skip to first record.
             infile.seek(self.header.headerlen, 0)
+
             while True:
                 sep = infile.read(1)
                 if sep == record_type:
@@ -295,7 +298,7 @@ class Table(list):
 
     def _iter_records(self, record_type=b' '):
         with open(self.filename, 'rb') as infile, \
-              self._get_memofile() as memofile:
+             self._get_memofile() as memofile:
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
 
