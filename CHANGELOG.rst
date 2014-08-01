@@ -3,6 +3,8 @@
 
 * removed circular dependency between table and deleted record iterator.
 
+* added ``dbversion`` attribute.
+
 
 1.0.4 - 2014-07-27
 ------------------
