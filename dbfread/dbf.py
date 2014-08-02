@@ -68,8 +68,7 @@ class RecordIterator(object):
         self._table = table
 
     def __iter__(self):
-        for record in self._table._iter_records(self._record_type):
-            yield record
+        return self._table._iter_records(self._record_type)
  
     def __len__(self):
         return self._table._count_records(self._record_type)
@@ -324,11 +323,9 @@ class Table(list):
 
     def __iter__(self):
         if self.loaded:
-            for record in list.__iter__(self):
-                yield record
+            return list.__iter__(self)
         else:
-            for record in self._iter_records():
-                yield record      
+            return self._iter_records()
 
     def __len__(self):
         if self.loaded:

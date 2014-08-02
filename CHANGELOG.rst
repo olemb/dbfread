@@ -1,3 +1,9 @@
+1.0.6 - 
+------------------
+
+* improved performance of record reading a bit.
+
+
 1.0.5 - 2014-08-01
 ------------------
 
