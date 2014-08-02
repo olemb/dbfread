@@ -39,6 +39,28 @@ def make_field_parser(field_type):
 
     return parse
 
+class TestReadAndLength(TestCase):
+    def test_all(self):
+        table = dbfread.open('examples/people.dbf')
+
+        # This relies on people.dbf having this exact content.
+        records = [{u'BIRTHDATE': datetime.date(1987, 3, 1)},
+                   {u'BIRTHDATE': datetime.date(1980, 11, 12)}]
+
+        deleted_records = [{u'BIRTHDATE': datetime.date(1979, 12, 22)}]
+
+        assert len(table) == 2
+        assert len(table.deleted) == 1
+        assert list(table) == records
+        assert list(table.deleted) == deleted_records
+
+        table.load()
+        loaded_table = table
+        assert len(loaded_table) == 2
+        assert len(loaded_table.deleted) == 1
+        assert list(loaded_table) == records
+        assert list(loaded_table.deleted) == deleted_records
+
 class TestFieldParsers(TestCase):
     def test_0(self):
         parse = make_field_parser('0')
