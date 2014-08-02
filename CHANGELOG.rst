@@ -1,4 +1,4 @@
-1.0.6 - 
+1.0.6 - 2014-08-02
 ------------------
 
 * critical bugfix: only the last field was read. (Introduced in 1.0.5,
