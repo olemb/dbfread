@@ -187,7 +187,7 @@ class Table(object):
             try:
                 self.encoding = guess_encoding(self.header.language_driver)
             except LookupError as err:
-                self.encoding = 'latin1'
+                self.encoding = 'ascii'
 
         #
         # Read field headers

@@ -8,9 +8,9 @@
   backwards compatability, and returns an ``OldStyleTable`` object
   with the old behaviour.
 
-* Character encoding will now be "latin1" when
-  ``language_driver == 0``. This prevents decoding errors when
-  the character set in not actually ASCII (which is common).
+* default character encoding is now ``"ascii"``. This is a saner default
+  than the previously used ``"latin1"``, which would decode but could give
+  the wrong characters.
 
 
 1.0.6 - 2014-08-02

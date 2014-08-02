@@ -94,13 +94,11 @@ load=False
   will be available as a list in the ``deleted`` attribute.
  
 encoding=None
-  Can be used to override the detected character encoding.
+  Specify character encoding to use.
 
   By default dbfread will try to guess character encoding from the
   ``language_driver`` byte. If this fails it falls back on
-  ``"latin1"``. (This is a bit Eurocentric, but it's hard to find a
-  neutral 8-bit encoding that's also compatible with ASCII, so it's
-  better than nothing.)
+  ``"ascii"``.
 
 lowernames=False
   Field names are typically uppercase. If you pass ``True`` all field
