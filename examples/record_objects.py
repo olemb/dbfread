@@ -8,5 +8,6 @@ class Record(object):
         for name, value in items:
             setattr(self, name, value)
 
-for record in dbfread.open('people.dbf', recfactory=Record, lowernames=True):
+for record in dbfread.open('files/people.dbf',
+                           recfactory=Record, lowernames=True):
     print(record.name)

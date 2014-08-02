@@ -9,5 +9,5 @@ class MyFieldParser(FieldParser):
         # Return strings reversed.
         return self.str(data)[::-1]
 
-for record in dbfread.open('people.dbf', parserclass=MyFieldParser):
+for record in dbfread.open('files/people.dbf', parserclass=MyFieldParser):
     print(record['NAME'])

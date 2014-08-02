@@ -13,5 +13,5 @@ class DebugFieldParser(FieldParser):
     def parse(self, field, value):
         return '<type={} value={!r}>'.format(field.type, value)
 
-for record in dbfread.open('people.dbf', parserclass=DebugFieldParser):
+for record in dbfread.open('files/people.dbf', parserclass=DebugFieldParser):
     print(record)

@@ -41,7 +41,7 @@ def make_field_parser(field_type):
 
 class TestReadAndLength(TestCase):
     def test_all(self):
-        table = dbfread.open('examples/people.dbf')
+        table = dbfread.open('examples/files/people.dbf')
 
         # This relies on people.dbf having this exact content.
         records = [{u'NAME': u'Alice',
