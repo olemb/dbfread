@@ -92,9 +92,13 @@ load=False
   This defaults to ``True`` for ``read()``.
  
 encoding=None
-  By default dbfread will try to guess the character encoding from
-  the language_driver byte. If this fails it uses "latin1". You can
-  override this with the ``encoding`` argument.
+  Can be used to override the detected character encoding.
+
+  By default dbfread will try to guess character encoding from the
+  ``language_driver`` byte. If this fails it falls back on
+  ``"latin1"``. (This is a bit Eurocentric, but it's hard to find a
+  neutral 8-bit encoding that's compatible with ASCII, so this is
+  better than nothing.)
 
 lowernames=False
   Field names are typically uppercase. If you pass ``True`` all field
@@ -231,14 +235,11 @@ To run tests before each commit::
 
     ln -s ../../run_tests.py .git/hooks/test
 
-This will cancel the commit if tests fail.
+With this hook the code will only be commited if all tests pass.
 
 
 Caveats
 -------
-
-* some files with ``header.dbversion == 0`` do not in fact contain
-  7-bit ASCII encoded strings, resulting in a decoding error.
 
 * there is currently no way to ignore missing memo files.
 

@@ -1,6 +1,10 @@
 # Table from dbf.py by Ethan Furman
 codepages = {
-    0x00: ('ascii', "plain ol' ascii"),
+    # This value is used for a variety of character sets,
+    # so it's best to use the fallback value. If the file
+    # uses ASCII it will work anyway.
+    # 0x00: ('ascii', "plain ol' ascii"),
+
     0x01: ('cp437', 'U.S. MS-DOS'),
     0x02: ('cp850', 'International MS-DOS'),
     0x03: ('cp1252', 'Windows ANSI'),
