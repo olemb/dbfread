@@ -329,7 +329,10 @@ class Table(object):
                     skip_record(infile)
 
     def __iter__(self):
-        return iter(self.records)
+        if self.loaded:
+            return list.__iter__(self._records)
+        else:
+            return self._iter_records()
 
     def __len__(self):
         return len(self.records)
