@@ -271,7 +271,7 @@ class Table(list):
                         # Byte string
                         value = memo.data
 
-            append((field.name, value))
+                append((field.name, value))
 
         return self.recfactory(items)
         

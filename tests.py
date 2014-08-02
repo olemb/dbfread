@@ -44,10 +44,12 @@ class TestReadAndLength(TestCase):
         table = dbfread.open('examples/people.dbf')
 
         # This relies on people.dbf having this exact content.
-        records = [{u'BIRTHDATE': datetime.date(1987, 3, 1)},
-                   {u'BIRTHDATE': datetime.date(1980, 11, 12)}]
-
-        deleted_records = [{u'BIRTHDATE': datetime.date(1979, 12, 22)}]
+        records = [{u'NAME': u'Alice',
+                    u'BIRTHDATE': datetime.date(1987, 3, 1)},
+                   {u'NAME': u'Bob',
+                    u'BIRTHDATE': datetime.date(1980, 11, 12)}]
+        deleted_records = [{u'NAME': u'Deleted Guy',
+                            u'BIRTHDATE': datetime.date(1979, 12, 22)}]
 
         assert len(table) == 2
         assert len(table.deleted) == 1

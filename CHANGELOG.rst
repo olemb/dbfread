@@ -1,11 +1,16 @@
 1.0.6 - 
 ------------------
 
+* critical bugfix: only the last field was read. (Introduced in 1.0.5,
+  making that version unusable.)
+
 * improved performance of record reading a bit.
 
 
 1.0.5 - 2014-08-01
 ------------------
+
+This version is broken.
 
 * more than doubled performance of record parsing.
 
