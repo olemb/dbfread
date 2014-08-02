@@ -25,9 +25,9 @@ BlockHeader = StructParser(
 
 # Record type
 record_types = {
-    0x0 : 'picture',
-    0x1 : 'memo',
-    0x2 : 'object',
+    0x0: 'picture',
+    0x1: 'memo',
+    0x2: 'object',
 }
 
 Record = namedtuple('Record', ['type', 'data'])
@@ -61,8 +61,8 @@ class FPT:
         # Todo: Handle n > end of file and n < 0 and n inside header
         # Todo: Handle wrong sized memo
 
-        if index == 0:
-            return Record(type='memo', data=b'')
+        if index <= 0:
+            raise IndexError('memo file got index {}'.format(index))
 
         self.file.seek(index * self.header.blocksize)
         block_header = BlockHeader.read(self.file)
