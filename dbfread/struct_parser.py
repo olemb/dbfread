@@ -21,12 +21,6 @@ class StructParser:
         t = self.tuple(**dict(items))
         return t
 
-    def read(self, file, prepend=b''):
-        """Read binary string from a file-like object (implenting read()).
-
-        The prepend option can be used to read byte or two from the file
-        to decide whether to call read(). It will be prepended to the
-        data before it is parsed.
-        """
-        data = prepend + file.read(self.struct.size - len(prepend))
-        return self.unpack(data)
+    def read(self, file):
+        """Read struct from a file-like object (implenting read())."""
+        return self.unpack(file.read(self.struct.size))

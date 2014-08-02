@@ -194,7 +194,10 @@ class Table(list):
                 # End of field headers
                 break
 
-            fh = DBFField.read(infile, prepend=sep)
+            # sep is the first byte of the field name.
+            # Go back one byte and read field header.
+            infile.seek(-1, 1)
+            fh = DBFField.read(infile)
 
             fieldname = parse_string(fh.name, self.encoding)
             if self.lowernames:
