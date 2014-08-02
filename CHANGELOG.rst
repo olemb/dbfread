@@ -1,8 +1,14 @@
+1.0.7 - 
+------------------
+
+
+
+
 1.0.6 - 2014-08-02
 ------------------
 
-* critical bugfix: only the last field was read. (Introduced in 1.0.5,
-  making that version unusable.)
+* critical bugfix: each record contained only the last
+  field. (Introduced in 1.0.5, making that version unusable.)
 
 * improved performance of record reading a bit.
 
