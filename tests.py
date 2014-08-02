@@ -69,11 +69,6 @@ class TestReadAndLength(TestCase):
         # This should not return old style table which was a subclass of list.
         assert not isinstance(table, list)
 
-class TestDeprecatedReadFunction(TestCase):
-    def test_read(self):
-        table = dbfread.read('testcases/memotest.dbf')
-        assert isinstance(table, list)
-
 class TestFieldParsers(TestCase):
     def test_0(self):
         parse = make_field_parser('0')
