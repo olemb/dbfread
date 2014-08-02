@@ -15,21 +15,24 @@ Example
 ::
 
     >>> import dbfread
-    >>> for record in dbfread.open('people.dbf'):
+    >>> table = dbfread.open('people.dbf'):
+    >>> for record in table:
     ...     print(record)
-    ... 
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+    >> len(table)
+    2
 
-Records are read off disk one by one. If you have enough memory you
-can load them all at once. The table will then behave like a list::
+Records are read off disk one by one. If you have enough memory, you
+can instead load them all at once. They will then be available as a
+list in the ``records`` attribute::
 
-    >>> table = dbfread.read('people.dbf')
-    >>> table[1]
-    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+    >>> table = dbfread.open('people.dbf', load=True)
+    >>> table.records[0]
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
 
-Both functions return a ``Table`` object. See below for attributes and
-methods.
+Iterating over the table or calling ``len()`` on it will give the same
+results in either case.
 
 Using `dataset <http://dataset.readthedocs.org/en/latest/>`_ it's easy
 to move your data into a more modern database. See
@@ -80,16 +83,14 @@ T  time        datetime.datetime
 =  ==========  ========================================================
 
 
-Options for open() and read()
------------------------------
+Keyword Arguments
+-----------------
 
 load=False
   By default records and deleted records will be read off disk one by
   one.  If you pass ``True`` all records will be loaded into memory
   and the ``Table`` object will behave like a list. Deleted records
   will be available as a list in the ``deleted`` attribute.
-
-  This defaults to ``True`` for ``read()``.
  
 encoding=None
   Can be used to override the detected character encoding.
@@ -133,10 +134,15 @@ All list methods are also available when records are loaded.
 Table Attributes
 ----------------
 
+records
+  If the table is loaded this is a list of records. If not, it's a
+  ``RecordIterator`` object. In either case, iterating over it or
+  calling ``len()`` on it will give the same results.
+
 deleted
-  Deleted records. If records are in memory this is a list of records,
-  if not it is a ``RecordIterator`` object. In any case you can
-  iterate over it and call ``len()`` on it.
+  If the table is loaded this is a list of deleted records. If not,
+  it's a ``RecordIterator`` object. In either case, iterating over it
+  or calling ``len()`` on it will give the same results.
 
 loaded
   ``True`` if records are loaded into memory.
@@ -240,6 +246,13 @@ With this hook the code will only be commited if all tests pass.
 
 Caveats
 -------
+
+* since 1.1.0 the ``Table`` object is no longer a subclass of
+  list. Records are instead available in the ``records`` attribute,
+  but the table can be iterated over like before. This change was made
+  to make the API cleaner and easier to understand. ``read()`` is
+  still included for backwards compatability, and returns an
+  ``OldStyleTable`` object with the old behaviour.
 
 * there is currently no way to ignore missing memo files.
 

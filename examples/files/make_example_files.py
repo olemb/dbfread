@@ -45,7 +45,7 @@ make_example_file('people.dbf',
                    ('Deleted Guy', (1979, 12, 22))],
                   delete_last_record=True)
 
-make_example_file('memotest.dbf',
+make_example_file('../../testcases/memotest.dbf',
                   [('NAME', 'C', 16),
                    ('BIRTHDATE', 'D'),
                    ('MEMO', 'M')],

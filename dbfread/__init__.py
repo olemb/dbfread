@@ -7,13 +7,14 @@ __license__ = 'MIT'
 __version__ = '1.0.6'
 
 from .dbf import Table
-
-open = Table
+from .dbf import Table as open  # Alias.
+from . import dbf as _dbf
 
 def read(filename, load=True, **kwargs):
     """Read a DBF file and return a list of records.
 
-    Returns a Table object which is also a list of records.
-    This is an alias for open(filename, load=True).
+    Returns a OldStyleTable object which is also a list of records.
+
+    This function is deprecated. Please use open(load=True) instead.
     """
-    return open(filename, load=load, **kwargs)
+    return _dbf.OldStyleTable(filename, load=load, **kwargs)

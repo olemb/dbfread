@@ -41,7 +41,7 @@ def make_field_parser(field_type):
 
 class TestReadAndLength(TestCase):
     def test_all(self):
-        table = dbfread.open('examples/files/memotest.dbf')
+        table = dbfread.open('testcases/memotest.dbf')
 
         # This relies on people.dbf having this exact content.
         records = [{u'NAME': u'Alice',
@@ -65,6 +65,14 @@ class TestReadAndLength(TestCase):
         assert len(loaded_table.deleted) == 1
         assert list(loaded_table) == records
         assert list(loaded_table.deleted) == deleted_records
+
+        # This should not return old style table which was a subclass of list.
+        assert not isinstance(table, list)
+
+class TestDeprecatedReadFunction(TestCase):
+    def test_read(self):
+        table = dbfread.read('testcases/memotest.dbf')
+        assert isinstance(table, list)
 
 class TestFieldParsers(TestCase):
     def test_0(self):

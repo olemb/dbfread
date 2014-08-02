@@ -87,11 +87,8 @@ class FakeMemoFile(object):
 _FAKE_MEMOFILE = FakeMemoFile()
 
 
-class Table(list):
-    """
-    Class to read DBF files.
-    """
-
+class Table(object):
+    """DBF table."""
     def __init__(self, filename,
                  encoding=None,
                  ignorecase=True,
@@ -111,7 +108,7 @@ class Table(list):
         # Name part before .dbf is the table name
         self.name = os.path.basename(filename)
         self.name = os.path.splitext(self.name)[0].lower()
-        
+        self._records = None
         self._deleted = None
         self.loaded = False
 
@@ -153,7 +150,7 @@ class Table(list):
 
     def load(self):
         if not self.loaded:
-            self[:] = self._iter_records(b' ')
+            self._records = list(self._iter_records(b' '))
             self._deleted = list(self._iter_records(b'*'))
             self.loaded = True
 
@@ -161,9 +158,16 @@ class Table(list):
         # self.loaded is not checked here because this
         # is called by __init__() where self.loaded=False.
         # Also, unloading twice has no consequences.
-        del self[:]
+        self._records = None
         self._deleted = None
         self.loaded = False
+
+    @property
+    def records(self):
+        if self.loaded:
+            return self._records
+        else:
+            return RecordIterator(self, b' ')
 
     @property
     def deleted(self):
@@ -324,6 +328,37 @@ class Table(list):
                 else:
                     skip_record(infile)
 
+    def __iter__(self):
+        return iter(self.records)
+
+    def __len__(self):
+        return len(self.records)
+
+    def __repr__(self):
+        if self.loaded:
+            status = 'loaded'
+        else:
+            status = 'unloaded'
+        return '<{} DBF table {!r}>'.format(status, self.filename)
+
+class OldStyleTable(Table, list):
+    """This is the old version of the table which is a subclass of list.
+
+    It is included for backwards compatability with 1.0 and older."""
+    def load(self):
+        if not self.loaded:
+            self[:] = self._iter_records(b' ')
+            self._deleted = list(self._iter_records(b'*'))
+            self.loaded = True
+
+    def unload(self):
+        # self.loaded is not checked here because this
+        # is called by __init__() where self.loaded=False.
+        # Also, unloading twice has no consequences.
+        del self[:]
+        self._deleted = None
+        self.loaded = False
+        
     def __iter__(self):
         if self.loaded:
             return list.__iter__(self)
