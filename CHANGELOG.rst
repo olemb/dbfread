@@ -1,9 +1,9 @@
 1.0.7 - 
 ------------------
 
-* character encoding now defaults to ``"latin1"`` when
-  ``language_driver == 0``. It was previously ``"ascii"``, which
-  caused decoding errors with files that didn't in fact use ASCII.
+* Character encoding will now be "latin1" when
+  ``language_driver == 0``. This prevents decoding errors when
+  the character set in not actually ASCII (which is common).
 
 
 1.0.6 - 2014-08-02
