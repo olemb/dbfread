@@ -32,7 +32,8 @@ list in the ``records`` attribute::
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
 
 Iterating over the table or calling ``len()`` on it will give the same
-results in either case.
+results in either case. You can call the ``load()`` and ``unload()``
+methods at any time to load an unload records.
 
 Using `dataset <http://dataset.readthedocs.org/en/latest/>`_ it's easy
 to move your data into a more modern database. See
