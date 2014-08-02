@@ -97,7 +97,7 @@ encoding=None
   By default dbfread will try to guess character encoding from the
   ``language_driver`` byte. If this fails it falls back on
   ``"latin1"``. (This is a bit Eurocentric, but it's hard to find a
-  neutral 8-bit encoding that's compatible with ASCII, so this is
+  neutral 8-bit encoding that's also compatible with ASCII, so it's
   better than nothing.)
 
 lowernames=False
