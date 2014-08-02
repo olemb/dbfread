@@ -224,6 +224,16 @@ override the encoding, for example::
    dbf2sqlite --encoding=latin1 ...
 
 
+Developing
+----------
+
+To run tests before each commit::
+
+    ln -s ../../run_tests.py .git/hooks/test
+
+This will cancel the commit if tests fail.
+
+
 Caveats
 -------
 
