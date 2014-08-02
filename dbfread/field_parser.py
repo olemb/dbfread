@@ -22,7 +22,7 @@ class FieldParser:
 
         for name in dir(self):
             if name.startswith('parse'):
-                field_type = name.lstrip('parse')
+                field_type = name[5:]
                 if field_type:
                     lookup[field_type] = getattr(self, name)
 
