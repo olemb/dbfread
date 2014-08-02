@@ -51,5 +51,5 @@ make_example_file('memotest.dbf',
                    ('MEMO', 'M')],
                   [('Alice', (1987, 3, 1), 'Alice memo'),
                    ('Bob', (1980, 11, 12), 'Bob memo'),
-                   ('Deleted Guy', (1979, 12, 22), 'Deleted guy memo')],
+                   ('Deleted Guy', (1979, 12, 22), 'Deleted Guy memo')],
                   delete_last_record=True)
