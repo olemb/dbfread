@@ -1,7 +1,6 @@
 """
 Class to read DBF files.
 """
-
 import os
 import datetime
 import collections
@@ -13,6 +12,11 @@ from .ifiles import ifind
 from .fpt import FPT
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
+
+try:
+    _FileNotFoundError = FileNotFoundError
+except NameError:
+    _FileNotFoundError = IOError
 
 DBFHeader = StructParser(
     'DBFHeader',
@@ -114,7 +118,7 @@ class DBF(object):
         if ignorecase:
             self.filename = ifind(filename)
             if not self.filename:
-                raise IOError('No such file: {!r}'.format(filename))
+                raise _FileNotFoundError('No such file: {!r}'.format(filename))
         else:
             self.filename = filename
 
@@ -225,7 +229,7 @@ class DBF(object):
                 self.memofilename = match
             else:
                 # Todo: warn and return field as byte string?
-                raise IOError('Missing memo file: {!r}'.format(fn))
+                raise _FileNotFoundError('Missing memo file: {!r}'.format(fn))
 
     def _check_headers(self):
         """Check headers for possible format errors."""

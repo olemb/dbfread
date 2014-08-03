@@ -1,3 +1,10 @@
+1.1.2 - 
+------------------
+
+* now raises FileNotFoundError in Python 3 when DBF or memo file is
+  not found.
+
+
 1.1.1 - 2014-08-03
 ------------------
 
