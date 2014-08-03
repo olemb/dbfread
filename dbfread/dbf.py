@@ -351,11 +351,16 @@ class OldStyleTable(Table, list):
     """This is the old version of the table which is a subclass of list.
 
     It is included for backwards compatability with 1.0 and older."""
+    @property
+    def loaded(self):
+        # Since records are loaded into the table object
+        # we have to check the deleted attribute here.
+        return isinstance(self._deleted, list)
+
     def load(self):
         if not self.loaded:
             self[:] = self._iter_records(b' ')
             self._deleted = list(self._iter_records(b'*'))
-            self.loaded = True
 
     def unload(self):
         # self.loaded is not checked here because this
@@ -363,7 +368,6 @@ class OldStyleTable(Table, list):
         # Also, unloading twice has no consequences.
         del self[:]
         self._deleted = None
-        self.loaded = False
         
     def __iter__(self):
         if self.loaded:
@@ -381,4 +385,4 @@ class OldStyleTable(Table, list):
         if self.loaded:
             return list.__repr__(self)
         else:
-            return '<Unloaded DBF table {!r}>'.format(self.filename)
+            return '<unloaded DBF table {!r}>'.format(self.filename)

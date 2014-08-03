@@ -18,6 +18,6 @@ def read(filename, load=True, **kwargs):
     This function is deprecated. Please use open(load=True) instead.
     """
     from warnings import warn
-    warn("read() is deprecated. Please use dbfread.open(load=True)")
+    warn("read() is deprecated. Please use dbfread.open(filename, load=True)")
 
     return _dbf.OldStyleTable(filename, load=load, **kwargs)
