@@ -15,13 +15,10 @@ Example
 ::
 
     >>> import dbfread
-    >>> table = dbfread.open('people.dbf'):
-    >>> for record in table:
+    >>> for record in dbfread.open('people.dbf'):
     ...     print(record)
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
-    >> len(table)
-    2
 
 Records are read off disk one by one. If you have enough memory, you
 can instead load them all at once. They will then be available as a
