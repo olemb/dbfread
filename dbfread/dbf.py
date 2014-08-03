@@ -14,9 +14,9 @@ from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 
 try:
-    _FileNotFoundError = FileNotFoundError
+    _FILE_NOT_FOUND = FileNotFoundError
 except NameError:
-    _FileNotFoundError = IOError
+    _FILE_NOT_FOUND = IOError
 
 DBFHeader = StructParser(
     'DBFHeader',
@@ -118,7 +118,7 @@ class DBF(object):
         if ignorecase:
             self.filename = ifind(filename)
             if not self.filename:
-                raise _FileNotFoundError('No such file: {!r}'.format(filename))
+                raise _FILE_NOT_FOUND('No such file: {!r}'.format(filename))
         else:
             self.filename = filename
 
@@ -229,7 +229,7 @@ class DBF(object):
                 self.memofilename = match
             else:
                 # Todo: warn and return field as byte string?
-                raise _FileNotFoundError('Missing memo file: {!r}'.format(fn))
+                raise _FILE_NOT_FOUND('Missing memo file: {!r}'.format(fn))
 
     def _check_headers(self):
         """Check headers for possible format errors."""
