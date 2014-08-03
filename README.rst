@@ -34,7 +34,7 @@ records in the file. If records are not loaded this will scan the file.
 Deleted records are available in the ``deleted`` attribute and behave
 just like normal records.
 
-``dbfread.open()`` is just an alias for the ``DBF`` object, so if you
+``dbfread.open()`` is just an alias for the ``DBF`` class, so if you
 prefer you can do this instead::
 
     >>> from dbfread import DBF
