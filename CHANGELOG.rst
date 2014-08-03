@@ -1,3 +1,9 @@
+1.1.1 - 2014-08-03
+------------------
+
+* example and test data files were missing from the manifest.
+
+
 1.1.0 - 2014-08-03
 ------------------
 
