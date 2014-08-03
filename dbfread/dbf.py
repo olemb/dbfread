@@ -110,7 +110,6 @@ class Table(object):
         self.name = os.path.splitext(self.name)[0].lower()
         self._records = None
         self._deleted = None
-        self.loaded = False
 
         if ignorecase:
             self.filename = ifind(filename)
@@ -139,28 +138,18 @@ class Table(object):
 
         if load:
             self.load()
-        else:
-            self.unload()
 
-    def _get_memofile(self):
-        if self.memofilename and not self.raw:
-            return FPT(self.memofilename)
-        else:
-            return _FAKE_MEMOFILE
+    @property
+    def loaded(self):
+        return self._records is not None
 
     def load(self):
-        if not self.loaded:
-            self._records = list(self._iter_records(b' '))
-            self._deleted = list(self._iter_records(b'*'))
-            self.loaded = True
+        self._records = list(self._iter_records(b' '))
+        self._deleted = list(self._iter_records(b'*'))
 
     def unload(self):
-        # self.loaded is not checked here because this
-        # is called by __init__() where self.loaded=False.
-        # Also, unloading twice has no consequences.
         self._records = None
         self._deleted = None
-        self.loaded = False
 
     @property
     def records(self):
@@ -175,6 +164,12 @@ class Table(object):
             return self._deleted
         else:
             return RecordIterator(self, b'*')
+
+    def _get_memofile(self):
+        if self.memofilename and not self.raw:
+            return FPT(self.memofilename)
+        else:
+            return _FAKE_MEMOFILE
 
     def _read_headers(self, infile):
         #
