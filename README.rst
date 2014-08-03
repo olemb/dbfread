@@ -20,17 +20,29 @@ Example
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-Records are read off disk one by one. If you have enough memory, you
-can instead load them all at once. They will then be available as a
-list in the ``records`` attribute::
+This reads records from the file one by one. If you pass ``load=True``
+the records are instead loaded into a list::
 
     >>> table = dbfread.open('people.dbf', load=True)
     >>> table.records[0]
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
 
-Iterating over the table or calling ``len()`` on it will give the same
-results in either case. You can call the ``load()`` and ``unload()``
-methods at any time to load an unload records.
+You can use the ``table.load()`` and ``table.unload()`` to switch
+between the two states. ``len(table)`` will give you the number of
+records in the file.
+
+Deleted records are available in the ``deleted`` attribute and behave
+just like normal records.
+
+``dbfread.open()`` is an alias for ``dbfread.DBF()``, so you can do
+this if you prefer::
+
+    >>> from dbfread import DBF
+    >>> table = DBF('people.dbf')
+
+
+Dataset and dbf2sqlite
+----------------------
 
 Using `dataset <http://dataset.readthedocs.org/en/latest/>`_ it's easy
 to move your data into a more modern database. See
@@ -81,8 +93,8 @@ T  time        datetime.datetime
 =  ==========  ========================================================
 
 
-Keyword Arguments
------------------
+Keyword Arguments to open() / DBF()
+-----------------------------------
 
 load=False
   By default records and deleted records will be read off disk one by
@@ -191,21 +203,14 @@ fields
       ... etc. ...]
 
 
-Methods
--------
+DBF Object Methods
+------------------
 
 load()
-   Load records into memory.
+   Load records into memory. This loads both records and deleted records.
 
 unload()
    Unload records from memory.
-
-__len__()
-   Return number of records in the file. If records are not
-   loaded this will scan the file to count records.
-
-__iter__()
-   Iterate through records.
 
 
 
