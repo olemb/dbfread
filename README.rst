@@ -229,6 +229,9 @@ override the encoding, for example::
 Developing
 ----------
 
+All development happens in the develop branch. The master branch is
+only for releases.
+
 To have tests run automatically when you commit you can install a
 pre-commit hook::
 
@@ -261,6 +264,8 @@ Source code
 ------------
 
 Latest stable release: http://github.com/olemb/dbfread/
+
+Development version: http://github.com/olemb/dbfread/tree/develop/
 
 
 Contact
