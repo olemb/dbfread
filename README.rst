@@ -3,7 +3,7 @@ dbfread - Python library for reading DBF files
 
 DBF is a file format used by databases such dBase, Visual FoxPro,
 FoxBase+ and Clipper. dbfread is designed to make it easy to get data
-out of these files.
+out of these files. It is written for Python 3.2 but also works in 2.7.
 
 If you also need to write and create DBF files check out `dbfpy
 <https://pypi.python.org/pypi/dbfpy/>`_
