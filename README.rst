@@ -216,6 +216,8 @@ DataFileNotFound
 MemoFileNotFound
    Raised if the corresponding memo file was not found.
 
+These inherit from ``IOError``.
+
 
 Importing data with Dataset or dbf2sqlite
 -----------------------------------------
