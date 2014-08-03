@@ -29,7 +29,8 @@ the records are instead loaded into a list::
 
 You can use the ``table.load()`` and ``table.unload()`` to switch
 between the two states. ``len(table)`` will give you the number of
-records in the file. If records are not loaded this will scan the file.
+records in the file. If records are not loaded this will scan the file
+to count records.
 
 Deleted records are available in the ``deleted`` attribute and behave
 just like normal records.
