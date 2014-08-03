@@ -21,7 +21,7 @@ Example
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
 This reads records from the file one by one. If you pass ``load=True``
-the records are instead loaded into a list::
+they are instead loaded into a list::
 
     >>> table = dbfread.open('people.dbf', load=True)
     >>> table.records[0]
