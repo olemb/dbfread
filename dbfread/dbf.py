@@ -144,8 +144,9 @@ class Table(object):
         return self._records is not None
 
     def load(self):
-        self._records = list(self._iter_records(b' '))
-        self._deleted = list(self._iter_records(b'*'))
+        if not self.loaded:
+            self._records = list(self._iter_records(b' '))
+            self._deleted = list(self._iter_records(b'*'))
 
     def unload(self):
         self._records = None
