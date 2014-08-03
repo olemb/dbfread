@@ -12,7 +12,7 @@ If you also need to write and create DBF files check out `dbfpy
 Example
 -------
 
-::
+To read records from a DBF file ::
 
     >>> import dbfread
     >>> for record in dbfread.open('people.dbf'):
@@ -20,33 +20,35 @@ Example
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-This reads records from the file one by one. If you pass ``load=True``
-they are instead loaded into a list::
+If you have enough memory you can load the records into a list by
+passing ``load=True`` or calling the ``load()`` method. This allows
+for random access::
 
     >>> table = dbfread.open('people.dbf', load=True)
     >>> table.records[0]
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
 
-You can use the ``table.load()`` and ``table.unload()`` to switch
-between the two states. ``len(table)`` will give you the number of
-records in the file. If records are not loaded this will scan the file.
+Iteration and ``len(table)`` work the same way with loaded and
+unloaded tables. Deleted records are available in the ``deleted``
+attribute and behave just like normal records.
 
-Deleted records are available in the ``deleted`` attribute and behave
-just like normal records.
-
-``dbfread.open()`` is just an alias for the ``DBF`` class, so if you
-prefer you can do this instead::
+``dbfread.open()`` is just an alias for the ``DBF`` class, so you can
+do this instead if you prefer::
 
     >>> from dbfread import DBF
     >>> table = DBF('people.dbf')
+
+``dbfread`` will detect most commonly used character encodings. If you
+get decording errors you can use the keyword argument ``encoding`` to
+override the detected encoding.
 
 
 Status
 ------
 
-The library has been used to read Visual FoxPro files with a wide
-range of data types, but is not widely tested with other DBF
-formats. It should still work for most files.
+Various incarnations of the library has been used since 2001 to read
+Visual FoxPro files with a wide range of data types. It is not widely
+tested with other DBF formats but should still work for most files.
 
 ``.FPT`` memo files are fully supported. The alternative ``.DBT`` memo
 files will be supported if I find any examples to test with.
@@ -55,14 +57,15 @@ I intend for dbfread to be able to read any DBF file. If you have a
 file it can't read, or you find a bug, I'd love to hear from you.
 
 
-Requirements and Installing
----------------------------
-
-dbfread is a pure Python module written for Python 3.2 and 2.7.
+Installing
+----------
 
 ::
 
   pip install dbfread
+
+``dbfread`` is a pure Python modeul and does not depend on any
+packages outside the standard library.
     
 
 Supported Field Types
