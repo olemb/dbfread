@@ -41,15 +41,6 @@ prefer you can do this instead::
     >>> table = DBF('people.dbf')
 
 
-Dataset and dbf2sqlite
-----------------------
-
-Using `dataset <http://dataset.readthedocs.org/en/latest/>`_ it's easy
-to move your data into a more modern database. See
-``examples/using_dataset.py``. Alternatively you can use the included
-``examples/dbf2sqlite``.
-
-
 Status
 ------
 
@@ -213,15 +204,15 @@ unload()
    Unload records from memory.
 
 
+Importing data with Dataset or dbf2sqlite
+-----------------------------------------
 
-dbf2sqlite
-----------
+Using `dataset <http://dataset.readthedocs.org/en/latest/>`_ it's easy
+to move your data into a more modern database. See
+``examples/using_dataset.py``.
 
-(This does not require the `dataset
-<http://dataset.readthedocs.org/en/latest/>`_ package.)
-
-A tool is included in the ``examples`` directory to convert DBF into
-sqlite, for example::
+Alternatively you can use the included program
+``examples/dbf2sqlite``::
 
     dbf2sqlite -o example.sqlite table1.dbf table2.dbf
 
@@ -238,11 +229,12 @@ override the encoding, for example::
 Developing
 ----------
 
-To run tests before each commit::
+To have tests run automatically when you commit you can install a
+pre-commit hook::
 
-    ln -s ../../run_tests.py .git/hooks/test
+    ln -s ../../run_tests.py .git/hooks/pre-commit
 
-With this hook the code will only be commited if all tests pass.
+If any of the tests fail the commit will be canceled.
 
 
 Caveats
@@ -269,8 +261,6 @@ Source code
 ------------
 
 Latest stable release: http://github.com/olemb/dbfread/
-
-Development version: http://github.com/olemb/dbfread/tree/develop/
 
 
 Contact
