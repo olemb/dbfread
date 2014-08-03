@@ -1,4 +1,4 @@
-1.1.0 - 
+1.1.0 - 2014-08-03
 ------------------
 
 * the ``DBF`` object is no longer a subclass of list. Records are
