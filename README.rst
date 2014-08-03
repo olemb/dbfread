@@ -12,7 +12,7 @@ If you also need to write and create DBF files check out `dbfpy
 Example
 -------
 
-To read records from a DBF file ::
+To read records from a DBF file::
 
     >>> import dbfread
     >>> for record in dbfread.open('people.dbf'):
