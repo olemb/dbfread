@@ -1,13 +1,27 @@
 """
 Read DBF files with Python.
 
-The only function you need is:
+Functions:
 
-    dbfread.open(filename, **kwargs)
+    table = open(filename, **kwargs)
 
-which is an alias for:
+    # Alternative name for the same function.
+    table = DBF(filename, **kwargs)
 
-    dbfread.DBF(filename, **kwargs)
+Example:
+
+    >>> import dbfread
+    >>> for record in dbfread.open('people.dbf'):
+    ...     print(record)
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
+    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+
+    >>> table = dbfread.open('people.dbf', load=True)
+    >>> table.records[0]
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
+
+See README.rst for full documentation.
+
 """
 __author__ = 'Ole Martin Bjorndalen'
 __email__ = 'ombdalen@gmail.com'
