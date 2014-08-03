@@ -90,8 +90,8 @@ Keyword Arguments
 load=False
   By default records and deleted records will be read off disk one by
   one.  If you pass ``True`` all records will be loaded into memory
-  and the ``Table`` object will behave like a list. Deleted records
-  will be available as a list in the ``deleted`` attribute.
+  and the ``DBF`` object will behave like a list. Deleted records will
+  be available as a list in the ``deleted`` attribute.
  
 encoding=None
   Specify character encoding to use.
@@ -130,8 +130,8 @@ raw=False
 All list methods are also available when records are loaded.
 
 
-Table Attributes
-----------------
+DBF Object Attributes
+---------------------
 
 records
   If the table is loaded this is a list of records. If not, it's a
@@ -246,12 +246,12 @@ With this hook the code will only be commited if all tests pass.
 Caveats
 -------
 
-* since 1.1.0 the ``Table`` object is no longer a subclass of
+* since 1.1.0 the ``DBF`` object is no longer a subclass of
   list. Records are instead available in the ``records`` attribute,
   but the table can be iterated over like before. This change was made
   to make the API cleaner and easier to understand. ``read()`` is
   still included for backwards compatability, and returns an
-  ``OldStyleTable`` object with the old behaviour.
+  ``DeprecatedDBF`` object with the old behaviour.
 
 * there is currently no way to ignore missing memo files.
 

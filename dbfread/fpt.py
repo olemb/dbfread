@@ -33,7 +33,7 @@ record_types = {
 Record = namedtuple('Record', ['type', 'data'])
 
 
-class FPT:
+class FPT(object):
     """
     This class implement read access to a FPT files.
 

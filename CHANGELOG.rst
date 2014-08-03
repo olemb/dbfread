@@ -1,7 +1,7 @@
 1.1.0 - 
 ------------------
 
-* the ``Table`` object is no longer a subclass of list. Records are
+* the ``DBF`` object is no longer a subclass of list. Records are
   instead available in the ``records`` attribute, but the table can be
   iterated over like before. This change was made to make the API
   cleaner and easier to understand. ``read()`` is still included for

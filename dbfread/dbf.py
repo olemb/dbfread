@@ -87,7 +87,7 @@ class FakeMemoFile(object):
 _FAKE_MEMOFILE = FakeMemoFile()
 
 
-class Table(object):
+class DBF(object):
     """DBF table."""
     def __init__(self, filename,
                  encoding=None,
@@ -347,7 +347,7 @@ class Table(object):
         self.unload()
         return False
 
-class OldStyleTable(Table, list):
+class DeprecatedDBF(DBF, list):
     """This is the old version of the table which is a subclass of list.
 
     It is included for backwards compatability with 1.0 and older."""
