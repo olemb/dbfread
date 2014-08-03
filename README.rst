@@ -34,8 +34,8 @@ records in the file.
 Deleted records are available in the ``deleted`` attribute and behave
 just like normal records.
 
-``dbfread.open()`` is an alias for ``dbfread.DBF()``, so you can do
-this if you prefer::
+``dbfread.open()`` is an alias for the ``DBF`` object, so if you
+prefer you can do this instead::
 
     >>> from dbfread import DBF
     >>> table = DBF('people.dbf')
