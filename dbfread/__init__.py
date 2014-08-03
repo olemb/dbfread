@@ -9,3 +9,6 @@ __version__ = '1.1.1'
 from .dbf import DBF
 from .dbf import DBF as open  # Alias.
 from .deprecated_dbf import DeprecatedDBF as read
+
+# Prevent splat import.
+__all__ = []
