@@ -1,8 +1,9 @@
 1.1.2 - 
 ------------------
 
-* now raises FileNotFoundError in Python 3 when DBF or memo file is
-  not found.
+* now raises custom exceptions: DBFError, DataFileNotFound and
+  MemoFileNotFound. They all inherit from IOError, so old code will
+  still work.
 
 
 1.1.1 - 2014-08-03
