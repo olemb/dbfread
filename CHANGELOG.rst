@@ -12,6 +12,9 @@
   than the previously used ``"latin1"``, which would decode but could give
   the wrong characters.
 
+* the DBF object can now be used as a context manager (using the
+  "with" statement).
+
 
 1.0.6 - 2014-08-02
 ------------------

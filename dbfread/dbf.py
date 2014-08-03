@@ -340,6 +340,13 @@ class Table(object):
             status = 'unloaded'
         return '<{} DBF table {!r}>'.format(status, self.filename)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.unload()
+        return False
+
 class OldStyleTable(Table, list):
     """This is the old version of the table which is a subclass of list.
 
