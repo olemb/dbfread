@@ -1,7 +1,7 @@
 """
 Read DBF files with Python.
 
-There is only one function here:
+The only function you need is:
 
     dbfread.open(filename, **kwargs)
 
