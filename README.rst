@@ -207,6 +207,16 @@ unload()
    Unload records from memory.
 
 
+Exceptions
+----------
+
+DataFileNotFound
+   Raised if the DBF file was not found.
+
+MemoFileNotFound
+   Raised if the corresponding memo file was not found.
+
+
 Importing data with Dataset or dbf2sqlite
 -----------------------------------------
 
