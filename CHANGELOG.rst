@@ -4,10 +4,10 @@
 * added ``ordered`` argument as a shortcut for
   ``recfactory=collections.OrderedDict``.
 
-* DBF now raises DBFNotFound and MissingMemoFile. These inherit from
-  IOError, so old code should still work.
+* DBF now raises ``DBFNotFound`` and ``MissingMemoFile``. These
+  inherit from IOError, so old code should still work.
 
-* added InvalidValue. This is currently not used by the library but
+* added ``InvalidValue``. This is currently not used by the library but
   can be useful for custom parsing.
 
 
