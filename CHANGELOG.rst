@@ -1,9 +1,8 @@
 1.1.2 - 
 ------------------
 
-* now raises custom exceptions: DBFError, DataFileNotFound and
-  MemoFileNotFound. They all inherit from IOError, so old code will
-  still work.
+* DBF now raises DBFNotFound and MissingMemoFile. These inherit from
+  IOError, so old code should still work.
 
 * added InvalidValue.
 

@@ -12,7 +12,7 @@ from .ifiles import ifind
 from .fpt import FPT
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
-from .exceptions import DataFileNotFound, MemoFileNotFound
+from .exceptions import *
 
 PY2 = sys.version_info[0] == 2
 
@@ -121,7 +121,7 @@ class DBF(object):
         if ignorecase:
             self.filename = ifind(filename)
             if not self.filename:
-                raise DataFileNotFound('No such file: {!r}'.format(filename))
+                raise DBFNotFound(repr(filename))
         else:
             self.filename = filename
 
@@ -230,7 +230,7 @@ class DBF(object):
                 self.memofilename = match
             else:
                 # Todo: warn and return field as byte string?
-                raise MemoFileNotFound('Missing memo file: {!r}'.format(fn))
+                raise MissingMemoFile(repr(fn))
 
     def _check_headers(self):
         field_parser = self.parserclass(self)

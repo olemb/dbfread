@@ -210,10 +210,10 @@ unload()
 Exceptions
 ----------
 
-DataFileNotFound
+DBFNotFound
    Raised if the DBF file was not found.
 
-MemoFileNotFound
+MissingMemoFile
    Raised if the corresponding memo file was not found.
 
 These inherit from ``IOError``.

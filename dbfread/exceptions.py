@@ -1,8 +1,8 @@
-class DBFError(IOError):
+class DBFNotFound(IOError):
     pass
 
-class DataFileNotFound(DBFError):
+class MissingMemoFile(IOError):
     pass
 
-class MemoFileNotFound(DBFError):
-    pass
+__all__ = ['DBFNotFound', 'MissingMemoFile']
+
