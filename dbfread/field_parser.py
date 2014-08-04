@@ -15,7 +15,13 @@ else:
 
 class InvalidValue(bytes):
     def __repr__(self):
-        return 'InvalidValue({})'.format(bytes.__repr__(self))
+        text = bytes.__repr__(self)
+        if PY2:
+            # Make sure the string starts with "b'" in
+            # "InvalidValue(b'value here')".
+            text = 'b' + text
+            
+        return 'InvalidValue({})'.format(text)
 
 class FieldParser:
     def __init__(self, table):

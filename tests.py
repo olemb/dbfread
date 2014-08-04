@@ -166,5 +166,9 @@ class TestFieldParsers(TestCase):
 
         # Todo: add more tests.
 
+class TestInvalidValue(TestCase):
+    def test_repr(self):
+        assert repr(dbfread.InvalidValue(b'')) == "InvalidValue(b'')"
+
 if __name__ == '__main__':
     main()
