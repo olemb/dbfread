@@ -2,17 +2,24 @@
 Class to read DBF files.
 """
 import os
+import sys
 import datetime
 import collections
 
 from .struct_parser import StructParser
 from .field_parser import FieldParser
-from .common import parse_string
 from .ifiles import ifind
 from .fpt import FPT
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import DataFileNotFound, MemoFileNotFound
+
+PY2 = sys.version_info[0] == 2
+
+if PY2:
+    decode_text = unicode
+else:
+    decode_text = str
 
 DBFHeader = StructParser(
     'DBFHeader',
@@ -199,10 +206,10 @@ class DBF(object):
             infile.seek(-1, 1)
             fh = DBFField.read(infile)
 
-            fieldname = parse_string(fh.name, self.encoding)
+            fieldname = decode_text(fh.name.rstrip(b'\0 '), self.encoding)
             if self.lowernames:
                 fieldname = fieldname.lower()
-            fieldtype = parse_string(fh.type, self.encoding)
+            fieldtype = decode_text(fh.type, self.encoding)
 
             fh = fh._replace(name=fieldname,
                              type=fieldtype)
@@ -269,7 +276,7 @@ class DBF(object):
                     memo = memofile[value]
                     if memo.type == 'memo':
                         # Decode to unicode
-                        value = parse_string(memo.data, self.encoding)
+                        value = decode_text(memo.data, self.encoding)
                     else:
                         # Byte string
                         value = memo.data

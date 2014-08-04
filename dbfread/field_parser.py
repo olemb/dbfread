@@ -1,14 +1,21 @@
 """
 Parser for DBF fields.
 """
+import sys
 import datetime
 import struct
 
-from .common import to_string, parse_string, _bytestring
+PY2 = sys.version_info[0] == 2
 
-class InvalidValue(_bytestring):
+if PY2:
+    decode_text = unicode
+else:
+    decode_text = str
+
+
+class InvalidValue(bytes):
     def __repr__(self):
-        return 'InvalidValue({})'.format(_bytestring.__repr__(self))
+        return 'InvalidValue({})'.format(bytes.__repr__(self))
 
 class FieldParser:
     def __init__(self, encoding):
@@ -31,10 +38,6 @@ class FieldParser:
 
         return lookup
 
-    def str(self, data):
-        """Convert binary data to string and strip padding."""
-        return parse_string(data, self.encoding)
-    
     def field_type_supported(self, field_type):
         """Checks if the field_type is supported by the parser
 
@@ -58,7 +61,7 @@ class FieldParser:
 
     def parseC(self, field, data):
         """Parse char field and return unicode string"""
-        return to_string(data.rstrip(b'\0 '), self.encoding)
+        return decode_text(data.rstrip(b'\0 '), self.encoding)
 
     def parseD(self, field, data):
         """Parse date field and return datetime.date or None"""
@@ -116,7 +119,7 @@ class FieldParser:
 
             # Integer as a string.
             try:
-                return int(self.str(data))
+                return int(data)
             except ValueError:
                 raise ValueError(
                     'Memo index is not an integer: {!r}'.format(data))
