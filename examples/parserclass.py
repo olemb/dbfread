@@ -2,9 +2,8 @@
 Add custom field parsing by subclassing FieldParser.
 """
 import dbfread
-from dbfread.field_parser import FieldParser
 
-class MyFieldParser(FieldParser):
+class MyFieldParser(dbfread.FieldParser):
     def parseC(self, field, data):
         # Return strings reversed.
         return data.rstrip(' 0').decode()[::-1]
