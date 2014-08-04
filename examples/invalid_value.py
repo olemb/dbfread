@@ -12,7 +12,7 @@ class SafeFieldParser(FieldParser):
         except ValueError:
             return InvalidValue(data)
 
-for record in dbfread.open('files/invalid_values.dbf',
+for record in dbfread.open('files/invalid_value.dbf',
                            parserclass=SafeFieldParser):
     print(record)
 
