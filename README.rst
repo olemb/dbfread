@@ -121,10 +121,10 @@ ignorecase=True
   off by passing ``ignorecase=False``.
 
 parserclass=FieldParser
+
   The parser to use when parsing field values. You can use this to add
   new field types or do custom parsing by subclassing
-  ``dbfread.field_parser.FieldParser``. (See
-  ``examples/parserclass.py`` and ``examples/parserclass_debugstring.py``.
+  ``dbfread.FieldParser``. (See ``examples/parserclass.py``.)
 
 raw=False
   Returns all data values as byte strings. This can be used for
