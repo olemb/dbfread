@@ -18,12 +18,13 @@ class InvalidValue(bytes):
         return 'InvalidValue({})'.format(bytes.__repr__(self))
 
 class FieldParser:
-    def __init__(self, encoding):
+    def __init__(self, table):
         """Create a new field parser
 
         encoding is the character encoding to use when parsing
         strings."""
-        self.encoding = encoding
+        self.table = table
+        self._encoding = table.encoding
         self._lookup = self._create_lookup_table()
 
     def _create_lookup_table(self):
@@ -61,7 +62,7 @@ class FieldParser:
 
     def parseC(self, field, data):
         """Parse char field and return unicode string"""
-        return decode_text(data.rstrip(b'\0 '), self.encoding)
+        return decode_text(data.rstrip(b'\0 '), self._encoding)
 
     def parseD(self, field, data):
         """Parse date field and return datetime.date or None"""

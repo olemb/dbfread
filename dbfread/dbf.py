@@ -133,8 +133,6 @@ class DBF(object):
 
         with open(self.filename, mode='rb') as infile:
             self._read_headers(infile)
-            self._field_parser = self.parserclass(self.encoding)
-
             self._check_headers()
             
             self.date = datetime.date(expand_year(self.header.year),
@@ -235,6 +233,8 @@ class DBF(object):
                 raise MemoFileNotFound('Missing memo file: {!r}'.format(fn))
 
     def _check_headers(self):
+        field_parser = self.parserclass(self)
+
         """Check headers for possible format errors."""
         for field in self.fields:
 
@@ -250,7 +250,7 @@ class DBF(object):
                 message = 'Field type L must have length 1 (was {})'
                 raise ValueError(message.format(field.length))
 
-            elif not self._field_parser.field_type_supported(field.type):
+            elif not field_parser.field_type_supported(field.type):
                 # Todo: return as byte string?
                 raise ValueError('Unknown field type: {!r}'.format(field.type))
 
@@ -258,7 +258,7 @@ class DBF(object):
         items = []  # List of Field
 
         # Shortcuts for speed.
-        parse = self._field_parser.parse
+        parse = self.parserclass(self).parse
         append = items.append
         read = infile.read
         

@@ -31,7 +31,10 @@ class MockField(object):
         self.__dict__.update(kwargs)
 
 def make_field_parser(field_type):
-    parser = FieldParser('latin1')
+    class MockFieldParser(object):
+        encoding = 'latin1'
+
+    parser = FieldParser(MockFieldParser())
     field = MockField(field_type)
 
     def parse(data):
