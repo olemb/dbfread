@@ -170,5 +170,18 @@ class TestInvalidValue(TestCase):
     def test_repr(self):
         assert repr(dbfread.InvalidValue(b'')) == "InvalidValue(b'')"
 
+class TestMemoFile(TestCase):
+    def test_ignore_missing_memofile(self):
+        with raises(dbfread.MissingMemoFile):
+            dbfread.open('testcases/no_memofile.dbf')
+            
+        # This should succeed.
+        table = dbfread.open('testcases/no_memofile.dbf',
+                             ignore_missing_memofile=True)
+
+        # Memo fields should be returned as None.
+        record = next(iter(table))
+        assert record['MEMO'] is None
+
 if __name__ == '__main__':
     main()

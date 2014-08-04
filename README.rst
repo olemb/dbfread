@@ -182,6 +182,10 @@ parserclass=FieldParser
   new field types or do custom parsing by subclassing
   ``dbfread.FieldParser``. (See ``examples/parserclass.py``.)
 
+ignore_missing_memofile=False
+  If ``True`` and the memo file is not found all memo fields will be
+  returned as ``None``.
+
 raw=False
   Returns all data values as byte strings. This can be used for
   debugging or for doing your own decoding.

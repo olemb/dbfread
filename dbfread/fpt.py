@@ -33,6 +33,17 @@ record_types = {
 Record = namedtuple('Record', ['type', 'data'])
 
 
+class FakeMemoFile(object):
+    def __getitem__(self, i):
+        return Record(type='object', data=None)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        return False
+
+
 class FPT(object):
     """
     This class implement read access to a FPT files.

@@ -9,7 +9,7 @@ import collections
 from .struct_parser import StructParser
 from .field_parser import FieldParser
 from .ifiles import ifind
-from .fpt import FPT
+from .fpt import FPT, FakeMemoFile
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import *
@@ -81,19 +81,6 @@ class RecordIterator(object):
         return self._table._count_records(self._record_type)
 
 
-class FakeMemoFile(object):
-    def __getitem__(self, i):
-        return ''
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, type, value, traceback):
-        return False
-
-_FAKE_MEMOFILE = FakeMemoFile()
-
-
 class DBF(object):
     """DBF table."""
     def __init__(self, filename,
@@ -104,7 +91,8 @@ class DBF(object):
                  recfactory=None,
                  load=False,
                  ordered=False,
-                 raw=False):
+                 raw=False,
+                 ignore_missing_memofile=False):
 
         self.encoding = encoding
         self.ignorecase = ignorecase
@@ -139,7 +127,7 @@ class DBF(object):
         self.field_names = []  # strings
 
         with open(self.filename, mode='rb') as infile:
-            self._read_headers(infile)
+            self._read_headers(infile, ignore_missing_memofile)
             self._check_headers()
             
             self.date = datetime.date(expand_year(self.header.year),
@@ -182,9 +170,9 @@ class DBF(object):
         if self.memofilename and not self.raw:
             return FPT(self.memofilename)
         else:
-            return _FAKE_MEMOFILE
+            return FakeMemoFile()
 
-    def _read_headers(self, infile):
+    def _read_headers(self, infile, ignore_missing_memofile):
         #
         # Todo: more checks
         # http://www.clicketyclick.dk/databases/xbase/format/dbf_check.html#CHECK_DBF
@@ -234,10 +222,12 @@ class DBF(object):
             fn = os.path.splitext(self.filename)[0] + '.fpt'
             match = ifind(self.filename, ext='.fpt')
             if match:
+                print(self.filename)
+                print(match)
                 self.memofilename = match
             else:
-                # Todo: warn and return field as byte string?
-                raise MissingMemoFile(repr(fn))
+                if not ignore_missing_memofile:
+                    raise MissingMemoFile(repr(fn))
 
     def _check_headers(self):
         field_parser = self.parserclass(self)

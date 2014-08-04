@@ -4,6 +4,9 @@
 * added ``ordered`` argument as a shortcut for
   ``recfactory=collections.OrderedDict``.
 
+* added ``ignore_missing_memofile`` argument. If ``True`` and the memo
+  file is not found all memo fields will be returned as ``None``.
+
 * DBF now raises ``DBFNotFound`` and ``MissingMemoFile``. These
   inherit from IOError, so old code should still work.
 
