@@ -101,16 +101,23 @@ class DBF(object):
                  ignorecase=True,
                  lowernames=False,
                  parserclass=FieldParser,
-                 recfactory=dict,
+                 recfactory=None,
                  load=False,
+                 ordered=False,
                  raw=False):
 
         self.encoding = encoding
         self.ignorecase = ignorecase
         self.lowernames = lowernames
         self.parserclass = parserclass
-        self.recfactory = recfactory
         self.raw = raw
+
+        if recfactory:
+            self.recfactory = recfactory
+        elif ordered:
+            self.recfactory = collections.OrderedDict
+        else:
+            self.recfactory = dict
 
         # Name part before .dbf is the table name
         self.name = os.path.basename(filename)

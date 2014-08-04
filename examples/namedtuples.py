@@ -6,7 +6,7 @@ This saves a lot of memory.
 from collections import namedtuple
 import dbfread
 
-table = dbfread.open('files/people.dbf', lowernames=True)
+table = dbfread.open('files/people.dbf', lowernames=True, ordered=True)
 
 # Set record factory. This must be done after
 # the table is opened because it needs the field

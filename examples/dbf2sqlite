@@ -20,7 +20,6 @@ import os
 import sys
 import argparse
 import sqlite3
-import collections
 
 import dbfread
 
@@ -96,7 +95,7 @@ def main():
         try:
             add_table(cursor, dbfread.open(table_file,
                                            lowernames=True,
-                                           recfactory=collections.OrderedDict,
+                                           ordered=True,
                                            encoding=args.encoding))
         except UnicodeDecodeError:
             sys.exit('Unable to guess character encoding.'

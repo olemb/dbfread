@@ -7,7 +7,7 @@ from dbfread.field_parser import FieldParser
 class MyFieldParser(FieldParser):
     def parseC(self, field, data):
         # Return strings reversed.
-        return self.str(data)[::-1]
+        return data.rstrip(' 0').decode()[::-1]
 
 for record in dbfread.open('files/people.dbf', parserclass=MyFieldParser):
     print(record['NAME'])
