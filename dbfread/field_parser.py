@@ -126,7 +126,7 @@ class FieldParser:
 
             # Integer as a string.
             try:
-                return int(data)
+                return int(data) or None
             except ValueError:
                 raise ValueError(
                     'Memo index is not an integer: {!r}'.format(data))
