@@ -5,7 +5,9 @@
   MemoFileNotFound. They all inherit from IOError, so old code will
   still work.
 
-* bugfix: numeric parser (N) should have returned None for invalid values.
+* bugfix: numeric parser (N) failed when the data was a string. It now
+  returns an InvalidValue object, which is a byte string that contains
+  the raw data.
 
 
 1.1.1 - 2014-08-03

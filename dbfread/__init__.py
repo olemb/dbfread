@@ -34,6 +34,7 @@ from .dbf import DBF as open  # Alias.
 from .deprecated_dbf import DeprecatedDBF as read
 
 from .exceptions import *
+from .field_parser import InvalidValue
 
 # Prevent splat import.
 __all__ = []

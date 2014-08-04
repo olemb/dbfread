@@ -142,6 +142,8 @@ class TestFieldParsers(TestCase):
             parse(b'NotInteger')
 
     def test_N(self):
+        from dbfread.field_parser import InvalidValue
+
         parse = make_field_parser('N')
 
         assert parse(b'') is None
@@ -150,8 +152,7 @@ class TestFieldParsers(TestCase):
         assert parse(b'-99') == -99
         assert parse(b'3.14') == 3.14
 
-        # Invalid values are returned as None.
-        assert parse(b'okasd') is None
+        assert isinstance(parse(b'okasd'), InvalidValue)
 
     def test_T(self):
         parse = make_field_parser('T')

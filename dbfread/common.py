@@ -1,13 +1,16 @@
 """
 Common things.
 """
+import sys
 
-try:
-    # Python 2.x
+py2 = sys.version_info[0] == 2
+
+if py2:
     to_string = unicode
-except NameError:
-    # Pytyon 3.x
+    _bytestring = str
+else:
     to_string = str
+    _bytestring = bytes
 
 def parse_string(string, encoding):
     """Convert a byte string to unicode

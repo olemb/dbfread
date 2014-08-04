@@ -82,9 +82,12 @@ I  integer     int or None
 L  logical     True, False or None
 M  memo        unicode string (memo), byte string (picture or object)
                or None
-N  numeric     int, float or None
+N  numeric     int, float, None or InvalidValue
 T  time        datetime.datetime
 =  ==========  ========================================================
+
+Numeric fields sometimes contain text. InvalidValue is a subclass of
+byte string. It contains the raw data.
 
 
 Keyword Arguments to open() / DBF()

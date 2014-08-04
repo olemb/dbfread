@@ -4,8 +4,11 @@ Parser for DBF fields.
 import datetime
 import struct
 
-from .common import to_string, parse_string
+from .common import to_string, parse_string, _bytestring
 
+class InvalidValue(_bytestring):
+    def __repr__(self):
+        return 'InvalidValue({})'.format(_bytestring.__repr__(self))
 
 class FieldParser:
     def __init__(self, encoding):
@@ -133,7 +136,7 @@ class FieldParser:
                     # Account for , in numeric fields
                     return float(data.replace(b',', b'.'))
                 except ValueError:
-                    return None
+                    return InvalidValue(data)
 
     def parseT(self, field, data):
         """Parse time field (T)
