@@ -82,11 +82,9 @@ I  integer     int or None
 L  logical     True, False or None
 M  memo        unicode string (memo), byte string (picture or object)
                or None
-N  numeric     int, float, None or InvalidValue
+N  numeric     int, float or None
 T  time        datetime.datetime
 =  ==========  ========================================================
-
-``InvalidValue`` is a subclass of byte string.
 
 
 Keyword Arguments to open() / DBF()
@@ -219,6 +217,16 @@ MemoFileNotFound
    Raised if the corresponding memo file was not found.
 
 These inherit from ``IOError``.
+
+
+Other Classes
+-------------
+
+InvalidValue
+    This is a subclass of byte array. It can be used to return
+    invalid values that can be detected as such. It is currently
+    not used in the library, but ``examples/invalid_values.py``
+    is an example of how it can be used.
 
 
 Importing data with Dataset or dbf2sqlite

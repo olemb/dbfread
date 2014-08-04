@@ -152,7 +152,8 @@ class TestFieldParsers(TestCase):
         assert parse(b'-99') == -99
         assert parse(b'3.14') == 3.14
 
-        assert isinstance(parse(b'okasd'), InvalidValue)
+        with raises(ValueError):
+            parse(b'okasd')
 
     def test_T(self):
         parse = make_field_parser('T')
