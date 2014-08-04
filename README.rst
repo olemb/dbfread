@@ -5,8 +5,8 @@ DBF is a file format used by databases such as dBase, Visual FoxPro,
 FoxBase+ and Clipper. dbfread makes it easy to get data out of these
 files.
 
-If you also need to write DBF files check out `dbfpy
-<https://pypi.python.org/pypi/dbfpy/>`_.
+If you also need to write DBF files check out Ethan Furman's `dbf
+<https://pypi.python.org/pypi/dbf/0.95.012>`_ package.
 
 
 Example
