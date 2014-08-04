@@ -86,8 +86,7 @@ N  numeric     int, float, None or InvalidValue
 T  time        datetime.datetime
 =  ==========  ========================================================
 
-Numeric fields sometimes contain text. InvalidValue is a subclass of
-byte string. It contains the raw data.
+``InvalidValue`` is a subclass of byte string.
 
 
 Keyword Arguments to open() / DBF()
