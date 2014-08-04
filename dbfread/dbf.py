@@ -9,7 +9,7 @@ import collections
 from .struct_parser import StructParser
 from .field_parser import FieldParser
 from .ifiles import ifind
-from .fpt import FPT, FakeMemoFile
+from .memo import MemoFile, FakeMemoFile
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import *
@@ -168,7 +168,7 @@ class DBF(object):
 
     def _get_memofile(self):
         if self.memofilename and not self.raw:
-            return FPT(self.memofilename)
+            return MemoFile(self.memofilename)
         else:
             return FakeMemoFile()
 

@@ -24,7 +24,7 @@ BlockHeader = StructParser(
      'length'])
 
 # Record type
-record_types = {
+RECORD_TYPES = {
     0x0: 'picture',
     0x1: 'memo',
     0x2: 'object',
@@ -35,7 +35,7 @@ Record = namedtuple('Record', ['type', 'data'])
 
 class FakeMemoFile(object):
     def __getitem__(self, i):
-        return Record(type='object', data=None)
+        return Record(type=None, data=None)
 
     def __enter__(self):
         return self
@@ -44,7 +44,7 @@ class FakeMemoFile(object):
         return False
 
 
-class FPT(object):
+class MemoFile(object):
     """
     This class implement read access to a FPT files.
 
@@ -55,8 +55,8 @@ class FPT(object):
     Documentation of the FPT file format:
     http://www.clicketyclick.dk/databases/xbase/format/fpt.html
     """
-
     def __init__(self, filename):
+        # Todo: detect file type by extension.
         self.filename = filename
         self.file = open(filename, 'rb')
         self.header = Header.read(self.file)
@@ -82,7 +82,7 @@ class FPT(object):
         if len(data) != block_header.length:
             raise IOError('EOF reached while reading memo')
         
-        record_type = record_types.get(block_header.type)
+        record_type = RECORD_TYPES.get(block_header.type)
         return Record(type=record_type, data=data)
 
     def __enter__(self):
@@ -91,4 +91,3 @@ class FPT(object):
     def __exit__(self, type, value, traceback):
         self.file.close()
         return False
-
