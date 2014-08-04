@@ -222,8 +222,6 @@ class DBF(object):
             fn = os.path.splitext(self.filename)[0] + '.fpt'
             match = ifind(self.filename, ext='.fpt')
             if match:
-                print(self.filename)
-                print(match)
                 self.memofilename = match
             else:
                 if not ignore_missing_memofile:
