@@ -43,6 +43,25 @@ get decording errors you can use the keyword argument ``encoding`` to
 override the detected encoding.
 
 
+Main Features
+-------------
+
+* dirt simple API.
+
+* iterate over records directly from file or keep them in a list.
+
+* full support for all 9 commonly used field types. New types can
+  be added by subclassing ``FieldParser``.
+
+* DBF class with many options and attributes.
+
+* full support for ``.FPT`` memo files.
+
+* handles mixed case file names gracefully by ignoring case.
+
+* reads deleted records separately
+
+
 Status
 ------
 
@@ -50,11 +69,16 @@ Various incarnations of the library has been used since 2001 to read
 Visual FoxPro files with a wide range of data types. It is not widely
 tested with other DBF formats but should still work for most files.
 
-``.FPT`` memo files are fully supported. The alternative ``.DBT`` memo
-files will be supported if I find any examples to test with.
-
 I intend for dbfread to be able to read any DBF file. If you have a
 file it can't read, or you find a bug, I'd love to hear from you.
+
+
+Future Plans
+------------
+
+* support ``.DBT`` memo files
+
+* move docs out doc README file and into a proper Sphinx document.
 
 
 Installing
