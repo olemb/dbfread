@@ -5,6 +5,8 @@
   MemoFileNotFound. They all inherit from IOError, so old code will
   still work.
 
+* bugfix: numeric parser (N) should have returned None for invalid values.
+
 
 1.1.1 - 2014-08-03
 ------------------

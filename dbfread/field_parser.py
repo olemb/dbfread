@@ -129,8 +129,11 @@ class FieldParser:
             if not data.strip():
                 return None
             else:
-                # Account for , in numeric fields
-                return float(data.replace(b',', b'.'))
+                try:
+                    # Account for , in numeric fields
+                    return float(data.replace(b',', b'.'))
+                except ValueError:
+                    return None
 
     def parseT(self, field, data):
         """Parse time field (T)

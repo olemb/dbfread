@@ -149,8 +149,9 @@ class TestFieldParsers(TestCase):
         assert parse(b'1') == 1
         assert parse(b'-99') == -99
         assert parse(b'3.14') == 3.14
-        with raises(ValueError):
-            parse(b'okasd')
+
+        # Invalid values are returned as None.
+        assert parse(b'okasd') is None
 
     def test_T(self):
         parse = make_field_parser('T')
