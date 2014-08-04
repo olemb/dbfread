@@ -239,18 +239,17 @@ memofilename
 header
   The file header. Example::
 
-      DBFHeader(dbversion=48, year=12, month=7, day=11, numrecords=555,
-      headerlen=2408, recordlen=632, reserved1=0, incomplete_transaction=0,
+      DBFHeader(dbversion=3, year=114, month=8, day=2, numrecords=3,
+      headerlen=97, recordlen=25, reserved1=0, incomplete_transaction=0,
       encryption_flag=0, free_record_thread=0, reserved2=0, reserved3=0,
-      mdx_flag=3, language_driver=3, reserved4=0)
+      mdx_flag=0, language_driver=0, reserved4=0)
 
 fields
-  A list of field headers from the file. Example::
+  A list of field headers from the file. Example of a field::
 
-      [DBFField(name=u'NAME', type=u'C', address=1, length=25, decimal_count=0,
+      DBFField(name=u'NAME', type=u'C', address=1, length=16, decimal_count=0,
       reserved1=0, workarea_id=0, reserved2=0, reserved3=0, set_fields_flag=0,
-      reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0),
-      ... etc. ...]
+      reserved4='\x00\x00\x00\x00\x00\x00\x00', index_field_flag=0)
 
 
 DBF Object Methods
