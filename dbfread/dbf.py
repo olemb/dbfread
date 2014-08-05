@@ -173,10 +173,7 @@ class DBF(object):
             return FakeMemoFile()
 
     def _read_headers(self, infile, ignore_missing_memofile):
-        #
-        # Todo: more checks
-        # http://www.clicketyclick.dk/databases/xbase/format/dbf_check.html#CHECK_DBF
-        #
+        # Todo: more checks?
         self.header = DBFHeader.read(infile)
 
         if self.encoding is None:
