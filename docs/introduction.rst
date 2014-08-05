@@ -155,7 +155,7 @@ passed to the factory as:
     [('NAME', 'Alice'), ('BIRTHDATE': datetime.date(1987, 3, 1)]
 
 You can do whatever you like with this data. Here's a very naive
-implementation of CSV:
+implementation of CSV export:
 
 ... code-block:: python
 
@@ -169,7 +169,7 @@ implementation of CSV:
     for record in table:
         print(';'.join(record))
 
-(You will find this in ``examples/csv_export.py``.)
+(Can also be found in ``examples/csv_export.py``.)
 
 This is just an example. It doesn't escape values in the data, so you
 should use the standard library module ``csv`` instead.
@@ -187,9 +187,9 @@ with different factories.
 Custom Field Types
 ------------------
 
-If the included :doc:`message_types`` are not enough you can add your
-own by subclassing ``FieldParser``. As a silly example, here how you
-can read text (``C``) fields in reverse:
+If the included message types are not enough you can add your own by
+subclassing ``FieldParser``. As a silly example, here how you can read
+text (``C``) fields in reverse:
 
 ... code-block:: python
 
