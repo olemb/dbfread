@@ -22,7 +22,7 @@ elif sys.argv[-1] == "docs":
 setup(
     name='dbfread',
     version=dbfread.__version__,
-    description='Read DBF files',
+    description='Read DBF Files with Python',
     long_description=open('README.rst', 'rt').read(),
     author=dbfread.__author__,
     author_email=dbfread.__email__,
