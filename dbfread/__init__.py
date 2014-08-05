@@ -10,13 +10,13 @@ Functions:
 
 Example:
 
-    >>> import dbfread
-    >>> for record in dbfread.open('people.dbf'):
+    >>> from dbfread import DBF
+    >>> for record in DBF('people.dbf'):
     ...     print(record)
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-    >>> table = dbfread.open('people.dbf', load=True)
+    >>> table = DBF('people.dbf', load=True)
     >>> table.records[0]
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
 
@@ -30,9 +30,7 @@ __license__ = 'MIT'
 __version__ = '1.1.1'
 
 from .dbf import DBF
-from .dbf import DBF as open  # Alias.
-from .deprecated_dbf import DeprecatedDBF as read
-
+from .deprecated_dbf import open, read
 from .exceptions import *
 from .field_parser import FieldParser, InvalidValue
 

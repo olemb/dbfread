@@ -5,8 +5,7 @@ from unittest import TestCase, main
 from contextlib import contextmanager
 import datetime
 
-import dbfread
-from dbfread.field_parser import FieldParser
+from dbfread import DBF, FieldParser, InvalidValue, MissingMemoFile
 
 # http://docs.python.org/2/library/unittest.html                                
 
@@ -44,7 +43,7 @@ def make_field_parser(field_type):
 
 class TestReadAndLength(TestCase):
     def test_all(self):
-        table = dbfread.open('testcases/memotest.dbf')
+        table = DBF('testcases/memotest.dbf')
 
         # This relies on people.dbf having this exact content.
         records = [{u'NAME': u'Alice',
@@ -145,8 +144,6 @@ class TestFieldParsers(TestCase):
             parse(b'NotInteger')
 
     def test_N(self):
-        from dbfread.field_parser import InvalidValue
-
         parse = make_field_parser('N')
 
         assert parse(b'') is None
@@ -168,15 +165,15 @@ class TestFieldParsers(TestCase):
 
 class TestInvalidValue(TestCase):
     def test_repr(self):
-        assert repr(dbfread.InvalidValue(b'')) == "InvalidValue(b'')"
+        assert repr(InvalidValue(b'')) == "InvalidValue(b'')"
 
 class TestMemoFile(TestCase):
     def test_ignore_missing_memofile(self):
-        with raises(dbfread.MissingMemoFile):
-            dbfread.open('testcases/no_memofile.dbf')
+        with raises(MissingMemoFile):
+            DBF('testcases/no_memofile.dbf')
             
         # This should succeed.
-        table = dbfread.open('testcases/no_memofile.dbf',
+        table = DBF('testcases/no_memofile.dbf',
                              ignore_missing_memofile=True)
 
         # Memo fields should be returned as None.

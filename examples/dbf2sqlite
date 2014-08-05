@@ -21,7 +21,7 @@ import sys
 import argparse
 import sqlite3
 
-import dbfread
+from dbfread import DBF
 
 typemap = {
     'F': 'FLOAT',
@@ -93,10 +93,10 @@ def main():
 
     for table_file in args.tables:
         try:
-            add_table(cursor, dbfread.open(table_file,
-                                           lowernames=True,
-                                           ordered=True,
-                                           encoding=args.encoding))
+            add_table(cursor, DBF(table_file,
+                                  lowernames=True,
+                                  ordered=True,
+                                  encoding=args.encoding))
         except UnicodeDecodeError:
             sys.exit('Unable to guess character encoding.'
                      ' Please use --encoding to specify.')

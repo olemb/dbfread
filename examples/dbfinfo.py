@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
 import sys
-import dbfread
+from dbfread import DBF
 
 def show(*words):
     print('  ' + ' '.join(str(word) for word in words))
@@ -12,7 +12,7 @@ def show_field(field):
 def main():
     for filename in sys.argv[1:]:
         print(filename + ':')
-        table = dbfread.open(filename)
+        table = DBF(filename, ignore_missing_memofile=True)
         show('Name:', table.name)
         show('Memo File:', table.memofilename or '')
         show('DB Version:', table.dbversion)

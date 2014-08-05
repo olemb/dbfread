@@ -1,15 +1,11 @@
-from warnings import warn
+from __future__ import print_function
+import sys
 from .dbf import DBF
 
 class DeprecatedDBF(DBF, list):
     """This is the old version of the table which is a subclass of list.
 
     It is included for backwards compatability with 1.0 and older."""
-    def __init__(self, filename, load=True, **kwargs):
-        warn("read() is deprecated."
-             " Please use dbfread.open(filename, load=True).")
-        DBF.__init__(self, filename, load=load, **kwargs)
-
     @property
     def loaded(self):
         # Since records are loaded into the table object
@@ -45,3 +41,16 @@ class DeprecatedDBF(DBF, list):
             return list.__repr__(self)
         else:
             return '<unloaded DBF table {!r}>'.format(self.filename)
+
+def warn(message):
+    print('Deprecation warning: {}'.format(message), file=sys.stderr)
+
+def read(filename, load=True, **kwargs):
+    warn("dbfread.read() has been replaced by DBF(load=True)"
+         " and will be removed in 1.4.")
+    return DeprecatedDBF(filename, load=True, **kwargs)
+
+def open(filename, load=True, **kwargs):
+    warn("dbfread.open() has been replaced by DBF()"
+         " and will be removed in 1.4.")
+    return DeprecatedDBF(filename, load=True, **kwargs)
