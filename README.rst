@@ -47,7 +47,8 @@ Main Features
   any type
 
 * aims to handle all variants of DBF files. (Currently only widely
-  tested with Visual FoxPro, but has worked well with other variants.)
+  tested with Visual FoxPro, but should work well with other
+  variants.)
 
 * support for 9 field types (date, float, integer, logical, memo,
   numeric, text, time and the Visual FoxPro specific flags). New types
