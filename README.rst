@@ -37,28 +37,28 @@ Full documentation at http://dbfread.readthedocs.org/
 Main Features
 -------------
 
-* written for Python 3 (but also works in 2.7).
+* written for Python 3, but also works in 2.7
 
-* simple but flexible API.
+* simple but flexible API
 
-* data is returned as native Python data types.
+* data is returned as native Python data types
 
 * records are ordered dictionaries, but can be recofigured to be of
-  any type.
+  any type
 
 * aims to handle all variants of DBF files. (Currently only widely
   tested with Visual FoxPro, but has worked well with other variants.)
 
 * support for 9 field types (date, float, integer, logical, memo,
   numeric, text, time and the Visual FoxPro specific flags). New types
-  can be added by subclassing ``FieldParser``.
+  can be added by subclassing ``FieldParser``
 
 * reads ``.FPT`` memo files with both text and binary memos (and soon
-  ``.DBT`` files).
+  ``.DBT`` files)
 
-* handles mixed case file names gracefully on case sensitive file systems.
+* handles mixed case file names gracefully on case sensitive file systems
 
-* can retrieve deleted records.
+* can retrieve deleted records
 
 
 Installing
