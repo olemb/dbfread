@@ -19,8 +19,8 @@ This returns a ``DBF`` object. You can now iterate over records::
 
     >>> for record in table:
     ...     print(record)
-    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
-    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+    OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
+    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
 
 and count records::
 
@@ -31,7 +31,8 @@ Deleted records are available in ``deleted``::
 
     >>> for record in table.deleted:
     ...     print(record)
-    {'NAME': 'Deleted Guy', 'BIRTHDATE': datetime.date(1979, 12, 22)}
+    OrderedDict([('NAME', 'Deleted Guy'), ('BIRTHDATE', datetime.date(1979, 12, 22))])
+
     >>> len(table.deleted)
     1
 
@@ -55,7 +56,7 @@ If have enough memory, you can load the records into a list by passing
 
     >>> table = DBF('people.dbf', load=True)
     >>> table.records[1]
-    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
 
 Deleted records are also loaded into a list in ``table.deleted``.
 
@@ -78,16 +79,6 @@ return ``RecordIterator`` objects.
 Loading or iterating over records will open the DBF and memo file once
 for each iteration. This means the ``DBF`` object doesn't hold any
 files open, only the ``RecordIterator`` object does.
-
-
-Ordered Records
----------------
-
-By default dbread returns records as dictionaries, whose keys are not
-ordered. This can create problems when generating output such as
-CSV. You can get around this by passing ``ordered=True``. This will
-return records as ordered dictionaries which means you can iterate
-over the keys in the order they are found in the file.
 
 
 Character Encodings
@@ -132,37 +123,26 @@ returned as ``None``, as would be the case if there was no memo.
 Record Factories
 ----------------
 
-If you don't want records returned as dictionaries or ordered
-dictionaries you can make your own record types with the
-``recfactory`` argument.
+If you don't want records returned as ``collections.OrderedDict`` you
+can use the ``recfactory`` argument to provide your own record
+factory.
 
 A record factory is a function that takes a list of ``(name, value)``
-pairs and returns a record. The first record in ``people.dbf`` will be
-passed to the factory as::
+pairs and returns a record.  You can do whatever you like with this
+data. Here's a function that creates a record object with fields as
+attributes::
 
-    [('NAME', 'Alice'), ('BIRTHDATE': datetime.date(1987, 3, 1))]
+    class Record(object):
+        def __init__(self, items):
+            for (name, value) in items:
+                setattr(self, name, value)
 
-You can do whatever you like with this data. Here's a very naive
-implementation of CSV export::
+    for record in DBF('people.dbf', recfactory=Record, lowernames=True):
+        print(record.name, record.birthdate)
 
-    from dbfread import DBF
-    
-    def get_values(items):
-       return [str(value) for (name, value) in items]
-    
-    table = DBF('people.dbf', recfactory=get_values)
-    print(';'.join(table.field_names))
-    for record in table:
-        print(';'.join(record))
-
-(Can also be found in ``examples/csv_export.py``.)
-
-This is just an example. It doesn't escape values in the data, so you
-should use the standard library module ``csv`` instead.
-
-If you pass both ``ordered=True`` and ``recfactory`` the
-``recfactory`` argument will win. (``ordered=True`` is just an alias
-for ``recfactory=collections.OrderedDict``.)
+If you pass ``recfactory=None`` you will get the original ``(name,
+value)`` list. (This is a shortcut for ``recfactory=lambda items:
+items``.)
 
 You can change the ``recfactory`` attribute after opening the table,
 for example before an iterations. Each iterator caches the

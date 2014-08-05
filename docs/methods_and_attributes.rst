@@ -54,7 +54,7 @@ encoding
   ``encoding`` keyword argument.
 
 ignorecase, lowernames, recfactory, parserclass, raw
-  These correspond to the keyword arguments below.
+  These are set to the values of the same keyword arguments.
 
 filename
   File name of the DBF file.

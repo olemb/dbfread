@@ -6,7 +6,7 @@ This saves a lot of memory.
 from collections import namedtuple
 from dbfread import DBF
 
-table = DBF('files/people.dbf', lowernames=True, ordered=True)
+table = DBF('files/people.dbf', lowernames=True)
 
 # Set record factory. This must be done after
 # the table is opened because it needs the field

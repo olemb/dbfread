@@ -1,12 +1,13 @@
 1.2.0 - 
 ------------------
 
+* records are now returned as ordered dictionaries. This makes it
+  easier to iterate over fields in the same order that they appear in
+  the file.
+
 * ``dbfread.open()`` and ``dbfread.read()`` are now deprecated and
   will be removed in 1.4. The new ``DBF`` class is not a subclass of
   list, but these functions return the old style class.
-
-* added ``ordered`` argument as a shortcut for
-  ``recfactory=collections.OrderedDict``.
 
 * added ``ignore_missing_memofile`` argument. If ``True`` and the memo
   file is not found all memo fields will be returned as ``None``.

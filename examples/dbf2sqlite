@@ -95,7 +95,6 @@ def main():
         try:
             add_table(cursor, DBF(table_file,
                                   lowernames=True,
-                                  ordered=True,
                                   encoding=args.encoding))
         except UnicodeDecodeError:
             sys.exit('Unable to guess character encoding.'

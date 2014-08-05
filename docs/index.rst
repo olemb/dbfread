@@ -20,8 +20,8 @@ If you need to write DBF files check out `dbfpy
     >>> from dbfread import DBF
     >>> for record in DBF('people.dbf'):
     ...     print(record)
-    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)} 
-    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+    OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
+    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
 
 If you also need to write DBF files check out Ethan Furman's `dbf
 <http://pypi.python.org/pypi/dbf/0.95.012>`_ package.

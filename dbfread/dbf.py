@@ -88,9 +88,8 @@ class DBF(object):
                  ignorecase=True,
                  lowernames=False,
                  parserclass=FieldParser,
-                 recfactory=None,
+                 recfactory=collections.OrderedDict,
                  load=False,
-                 ordered=False,
                  raw=False,
                  ignore_missing_memofile=False):
 
@@ -100,12 +99,10 @@ class DBF(object):
         self.parserclass = parserclass
         self.raw = raw
 
-        if recfactory:
-            self.recfactory = recfactory
-        elif ordered:
-            self.recfactory = collections.OrderedDict
+        if recfactory is None:
+            self.recfactory = lambda items: items
         else:
-            self.recfactory = dict
+            self.recfactory = recfactory
 
         # Name part before .dbf is the table name
         self.name = os.path.basename(filename)

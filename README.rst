@@ -19,16 +19,16 @@ To read records from a DBF file::
     >>> from dbfread import DBF
     >>> for record in DBF('people.dbf'):
     ...     print(record)
-    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
-    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+    OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
+    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
 
 By default the ``DBF`` object will stream records directly from the
 file.  If you have enough memory you can load the records into a
 list. This allows for random access::
 
-    >>> table = DBF('people.dbf')
+    >>> table = DBF('people.dbf', load=True)
     >>> table.records[1]
-    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
 
 Full documentation at http://dbfread.readthedocs.org/
 
