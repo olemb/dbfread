@@ -27,8 +27,10 @@ file.  If you have enough memory you can load the records into a
 list. This allows for random access::
 
     >>> table = DBF('people.dbf', load=True)
-    >>> table.records[1]
-    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
+    >>> print(table.records[1]['NAME'])
+    Bob
+    >>> print(table.records[0]['NAME'])
+    Alice
 
 Full documentation at http://dbfread.readthedocs.org/
 
