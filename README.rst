@@ -334,8 +334,6 @@ Caveats
   still included for backwards compatability, and returns an
   ``DeprecatedDBF`` object with the old behaviour.
 
-* there is currently no way to ignore missing memo files.
-
 
 License
 -------
