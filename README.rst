@@ -10,8 +10,6 @@ batch jobs and one-off scripts.
 Example
 -------
 
-To read records from a DBF file::
-
     >>> from dbfread import DBF
     >>> for record in DBF('people.dbf'):
     ...     print(record)
