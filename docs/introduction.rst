@@ -160,6 +160,38 @@ returned as ``None``, as would be the case if there was no memo.
 Record Factories
 ----------------
 
+If you don't want records returned as dictionaries or ordered
+dictionaries you can make your own record types with the
+``recfactory`` argument.
+
+A record factory is a function that takes a list of ``(name, value)``
+pairs and returns a record. The first record in ``people.dbf`` will be
+passed to the factory as:
+
+... code-block:: python
+
+    [('NAME', 'Alice'), ('BIRTHDATE': datetime.date(1987, 3, 1)]
+
+You can do whatever you like with this data. Here's a very naive
+implementation of CSV:
+
+... code-block:: python
+
+    from dbfread import DBF
+    
+    def get_values(items):
+       return [str(value) for (name, value) in items]
+    
+    table = DBF('people.dbf', recfactory=get_values)
+    print(';'.join(table.field_names))
+    for record in table:
+        print(';'.join(record))
+
+(You will find this in ``examples/csv_export.py``.)
+
+This is just an example. It doesn't escape values in the data, so you
+should use the standard library module ``csv`` instead.
+
 
 Custom Field Types
 ------------------
