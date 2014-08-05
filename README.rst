@@ -36,7 +36,7 @@ Main Features
 
 * data is returned as native Python data types
 
-* records are ordered dictionaries, but can be recofigured to be of
+* records are ordered dictionaries, but can be reconfigured to be of
   any type
 
 * aims to handle all variants of DBF files. (Currently only widely
