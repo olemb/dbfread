@@ -1,3 +1,5 @@
+.. highlight:: python
+
 Introduction
 ============
 
@@ -8,32 +10,24 @@ you can find ``people.dbf`` in ``examples/files/``.
 Opening a DBF File
 ------------------
 
-... code-block:: python
+::
 
     >>> from dbfread import DBF
     >>> table = DBF('people.dbf')
 
 This returns a ``DBF`` object. You can now iterate over records::
 
-... code-block:: python
-
     >>> for record in table:
     ...     print(record)
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-... code-block:: python
-
 and count records::
-
-... code-block:: python
 
     >>> len(table)
     2
 
-Deleted records are available in ``deleted``:
-
-... code-block:: python
+Deleted records are available in ``deleted``::
 
     >>> for record in table.deleted:
     ...     print(record)
@@ -57,9 +51,7 @@ By default records are streamed directly off disk, which means only
 one record is in memory at a time.
 
 If have enough memory, you can load the records into a list by passing
-``load=True``. This allows for random access:
-
-... code-block:: python
+``load=True``. This allows for random access::
 
     >>> table = DBF('people.dbf', load=True)
     >>> table.records[1]
@@ -75,8 +67,6 @@ the ones you need.
 
 If you just want a list of records and you don't care about the other
 table attributes you can do::
-
-... code-block:: python
 
     >>> records = list(DBF('people.dbf'))
 
@@ -148,16 +138,12 @@ dictionaries you can make your own record types with the
 
 A record factory is a function that takes a list of ``(name, value)``
 pairs and returns a record. The first record in ``people.dbf`` will be
-passed to the factory as:
+passed to the factory as::
 
-... code-block:: python
-
-    [('NAME', 'Alice'), ('BIRTHDATE': datetime.date(1987, 3, 1)]
+    [('NAME', 'Alice'), ('BIRTHDATE': datetime.date(1987, 3, 1))]
 
 You can do whatever you like with this data. Here's a very naive
-implementation of CSV export:
-
-... code-block:: python
+implementation of CSV export::
 
     from dbfread import DBF
     
@@ -189,9 +175,7 @@ Custom Field Types
 
 If the included message types are not enough you can add your own by
 subclassing ``FieldParser``. As a silly example, here how you can read
-text (``C``) fields in reverse:
-
-... code-block:: python
+text (``C``) fields in reverse::
 
     from dbfread import DBF, FieldParser
 
@@ -204,9 +188,7 @@ text (``C``) fields in reverse:
         print(record['NAME'])
 
 and here's how you can return invalid values as ``InvalidValue``
-instead of raising ``ValueError``:
-
-... code-block:: python
+instead of raising ``ValueError``::
 
     from dbfread import DBF, FieldParser, InvalidValue
 
