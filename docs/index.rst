@@ -12,7 +12,7 @@ The goal of dbfread is to read any DBF file and return its data as
 native Python data types.
 
 If you need to write DBF files, check out Ethan Furman's `dbf
-<https://pypi.python.org/pypi/dbf/0.95.012>`_ package.
+<http://pypi.python.org/pypi/dbf/0.95.012>`_ package.
 
 .. code-block:: python
 
@@ -23,7 +23,7 @@ If you need to write DBF files, check out Ethan Furman's `dbf
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
 If you also need to write DBF files check out Ethan Furman's `dbf
-<https://pypi.python.org/pypi/dbf/0.95.012>`_ package.
+<http://pypi.python.org/pypi/dbf/0.95.012>`_ package.
 
 
 Source code

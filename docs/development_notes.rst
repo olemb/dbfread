@@ -7,7 +7,7 @@ Official Git Repository
 dbfread uses Git fand GitHub for version control.
 
 All development happens in the develop branch:
-https://github.com/olemb/dbfread/tree/develop
+http://github.com/olemb/dbfread/tree/develop
 
 
 Unit Tests
