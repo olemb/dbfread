@@ -20,21 +20,13 @@ To read records from a DBF file::
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-If you have enough memory you can load the records into a list by
-passing ``load=True`` or calling the ``load()`` method. This allows
-for random access::
+By default the ``DBF`` object will stream records directly from the
+file.  If you have enough memory you can load the records into a
+list. This allows for random access::
 
-    >>> table = DBF('people.dbf', load=True)
-    >>> table.records[0]
-    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
-
-Iteration and ``len(table)`` work the same way with loaded and
-unloaded tables. Deleted records are available in the ``deleted``
-attribute and behave just like normal records.
-
-``dbfread`` will detect most commonly used character encodings. If you
-get decording errors you can use the keyword argument ``encoding`` to
-override the detected encoding.
+    >>> table = DBF('people.dbf')
+    >>> table.records[1]
+    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
 Full documentation at http://dbfread.readthedocs.org/
 
@@ -42,33 +34,23 @@ Full documentation at http://dbfread.readthedocs.org/
 Main Features
 -------------
 
-* dirt simple API.
+* written for Python 3 (but also works in 2.7).
 
-* written for Python 3. (Also works in 2.7.)
+* records are returned as dictionaries with native Python data
+  types. Can also use ordered dictionaries and custom record types.
 
-* iterate over records directly from file or keep them in a list.
+* aims to handle all variants of DBF files. (Currently only widely
+  tested with Visual FoxPro, but all other files have worked so far.)
 
-* full support for all 9 commonly used field types. New types can
-  be added by subclassing ``FieldParser``.
+* reads all 9 commonly used field types. New types can be added by
+  subclassing ``FieldParser``.
 
-* DBF class with many options and attributes.
+* reads ``.FPT`` memo files with both text and binary memos (and soon
+  ``.DBT`` files).
 
-* full support for ``.FPT`` memo files.
+* handles mixed case file names gracefully on case sensitive file systems.
 
-* handles mixed case file names gracefully by ignoring case.
-
-* reads deleted records separately.
-
-
-Status
-------
-
-Various incarnations of the library has been used since 2001 to read
-Visual FoxPro files with a wide range of data types. It is not widely
-tested with other DBF formats but should still work for most files.
-
-I intend for dbfread to be able to read any DBF file. If you have a
-file it can't read, or you find a bug, I'd love to hear from you.
+* can retrieve deleted records.
 
 
 Installing
