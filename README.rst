@@ -44,8 +44,9 @@ Main Features
 * aims to handle all variants of DBF files. (Currently only widely
   tested with Visual FoxPro, but all other files have worked so far.)
 
-* reads all 9 commonly used field types. New types can be added by
-  subclassing ``FieldParser``.
+* support for 9 field types (date, float, integer, logical, memo,
+  numeric, text, time and the Visual FoxPro specific flags). New types
+  can be added by subclassing ``FieldParser``.
 
 * reads ``.FPT`` memo files with both text and binary memos (and soon
   ``.DBT`` files).
