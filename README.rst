@@ -63,7 +63,7 @@ Requires Python 3.2 or 2.7.
 
   pip install dbfread
 
-``dbfread`` is a pure Python module, so doesn't depend on any packages
+``dbfread`` is a pure Python module and doesn't depend on any packages
 outside the standard library.
 
 To build documentation locally::
