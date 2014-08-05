@@ -1,8 +1,15 @@
 Introduction
 ============
 
-If you want to follow along you can find ``people.dbf`` in
-``examples/files/``.
+DBF is a file format used by databases such as dBase, Visual FoxPro,
+FoxBase+ and Clipper.
+
+The goal of dbfread is to read any DBF file and get data out of it in
+native Python data types. (If need to write DBF files check out Ethan
+Furman's `dbf <https://pypi.python.org/pypi/dbf/0.95.012>`_ package.)
+
+This is a short introduction to the API. If you want to follow along
+you can find ``people.dbf`` in ``examples/files/``.
 
 
 Opening a DBF File
