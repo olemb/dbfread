@@ -29,6 +29,19 @@ Latest stable release: http://github.com/olemb/dbfread/
 Latest development version: http://github.com/olemb/dbfread/tree/develop/
 
 
+About This Document
+-------------------
+
+This document is available at http://dbfread.readthedocs.org/
+
+To build documentation locally::
+
+    python setup.py docs                                                        
+
+This requires Sphinx. The resulting files can be found in
+``docs/_build/``.
+
+
 Contents
 ------------
 
@@ -36,6 +49,7 @@ Contents
    :maxdepth: 2
 
    installing
+   field_types
    about_dbf
    lib
    license

@@ -42,6 +42,8 @@ do this instead if you prefer::
 get decording errors you can use the keyword argument ``encoding`` to
 override the detected encoding.
 
+Full documentation at http://dbfread.readthedocs.org/
+
 
 Main Features
 -------------
@@ -86,6 +88,13 @@ Requires Python 3.2 or 2.7.
 
 ``dbfread`` is a pure Python module, so doesn't depend on any packages
 outside the standard library.
+
+To build documentation locally::
+
+    python setup.py docs
+
+This requires Sphinx. The resulting files can be found in
+``docs/_build/``.
 
 
 Source code
