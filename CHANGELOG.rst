@@ -1,4 +1,4 @@
-1.1.2 - 
+1.2.0 - 
 ------------------
 
 * added ``ordered`` argument as a shortcut for
@@ -12,6 +12,8 @@
 
 * added ``InvalidValue``. This is currently not used by the library but
   can be useful for custom parsing.
+
+* ``FieldParser`` is now available in the top scope.
 
 
 1.1.1 - 2014-08-03
