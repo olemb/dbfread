@@ -121,9 +121,40 @@ Here's an example of a simple CSV exporter:
 Character Encodings
 -------------------
 
+All text fields and memos (except binary ones) will be returned as
+unicode strings.
+
+dbfread will try to detect the character encoding (code page) used in
+the file by looking at the ``language_driver`` byte. If this fails it
+reverts to ASCII.
+
+You can override this by passing ``encoding='my-encoding'``.
+
+The encoding is available in the ``encoding`` attribute.
+
 
 Memo Files
 ----------
+
+If there is at least one memo field in the file dbfread will look for
+the corresponding memo file. If ``people.dbf`` had a memo field, the
+memo file would be ``people.fpt``. (This is the extension used by
+Visual FoxPro. More extensions, like ``.dbt``, will be added as they
+are implemented.)
+
+Since the Windows file system is case preserving, the file names may
+end up mixed case. For example, in our database we have this::
+
+    Endreg.dbf ENDREG.fpt
+
+This creates problems in Linux, where file names are case
+sensitive. dbfread gets around this by ignoring case in file
+names. You can turn this off by passing ``ignorecase=False``.
+
+If the memo file is missing you will get a ``MissingMemoFile``
+exception. You can still get the rest of the data out by passing
+``ignore_missing_memofile=True``. All memo field values will now be
+returned as ``None``, as would be the case if there was no memo.
 
 
 Record Factories
