@@ -59,6 +59,7 @@ Contents
    keyword_arguments
    methods_and_attributes
    field_types
+   api_changes
    development_notes
    resources
    license
