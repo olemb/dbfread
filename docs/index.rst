@@ -50,6 +50,7 @@ Contents
 
    installing
    keyword_arguments
+   methods_and_attributes
    field_types
    about_dbf
    lib

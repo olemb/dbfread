@@ -1,5 +1,8 @@
-Keyword Arguments to open() / DBF()
-===================================
+Keyword Arguments
+=================
+
+Keyword arguments are the same for ``dbfread.open()`` and
+``dbfread.DBF()``.
 
 load=False
   By default records and deleted records will be read off disk one by
@@ -12,7 +15,7 @@ encoding=None
 
   By default dbfread will try to guess character encoding from the
   ``language_driver`` byte. If this fails it falls back on
-  ``"ascii"``.
+  ASCII.
 
 lowernames=False
   Field names are typically uppercase. If you pass ``True`` all field
