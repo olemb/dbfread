@@ -56,7 +56,6 @@ Contents
    development_notes
    resources
    license
-   authors
    acknowledgements
 
 
