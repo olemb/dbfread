@@ -49,6 +49,7 @@ Contents
    :maxdepth: 2
 
    installing
+   introduction
    keyword_arguments
    methods_and_attributes
    field_types

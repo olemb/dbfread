@@ -14,8 +14,8 @@ Example
 
 To read records from a DBF file::
 
-    >>> import dbfread
-    >>> for record in dbfread.open('people.dbf'):
+    >>> from dbfread import DBF
+    >>> for record in DBF('people.dbf'):
     ...     print(record)
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
@@ -24,19 +24,13 @@ If you have enough memory you can load the records into a list by
 passing ``load=True`` or calling the ``load()`` method. This allows
 for random access::
 
-    >>> table = dbfread.open('people.dbf', load=True)
+    >>> table = DBF('people.dbf', load=True)
     >>> table.records[0]
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
 
 Iteration and ``len(table)`` work the same way with loaded and
 unloaded tables. Deleted records are available in the ``deleted``
 attribute and behave just like normal records.
-
-``dbfread.open()`` is just an alias for the ``DBF`` class, so you can
-do this instead if you prefer::
-
-    >>> from dbfread import DBF
-    >>> table = DBF('people.dbf')
 
 ``dbfread`` will detect most commonly used character encodings. If you
 get decording errors you can use the keyword argument ``encoding`` to
