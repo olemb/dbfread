@@ -181,12 +181,13 @@ instead of raising ``ValueError``::
             except ValueError:
                 return InvalidValue(data)
 
-    for record in DBF('invalid_value.dbf', parserclass=MyFieldParser):
+    table = DBF('invalid_value.dbf', parserclass=MyFieldParser):
+    for i, record in enumerate(table):
         for name, value in record.items():
             if isinstance(value, InvalidValue):
-                print('Found {!r} in field {}'.format(
-                      value, name))
+                print('records[{}][{!r}] == {!r}'.format(i, name, value))
 
 This will print::
 
-    Found InvalidValue(b'NotAYear') in field BIRTHDATE
+    records[0][u'BIRTHDATE'] == InvalidValue(b'NotAYear')
+

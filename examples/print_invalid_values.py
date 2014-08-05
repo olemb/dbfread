@@ -11,9 +11,8 @@ class MyFieldParser(FieldParser):
         except ValueError:
             return InvalidValue(data)
 
-with DBF('files/invalid_value.dbf', parserclass=MyFieldParser) as table:
-    for i, record in enumerate(table):
-        for name, value in record.items():
-            if isinstance(value, InvalidValue):
-                print('records[{}][{!r}] == {!r}'.format(
-                      i, name, value))
+table = DBF('files/invalid_value.dbf', parserclass=MyFieldParser)
+for i, record in enumerate(table):
+    for name, value in record.items():
+        if isinstance(value, InvalidValue):
+            print('records[{}][{!r}] == {!r}'.format(i, name, value))
