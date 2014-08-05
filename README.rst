@@ -41,11 +41,13 @@ Main Features
 
 * simple but flexible API.
 
-* records are returned as dictionaries with native Python data
-  types. Can also use ordered dictionaries and custom record types.
+* data is returned as native Python data types.
+
+* records are ordered dictionaries, but can be recofigured to be of
+  any type.
 
 * aims to handle all variants of DBF files. (Currently only widely
-  tested with Visual FoxPro, but all other files have worked so far.)
+  tested with Visual FoxPro, but has worked well with other variants.)
 
 * support for 9 field types (date, float, integer, logical, memo,
   numeric, text, time and the Visual FoxPro specific flags). New types
