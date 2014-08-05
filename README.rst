@@ -102,6 +102,10 @@ can be rewritten as::
     table = DBF('people.dbf', load=True)
     print(table.records[1])
 
+``open()`` and ``read()`` return the old style class
+``DeprecatedDBF``, which is a subclass of ``DBF`` and ``list`` and
+thus backward compatible.
+
 
 License
 -------

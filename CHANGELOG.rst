@@ -1,6 +1,10 @@
 1.2.0 - 
 ------------------
 
+* ``dbfread.open()`` and ``dbfread.read()`` are now deprecated and
+  will be removed in 1.4. The new ``DBF`` class is not a subclass of
+  list, but these functions return the old style class.
+
 * added ``ordered`` argument as a shortcut for
   ``recfactory=collections.OrderedDict``.
 
@@ -14,6 +18,9 @@
   can be useful for custom parsing.
 
 * ``FieldParser`` is now available in the top scope.
+
+* wrote documentation.
+
 
 
 1.1.1 - 2014-08-03
