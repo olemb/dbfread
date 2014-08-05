@@ -6,9 +6,6 @@ FoxBase+. This library reads DBF files and returns the data as native
 Python data types for further processing. It is primarily intended for
 batch jobs and one-off scripts.
 
-If you need to write DBF files check out `dbfpy
-<https://pypi.python.org/pypi/dbfpy/>`_
-
 
 Example
 -------
