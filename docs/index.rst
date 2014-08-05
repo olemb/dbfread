@@ -58,8 +58,8 @@ Contents
    keyword_arguments
    methods_and_attributes
    field_types
-   about_dbf
-   lib
+   development_notes
+   resources
    license
    authors
    acknowledgements

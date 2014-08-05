@@ -1,5 +1,0 @@
-.. _api:
-
-Library Reference
-==================
-
