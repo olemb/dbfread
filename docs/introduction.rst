@@ -150,7 +150,7 @@ Visual FoxPro. More extensions, like ``.dbt``, will be added as they
 are implemented.)
 
 Since the Windows file system is case preserving, the file names may
-end up mixed case. For example, in our database we have this::
+end up mixed case. For example, in our database we have::
 
     Endreg.dbf ENDREG.fpt
 
@@ -212,6 +212,42 @@ with different factories.
 Custom Field Types
 ------------------
 
+If the included :doc:`message_types`` are not enough you can add your
+own by subclassing ``FieldParser``. As a silly example, here how you
+can read text (``C``) fields in reverse:
 
+... code-block:: python
 
+    from dbfread import DBF, FieldParser
 
+    class MyFieldParser(FieldParser):
+        def parseC(self, field, data):
+            # Return strings reversed.
+            return data.rstrip(' 0').decode()[::-1]
+
+    for record in DBF('files/people.dbf', parserclass=MyFieldParser):
+        print(record['NAME'])
+
+and here's how you can return invalid values as ``InvalidValue``
+instead of raising ``ValueError``:
+
+... code-block:: python
+
+    from dbfread import DBF, FieldParser, InvalidValue
+
+    class MyFieldParser(FieldParser):
+        def parse(self, field, data):
+            try:
+                return FieldParser.parse(self, field, data)
+            except ValueError:
+                return InvalidValue(data)
+
+    for record in DBF('invalid_value.dbf', parserclass=MyFieldParser):
+        for name, value in record.items():
+            if isinstance(value, InvalidValue):
+                print('Found {!r} in field {}'.format(
+                      value, name))
+
+This will print::
+
+    Found InvalidValue(b'NotAYear') in field BIRTHDATE
