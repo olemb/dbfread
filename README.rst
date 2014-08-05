@@ -23,7 +23,7 @@ To read records from a DBF file::
 
 By default the ``DBF`` object will stream records directly from the
 file.  If you have enough memory you can load the records into a
-list. This allows for random access::
+list instead. This allows for random access::
 
     >>> table = DBF('people.dbf', load=True)
     >>> print(table.records[1]['NAME'])
