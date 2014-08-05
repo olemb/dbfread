@@ -1,9 +1,6 @@
 Keyword Arguments
 =================
 
-Keyword arguments are the same for ``dbfread.open()`` and
-``dbfread.DBF()``.
-
 load=False
   By default records and deleted records will be read off disk one by
   one.  If you pass ``True`` all records will be loaded into memory
@@ -24,35 +21,14 @@ lowernames=False
 ordered=False
   Sometimes field order is important. If you pass ``ordered=True``,
   records will be returned as ordered dictionaries, which means you
-  can loop over the fields in the order they appear in the file. This
-  can be used when creating CSV files::
-
-      import csv
-      import dbfread
-
-      with dbfread.open('files/people.dbf',
-                        ordered=True, lowernames=True) as people:
-          writer = csv.writer(sys.stdout, delimiter=';',
-                        quotechar='|', quoting=csv.QUOTE_MINIMAL)
-
-          writer.writerow(people.field_names)
-          for record in people:
-              writer.writerow(record.values())
-
-  (This example can be found in ``examples/ordered.py``.)
+  can loop over the fields in the order they appear in the file.
 
   The argument is overriden by ``recfactory``.
 
 recfactory=None
   Takes a function that will be used to produce new records. The
   default is ``dict``. The function should take a list of ``(name,
-  value)`` tuples. For example, this will return just the values as a
-  list::
-
-      def itemlist(items):
-          return [value for (name, value) in items]
-
-      dbfread.open('people.dbf', recfactory=itemlist)
+  value)`` tuples and return a record.
 
   This overrides the ``ordered`` argument.
 

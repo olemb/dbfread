@@ -99,24 +99,6 @@ CSV. You can get around this by passing ``ordered=True``. This will
 return records as ordered dictionaries which means you can iterate
 over the keys in the order they are found in the file.
 
-Here's an example of a simple CSV exporter:
-
-.. code-block:: python
-
-    import csv
-    import dbfread
-
-    with dbfread.open('files/people.dbf',
-                      ordered=True, lowernames=True) as people:
-        writer = csv.writer(sys.stdout, delimiter=';',
-                      quotechar='|', quoting=csv.QUOTE_MINIMAL)
-
-        writer.writerow(people.field_names)
-        for record in people:
-             writer.writerow(record.values())
-
-(This example can be found in ``examples/ordered.py``.)
-
 
 Character Encodings
 -------------------

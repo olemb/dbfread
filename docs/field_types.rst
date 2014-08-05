@@ -29,8 +29,7 @@ strings in our numeric (``N``) fields:
 
 .. code-block:: python
 
-    import dbfread
-    from dbfread import FieldParser
+    from dbfread import DBF, FieldParser
 
     class PortkartFieldParser(FieldParser):
         """Field parser that handles unusual things in the Telemator data."""
@@ -42,9 +41,9 @@ strings in our numeric (``N``) fields:
 
         ...
 
-        table = dbfread.open(filename,
-                             load=True,
-                             parserclass=PortkartFieldParser.
+        table = DBF(filename,
+                   load=True,
+                   parserclass=PortkartFieldParser.
 
 This will return return ``InvalidValue`` object that renders just like
 strings, for example::

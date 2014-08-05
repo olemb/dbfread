@@ -14,8 +14,8 @@ Furman's `dbf <https://pypi.python.org/pypi/dbf/0.95.012>`_ package.)
 
 .. code-block:: python
 
-    >>> import dbfread
-    >>> for record in dbfread.open('people.dbf'):
+    >>> from dbfread import DBF
+    >>> for record in DBF('people.dbf'):
     ...     print(record)
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)} 
     {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
