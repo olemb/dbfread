@@ -192,6 +192,15 @@ implementation of CSV:
 This is just an example. It doesn't escape values in the data, so you
 should use the standard library module ``csv`` instead.
 
+If you pass both ``ordered=True`` and ``recfactory`` the
+``recfactory`` argument will win. (``ordered=True`` is just an alias
+for ``recfactory=collections.OrderedDict``.)
+
+You can change the ``recfactory`` attribute after opening the table,
+for example before an iterations. Each iterator caches the
+``recfactory`` value, so you can run two iterators at the same time
+with different factories.
+
 
 Custom Field Types
 ------------------
