@@ -64,7 +64,7 @@ By default records are streamed directly off disk, which means only
 one record is in memory at a time.
 
 If have enough memory, you can load the records into a list by passing
-``load=True''. This allows for random access:
+``load=True``. This allows for random access:
 
 ... code-block:: python
 
