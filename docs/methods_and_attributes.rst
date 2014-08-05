@@ -5,10 +5,14 @@ Methods
 -------
 
 load()
-   Load records into memory. This loads both records and deleted records.
+   Load records into memory. This loads both records and deleted
+   records. The ``records`` and ``deleted`` attributes will now be
+   lists of records.
 
 unload()
-   Unload records from memory.
+   Unload records from memory. The ``records`` and ``deleted``
+   attributes will now be instances of ``RecordIterator``, which
+   streams records from disk
 
 
 Attributes
