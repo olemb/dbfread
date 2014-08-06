@@ -25,8 +25,6 @@
 
 * wrote documentation.
 
-* many internal improvements.
-
 
 
 1.1.1 - 2014-08-03
