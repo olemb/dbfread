@@ -6,8 +6,11 @@
   the file.
 
 * ``dbfread.open()`` and ``dbfread.read()`` are now deprecated and
-  will be removed in 1.4. The new ``DBF`` class is not a subclass of
-  list, but these functions return the old style class.
+  will be removed in 1.4.
+
+* the ``DBF`` class is no longer a subclass of ``list``. This makes
+  the API cleaner and easier to understand. The deprecated functions
+  return backward compatible ``DeprecatedDBF`` objects.
 
 * added ``ignore_missing_memofile`` argument. If ``True`` and the memo
   file is not found all memo fields will be returned as ``None``.
@@ -21,6 +24,8 @@
 * ``FieldParser`` is now available in the top scope.
 
 * wrote documentation.
+
+* many internal improvements.
 
 
 
