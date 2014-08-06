@@ -4,7 +4,7 @@ Development Notes
 Official Git Repository
 -----------------------
 
-dbfread uses Git fand GitHub for version control.
+dbfread uses Git and GitHub for version control.
 
 All development happens in the develop branch:
 http://github.com/olemb/dbfread/tree/develop
