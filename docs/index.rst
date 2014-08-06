@@ -50,6 +50,7 @@ Contents
    installing
    introduction
    keyword_arguments
+   exporting_data
    methods_and_attributes
    field_types
    api_changes
