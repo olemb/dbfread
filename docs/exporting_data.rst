@@ -7,8 +7,8 @@ Here are some examples of how you can export data to other databases
 or file formats.
 
 
-dataset
--------
+dataset (SQL)
+-------------
 
 The `dataset <http://dataset.readthedocs.org/>`_ package makes it easy
 to move data to a modern database. Here's how you can insert the
