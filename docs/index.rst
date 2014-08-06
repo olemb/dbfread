@@ -49,8 +49,8 @@ Contents
 
    installing
    introduction
-   keyword_arguments
    exporting_data
+   keyword_arguments
    methods_and_attributes
    field_types
    api_changes
