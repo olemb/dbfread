@@ -50,8 +50,7 @@ Contents
    installing
    introduction
    exporting_data
-   keyword_arguments
-   methods_and_attributes
+   dbf_objects
    field_types
    api_changes
    development_notes
