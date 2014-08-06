@@ -102,8 +102,8 @@ can be rewritten as::
     table = DBF('people.dbf', load=True)
     print(table.records[1])
 
-``open()`` and ``read()`` both ``DeprecatedDBF``, which is a subclass
-of ``DBF`` and ``list`` and thus backward compatible.
+``open()`` and ``read()`` both return ``DeprecatedDBF``, which is a
+subclass of ``DBF`` and ``list`` and thus backward compatible.
 
 
 License
