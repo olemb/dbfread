@@ -1,4 +1,4 @@
-include README.rst LICENSE CHANGELOG.rst tests.py run_tests.py
+include README.rst LICENSE CHANGELOG.rst unit_tests.py run_tests.py
 include examples/dbf2sqlite
 recursive-include examples *.dbf *.py
 recursive-include testcases *.dbf *.FPT
@@ -6,4 +6,4 @@ recursive-include docs *.bat
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs Makefile
-docs/_static/PLACEHOLDER
+include docs/_static/PLACEHOLDER
