@@ -31,7 +31,7 @@ setup(
     package_dir={'dbfread': 'dbfread'},
     packages = ['dbfread'],
     include_package_data=True,
-    zip_safe=False,
+    zip_safe=True,
     install_requires=[],
     license='MIT',
     classifiers=(
