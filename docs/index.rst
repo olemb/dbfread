@@ -53,7 +53,6 @@ Contents
    dbf_objects
    field_types
    api_changes
-   development_notes
    resources
    license
    acknowledgements
