@@ -1,9 +1,9 @@
 from __future__ import print_function
 import sys
 import random
-from unittest import TestCase, main
 from contextlib import contextmanager
 import datetime
+from pytest import raises
 
 from dbfread import DBF, FieldParser, InvalidValue, MissingMemoFile
 
@@ -41,7 +41,7 @@ def make_field_parser(field_type):
 
     return parse
 
-class TestReadAndLength(TestCase):
+class TestReadAndLength(object):
     def test_all(self):
         table = DBF('testcases/memotest.dbf')
 
@@ -71,7 +71,7 @@ class TestReadAndLength(TestCase):
         # This should not return old style table which was a subclass of list.
         assert not isinstance(table, list)
 
-class TestFieldParsers(TestCase):
+class TestFieldParsers(object):
     def test_0(self):
         parse = make_field_parser('0')
         
@@ -163,11 +163,11 @@ class TestFieldParsers(TestCase):
 
         # Todo: add more tests.
 
-class TestInvalidValue(TestCase):
+class TestInvalidValue(object):
     def test_repr(self):
         assert repr(InvalidValue(b'')) == "InvalidValue(b'')"
 
-class TestMemoFile(TestCase):
+class TestMemoFile(object):
     def test_ignore_missing_memofile(self):
         with raises(MissingMemoFile):
             DBF('testcases/no_memofile.dbf')
@@ -179,6 +179,3 @@ class TestMemoFile(TestCase):
         # Memo fields should be returned as None.
         record = next(iter(table))
         assert record['MEMO'] is None
-
-if __name__ == '__main__':
-    main()
