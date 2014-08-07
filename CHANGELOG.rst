@@ -23,6 +23,7 @@
 
 * wrote documentation.
 
+* switched to pytest for unit tests.
 
 
 1.1.1 - 2014-08-03
