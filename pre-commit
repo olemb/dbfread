@@ -4,7 +4,7 @@
 #
 # Install with:
 #
-#   cp pre-commit .git/hooks/
+#   (cd .git/hooks; ln -s ../../pre-commit .)
 #
 function display() {
   echo -e '\e[0;33m' $* '\e[0m'
