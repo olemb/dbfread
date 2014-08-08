@@ -97,7 +97,9 @@ class DBF(object):
         self.ignorecase = ignorecase
         self.lowernames = lowernames
         self.parserclass = parserclass
-        self._field_parser = None  # Set by _read_headers().
+        # This must be set later because it caches the encoding,
+        # and we don't know the encoding yet.
+        self._field_parser = None
         self.raw = raw
 
         if recfactory is None:
