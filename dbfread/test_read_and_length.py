@@ -1,10 +1,17 @@
 """
 Tests reading from database.
 """
+from pytest import fixture
 import datetime
 from .dbf import DBF
 
-table = DBF('testcases/memotest.dbf')
+@fixture
+def table():
+    return DBF('testcases/memotest.dbf')
+
+@fixture
+def loaded_table():
+    return DBF('testcases/memotest.dbf', load=True)
 
 # This relies on people.dbf having this exact content.
 records = [{u'NAME': u'Alice',
@@ -17,17 +24,19 @@ deleted_records = [{u'NAME': u'Deleted Guy',
                     u'BIRTHDATE': datetime.date(1979, 12, 22),
                     u'MEMO': u'Deleted Guy memo'}]
 
-assert len(table) == 2
-assert len(table.deleted) == 1
-assert list(table) == records
-assert list(table.deleted) == deleted_records
+def test_len():
+    assert len(table()) == 2
+    assert len(table().deleted) == 1
 
-table.load()
-loaded_table = table
-assert len(loaded_table) == 2
-assert len(loaded_table.deleted) == 1
-assert list(loaded_table) == records
-assert list(loaded_table.deleted) == deleted_records
+    assert len(loaded_table()) == 2
+    assert len(loaded_table().deleted) == 1
 
-# This should not return old style table which was a subclass of list.
-assert not isinstance(table, list)
+def test_list():
+    assert list(table()) == records
+    assert list(table().deleted) == deleted_records
+    
+    assert list(loaded_table()) == records
+    assert list(loaded_table().deleted) == deleted_records
+
+    # This should not return old style table which was a subclass of list.
+    assert not isinstance(table(), list)
