@@ -97,6 +97,7 @@ class DBF(object):
         self.ignorecase = ignorecase
         self.lowernames = lowernames
         self.parserclass = parserclass
+        self._field_parser = None  # Set by _read_headers().
         self.raw = raw
 
         if recfactory is None:
@@ -179,6 +180,8 @@ class DBF(object):
             except LookupError as err:
                 self.encoding = 'ascii'
 
+        self._field_parser = self.parserclass(self)
+
         #
         # Read field headers
         #
@@ -222,8 +225,6 @@ class DBF(object):
                     raise MissingMemoFile(repr(fn))
 
     def _check_headers(self):
-        field_parser = self.parserclass(self)
-
         """Check headers for possible format errors."""
         for field in self.fields:
 
@@ -239,7 +240,7 @@ class DBF(object):
                 message = 'Field type L must have length 1 (was {})'
                 raise ValueError(message.format(field.length))
 
-            elif not field_parser.field_type_supported(field.type):
+            elif not self._field_parser.field_type_supported(field.type):
                 # Todo: return as byte string?
                 raise ValueError('Unknown field type: {!r}'.format(field.type))
 
@@ -247,7 +248,7 @@ class DBF(object):
         items = []  # List of Field
 
         # Shortcuts for speed.
-        parse = self.parserclass(self).parse
+        parse = self._field_parser.parse
         append = items.append
         read = infile.read
         
