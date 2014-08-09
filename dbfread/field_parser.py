@@ -95,7 +95,7 @@ class FieldParser:
             return None
 
     def parseI(self, field, data):
-        """Parse Integer field and return float or None"""
+        """Parse integer field and return int."""
         # Todo: is this 4 bytes on every platform?
         return struct.unpack('<i', data)[0]
 
@@ -150,6 +150,10 @@ class FieldParser:
                 # Account for , in numeric fields
                 return float(data.replace(b',', b'.'))
 
+    def parseO(self, field, data):
+        """Parse long field (O) and return float."""
+        return struct.unpack('<d', data)
+
     def parseT(self, field, data):
         """Parse time field (T)
 
@@ -184,3 +188,9 @@ class FieldParser:
                 return None
         else:
             return None
+
+    # Autoincrement field ('+')
+    parse2B = parseI
+
+    # Timestamp field ('@')
+    parse40 = parseT

@@ -4,20 +4,23 @@ Field Types
 Supported Field Types
 ---------------------
 
-=  ==========  ========================================================
-:  Field type   Converted to
-=  ==========  ========================================================
-0  flags       int
-C  text        unicode string
-D  date        datetime.date or None
-F  float       float or None
-I  integer     int or None
-L  logical     True, False or None
-M  memo        unicode string (memo), byte string (picture or object)
-               or None
-N  numeric     int, float or None
-T  time        datetime.datetime
-=  ==========  ========================================================
+==  =============  ========================================================
+:   Field type     Converted to
+==  =============  ========================================================
+\+  autoincrement  int
+@   time           datetime.datetime
+0   flags          int
+C   text           unicode string
+D   date           datetime.date or None
+F   float          float
+I   integer        int
+L   logical        True, False or None
+M   memo           unicode string (memo), byte string (picture or object)
+                   or None
+N   numeric        int, float or None
+O   double         float (floats are doubles in Python)
+T   time           datetime.datetime
+==  =============  ========================================================
 
 
 Adding Custom Field Types

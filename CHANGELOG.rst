@@ -10,6 +10,9 @@
   subclass of list, these functions instead return backward compatible
   ``DeprecatedDBF`` objects.
 
+* added support for field types 'O' (double), '@' (time stamp) and '+'
+  (autoincrement).
+
 * added ``ignore_missing_memofile`` argument. If ``True`` and the memo
   file is not found all memo fields will be returned as ``None``.
 
