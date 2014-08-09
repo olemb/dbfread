@@ -10,13 +10,15 @@ Supported Field Types
 \+  autoincrement  int
 @   time           datetime.datetime
 0   flags          int
+B   binary         binary data (stored in memo file)
 C   text           unicode string
 D   date           datetime.date or None
 F   float          float
+G   OLE            OLE object (stored in memo file)
 I   integer        int
 L   logical        True, False or None
 M   memo           unicode string (memo), byte string (picture or object)
-                   or None
+                   or None (stored in memo file)
 N   numeric        int, float or None
 O   double         float (floats are doubles in Python)
 T   time           datetime.datetime
