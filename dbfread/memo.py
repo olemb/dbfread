@@ -68,7 +68,7 @@ class FakeMemoFile(MemoFile):
 
     _init = _close = _open
 
-class MemoText(bytes):
+class BinaryMemo(bytes):
     pass
 
 class VisualFoxProMemoFile(MemoFile):
@@ -88,9 +88,9 @@ class VisualFoxProMemoFile(MemoFile):
             raise IOError('EOF reached while reading memo')
         
         if block_header.type == 0x1:
-            return MemoText(data)
-        else:
             return data
+        else:
+            return BinaryMemo(data)
 
 class DBase3MemoFile(MemoFile):
     """dBase III memo file."""

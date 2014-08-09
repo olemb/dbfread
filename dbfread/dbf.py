@@ -9,7 +9,7 @@ import collections
 from .ifiles import ifind
 from .struct_parser import StructParser
 from .field_parser import FieldParser
-from .memo import find_memofile, open_memofile, FakeMemoFile, MemoText
+from .memo import find_memofile, open_memofile, FakeMemoFile, BinaryMemo
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import *
@@ -279,8 +279,11 @@ class DBF(object):
                 if value is not None:
                     if field.type == 'M':
                         value = memofile[value]
-                        if isinstance(value, MemoText):
-                            value = decode_text(value, self.encoding)
+                        # Visual FoxPro allows binary data in memo fields.
+                        # These should not be decoded as string.
+                        if not isinstance(value, BinaryMemo):
+                            if value is not None:
+                                value = decode_text(value, self.encoding)
 
                     elif field.type in 'GB':
                         value = memofile[value]
