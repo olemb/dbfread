@@ -2,16 +2,16 @@ import datetime
 from pytest import raises
 from .field_parser import FieldParser
 
+class MockDBF(object):
+    encoding = 'ascii'
+
 class MockField(object):
     def __init__(self, type='', **kwargs):
         self.type = type
         self.__dict__.update(kwargs)
 
 def make_field_parser(field_type):
-    class MockFieldParser(object):
-        encoding = 'latin1'
-
-    parser = FieldParser(MockFieldParser())
+    parser = FieldParser(MockDBF())
     field = MockField(field_type)
 
     def parse(data):
@@ -109,3 +109,16 @@ def test_T():
     assert parse(b' ') is None
 
     # Todo: add more tests.
+
+def test_hex_field():
+    class PlusFieldParser(FieldParser):
+        encoding = 'latin1'
+
+        def parse3F(self, field, data):
+            """Parser for '?' field."""
+            return None
+
+    parser = PlusFieldParser(MockDBF())
+    field = MockField('?')
+
+    parser.parse(field, b'test')

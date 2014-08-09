@@ -50,4 +50,18 @@ strings, for example::
 
     InvalidValue(b'se scan')
 
-See ``examples/`` for more examples.
+
+Special Characters in Field Type Names
+--------------------------------------
+
+For a field type like '+' (autoincrement) the method would be named
+``parse+()``.  Since this is not allowed in Python you can instead use
+its ASCII value in hexadecimal. For example, the '+' parser is called
+``parse3F()``.
+
+You can name your method with::
+
+    >>> 'parse' + format(ord('?'), 'x').upper()
+    'parse3F'
+
+Just replace ``'?'`` with your field type.

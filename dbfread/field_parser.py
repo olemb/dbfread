@@ -40,7 +40,12 @@ class FieldParser:
         for name in dir(self):
             if name.startswith('parse'):
                 field_type = name[5:]
-                if field_type:
+                if len(field_type) == 1:
+                    lookup[field_type] = getattr(self, name)
+                elif len(field_type) == 2:
+                    # Hexadecimal ASCII code for field name.
+                    # Example: parse2B() ('+' field)
+                    field_type = chr(int(field_type, 16))
                     lookup[field_type] = getattr(self, name)
 
         return lookup
