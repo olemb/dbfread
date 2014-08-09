@@ -126,7 +126,7 @@ class FieldParser:
             return struct.unpack('<I', data)[0] or None
         else:
             # All spaces is a NULL value.
-            if data.strip() == b'':
+            if data.strip(b' \x00') == b'':
                 return None
 
             # Integer as a string.
