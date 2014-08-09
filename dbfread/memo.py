@@ -24,13 +24,11 @@ BlockHeader = StructParser(
      'length'])
 
 # Record type
-RECORD_TYPES = {
+VISUAL_FOXPRO_RECORD_TYPES = {
     0x0: 'picture',
     0x1: 'memo',
     0x2: 'object',
 }
-
-Record = namedtuple('Record', ['is_text', 'data'])
 
 class MemoFile(object):
     def __init__(self, filename):
@@ -63,19 +61,17 @@ class MemoFile(object):
 
 class FakeMemoFile(MemoFile):
     def __getitem__(self, i):
-        return Record(is_text=False, data=None)
+        return None
 
     def _open(self):
         pass
 
-    def _init(self):
-        pass
+    _init = _close = _open
 
-    def _close(self):
-        pass
+class MemoText(bytes):
+    pass
 
-
-class FPT(MemoFile):
+class VisualFoxProMemoFile(MemoFile):
     def _init(self):
         self.header = Header.read(self.file)
 
@@ -92,19 +88,30 @@ class FPT(MemoFile):
             raise IOError('EOF reached while reading memo')
         
         if block_header.type == 0x1:
-            return Record(is_text=True, data=data)
+            return MemoText(data)
         else:
-            return Record(is_text=False, data=data)
+            return data
 
-    def __enter__(self):
-        return self
+class DBase3MemoFile(MemoFile):
+    """dBase III memo file."""
+    # Code from dbf.py
+    def __getitem__(self, index):
+        block_size = 512
+        self._seek(index * block_size)
+        eom = -1
+        data = ''
+        while eom == -1:
+            newdata = self._read(block_size)
+            if not newdata:
+                return data
+            data += newdata
+            eom = data.find('\x1a\x1a')
+        return data[:eom]        
 
-    def __exit__(self, type, value, traceback):
-        self.file.close()
-        return False
-
-class DBF(MemoFile):
-    pass
+class DBase4MemoFile(MemoFile):
+    """dBase IV memo file"""
+    def __init__(self, *args):
+        raise Exception('dBase IV memo files are not yet implemented')
 
 def find_memofile(dbf_filename):
     for ext in ['.fpt', '.dbt']:
@@ -114,8 +121,10 @@ def find_memofile(dbf_filename):
     else:
         return None
 
-def open_memofile(filename):
+def open_memofile(filename, dbversion):
     if filename.lower().endswith('.fpt'):
-        return FPT(filename)
+        return VisualFoxProMemoFile(filename)
     else:
-        return DBT(filename)
+        # I'm not yet sure how to tell whether it's dBase III or IV+
+        # format, so it'll have to be just III for now.
+        return DBase3MemoFile(filename)

@@ -9,7 +9,7 @@ import collections
 from .ifiles import ifind
 from .struct_parser import StructParser
 from .field_parser import FieldParser
-from .memo import find_memofile, open_memofile, FakeMemoFile
+from .memo import find_memofile, open_memofile, FakeMemoFile, MemoText
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import *
@@ -233,7 +233,7 @@ class DBF(object):
 
     def _get_memofile(self):
         if self.memofilename and not self.raw:
-            return open_memofile(self.memofilename)
+            return open_memofile(self.memofilename, self.dbversion)
         else:
             return FakeMemoFile(self.memofilename)
 
@@ -276,13 +276,14 @@ class DBF(object):
                 # trickery.
                 #
                 # Todo: field.type in.
-                if field.type == 'M' and value is not None:
-                    memo = memofile[value]
-                    if memo.is_text:
-                        value = decode_text(memo.data, self.encoding)
-                    else:
-                        # Byte string
-                        value = memo.data
+                if value is not None:
+                    if field.type == 'M':
+                        value = memofile[value]
+                        if isinstance(value, MemoText):
+                            value = decode_text(value, self.encoding)
+
+                    elif field.type in 'GB':
+                        value = memofile[value]
 
                 append((field.name, value))
 
