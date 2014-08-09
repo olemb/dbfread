@@ -105,9 +105,11 @@ class DBase3MemoFile(MemoFile):
             if not newdata:
                 return data
             data += newdata
-            eom = data.find('\x1a\x1a')
-            # Todo: help.dbt has only one separator:
+
+            # Todo: some files (help.dbt) has only one field separator.
+            # Is this enough for all file though?
             # eom = data.find('\x1a')
+            eom = data.find('\x1a\x1a')
         return data[:eom]        
 
 class DBase4MemoFile(MemoFile):
