@@ -46,7 +46,7 @@ Main Features
 * support for 14 field types. Custom types can be added by subclassing
   ``FieldParser``
 
-* reads ``FPT`` and ``DBT`` memo files (both text and binary memos)
+* reads ``FPT`` and ``DBT`` memo files, both text and binary data
 
 * handles mixed case file names gracefully on case sensitive file systems
 
