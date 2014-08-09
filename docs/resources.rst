@@ -9,6 +9,8 @@ Resources
 
 * `Wikipedia article about dBase <http://en.wikipedia.org/wiki/DBase>`_
 
-* `Telemator <http://www.mxdata.no/>`_, the application dbfread was
-  originally written for. (A cabling documentation tool which uses
-  Visual FoxPro.)
+* `DBF Field Types and Specifications
+  <http://devzone.advantagedatabase.com/dz/webhelp/advantage9.0/server1/dbf_field_types_and_specifications.htm>`_
+
+* `DBase File Structure
+  <http://ulisse.elettra.trieste.it/services/doc/dbase/DBFstruct.htm>`_
