@@ -286,6 +286,8 @@ class DBF(object):
                                 value = decode_text(value, self.encoding)
 
                     elif field.type in 'GB':
+                        # G == OLE object
+                        # B == binary data
                         value = memofile[value]
 
                 append((field.name, value))
