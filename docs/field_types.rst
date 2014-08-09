@@ -57,7 +57,7 @@ you can do this:
 
 .. literalinclude:: ../examples/print_invalid_values.py
 
-``InvalidValue`` is a sub class of ``bytes``, and allows you to tell
+``InvalidValue`` is a subclass of ``bytes``, and allows you to tell
 invalid data apart from valid data that happens to be byte
 strings. You can test for this with::
 
