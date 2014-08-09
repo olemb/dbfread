@@ -95,7 +95,7 @@ class FieldParser:
             return None
 
     def parseI(self, field, data):
-        """Parse integer field and return int."""
+        """Parse integer or autoincrement field and return int."""
         # Todo: is this 4 bytes on every platform?
         return struct.unpack('<i', data)[0]
 
@@ -113,7 +113,7 @@ class FieldParser:
             raise ValueError(message.format(data))
 
     def parseM(self, field, data):
-        """Parse memo field (M)
+        """Parse memo field (M, G or B)
 
         Returns memo index (an integer), which can be used to look up
         the corresponding memo in the memo file.
@@ -194,3 +194,7 @@ class FieldParser:
 
     # Timestamp field ('@')
     parse40 = parseT
+
+    # Memo fields.
+    parseB = parseG = parseM
+    # Todo: also P? (dbfpy has this)

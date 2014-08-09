@@ -6,10 +6,10 @@ import sys
 import datetime
 import collections
 
+from .ifiles import ifind
 from .struct_parser import StructParser
 from .field_parser import FieldParser
-from .ifiles import ifind
-from .memo import MemoFile, FakeMemoFile
+from .memo import find_memofile, open_memofile, FakeMemoFile
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import *
@@ -101,6 +101,7 @@ class DBF(object):
         # and we don't know the encoding yet.
         self._field_parser = None
         self.raw = raw
+        self.ignore_missing_memofile = ignore_missing_memofile
 
         if recfactory is None:
             self.recfactory = lambda items: items
@@ -133,11 +134,28 @@ class DBF(object):
             self.date = datetime.date(expand_year(self.header.year),
                                       self.header.month,
                                       self.header.day)
-            
+    
         self.dbversion = get_dbversion_string(self.header.dbversion)
+        self.memofilename = self._get_memofilename()
 
         if load:
             self.load()
+
+    def _get_memofilename(self):
+
+        field_types = [field.type for field in self.fields]
+        if not set(field_types) & set('MGB'):
+            # No memo fields.
+            return None
+
+        path = find_memofile(self.filename)
+        if path is None:
+            if self.ignore_missing_memofile:
+                return None
+            raise MissingMemoFile('missing memo file for {}'.format(
+                self.filename))
+        else:
+            return path
 
     @property
     def loaded(self):
@@ -165,12 +183,6 @@ class DBF(object):
             return self._deleted
         else:
             return RecordIterator(self, b'*')
-
-    def _get_memofile(self):
-        if self.memofilename and not self.raw:
-            return MemoFile(self.memofilename)
-        else:
-            return FakeMemoFile()
 
     def _read_headers(self, infile, ignore_missing_memofile):
         # Todo: more checks?
@@ -214,17 +226,16 @@ class DBF(object):
             message = 'dbf file must have at least one field: {!r}'
             raise ValueError(message.format(self.filename))
 
+    def _has_memo_field(self):
+        field_types = [field.type for field in self.fields]
+        # Todo: should this be 'MGP' (dbfpy supports "P").
+        return set('MGB') & set(field_types)
 
-        # Check for memo file
-        field_types = set([field.type for field in self.fields])
-        if 'M' in field_types:
-            fn = os.path.splitext(self.filename)[0] + '.fpt'
-            match = ifind(self.filename, ext='.fpt')
-            if match:
-                self.memofilename = match
-            else:
-                if not ignore_missing_memofile:
-                    raise MissingMemoFile(repr(fn))
+    def _get_memofile(self):
+        if self.memofilename and not self.raw:
+            return open_memofile(self.memofilename)
+        else:
+            return FakeMemoFile(self.memofilename)
 
     def _check_headers(self):
         """Check headers for possible format errors."""
@@ -264,10 +275,10 @@ class DBF(object):
                 # Decoding memo fields requires a little more
                 # trickery.
                 #
+                # Todo: field.type in.
                 if field.type == 'M' and value is not None:
                     memo = memofile[value]
-                    if memo.type == 'memo':
-                        # Decode to unicode
+                    if memo.is_text:
                         value = decode_text(memo.data, self.encoding)
                     else:
                         # Byte string

@@ -4,8 +4,8 @@ Reads data from FPT (memo) files.
 FPT files are used to varying lenght text or binary data which is too
 large to fit in a DBF field.
 """
-
 from collections import namedtuple
+from .ifiles import ifind
 from .struct_parser import StructParser
 
 
@@ -30,60 +30,71 @@ RECORD_TYPES = {
     0x2: 'object',
 }
 
-Record = namedtuple('Record', ['type', 'data'])
+Record = namedtuple('Record', ['is_text', 'data'])
 
+class MemoFile(object):
+    def __init__(self, filename):
+        self.filename = filename
+        self._open()
+        self._init()
 
-class FakeMemoFile(object):
-    def __getitem__(self, i):
-        return Record(type=None, data=None)
+    def _init(self):
+        pass
+
+    def _open(self):
+        self.file = open(self.filename, 'rb')
+        # Shortcuts for speed.
+        self._read = self.file.read
+        self._seek = self.file.seek
+
+    def _close(self):
+        self.file.close()
+
+    def __getitem__(self, index):
+        raise NotImplemented
 
     def __enter__(self):
         return self
 
     def __exit__(self, type, value, traceback):
+        self._close()
         return False
 
 
-class MemoFile(object):
-    """
-    This class implement read access to a FPT files.
+class FakeMemoFile(MemoFile):
+    def __getitem__(self, i):
+        return Record(is_text=False, data=None)
 
-    FPT files are used to store varying-length data (strings or
-    binary) that is too large to fit in a DBF field.
+    def _open(self):
+        pass
 
-    
-    Documentation of the FPT file format:
-    http://www.clicketyclick.dk/databases/xbase/format/fpt.html
-    """
-    def __init__(self, filename):
-        # Todo: detect file type by extension.
-        self.filename = filename
-        self.file = open(filename, 'rb')
+    def _init(self):
+        pass
+
+    def _close(self):
+        pass
+
+
+class FPT(MemoFile):
+    def _init(self):
         self.header = Header.read(self.file)
 
     def __getitem__(self, index):
-        """Get a memo from the file.
-        
-        Returns a Record with attributes.
-        Memos are returned as byte strings.
-        """
-
-        # Todo: Handle reading block header in middle of a memo?
-        # Todo: Handle n > end of file and n < 0 and n inside header
-        # Todo: Handle wrong sized memo
-
+        """Get a memo from the file."""
         if index <= 0:
             raise IndexError('memo file got index {}'.format(index))
 
-        self.file.seek(index * self.header.blocksize)
+        self._seek(index * self.header.blocksize)
         block_header = BlockHeader.read(self.file)
 
-        data = self.file.read(block_header.length)
+        data = self._read(block_header.length)
         if len(data) != block_header.length:
             raise IOError('EOF reached while reading memo')
         
-        record_type = RECORD_TYPES.get(block_header.type)
-        return Record(type=record_type, data=data)
+        if block_header.type == 0x1:
+            return Record(is_text=True, data=data)
+        else:
+            return Record(is_text=False, data=data)
 
     def __enter__(self):
         return self
@@ -91,3 +102,20 @@ class MemoFile(object):
     def __exit__(self, type, value, traceback):
         self.file.close()
         return False
+
+class DBF(MemoFile):
+    pass
+
+def find_memofile(dbf_filename):
+    for ext in ['.fpt', '.dbt']:
+        name = ifind(dbf_filename, ext=ext)
+        if name:
+            return name
+    else:
+        return None
+
+def open_memofile(filename):
+    if filename.lower().endswith('.fpt'):
+        return FPT(filename)
+    else:
+        return DBT(filename)
