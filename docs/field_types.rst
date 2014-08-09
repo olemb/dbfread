@@ -27,31 +27,9 @@ Adding Custom Field Types
 -------------------------
 
 You can add new field types by subclassing
-:py:class:`FieldParser`. For example, here's a how we handle stray
-strings in our numeric (``N``) fields:
+:py:class:`FieldParser`. For example:
 
-.. code-block:: python
-
-    from dbfread import DBF, FieldParser
-
-    class PortkartFieldParser(FieldParser):
-        """Field parser that handles unusual things in the Telemator data."""
-        def parseN(self, field, data):
-            try:
-                FieldParser.parseN(self, field, data)
-            except ValueError:
-                return dbfread.InvalidValue(data)
-
-        ...
-
-        table = DBF(filename,
-                   load=True,
-                   parserclass=PortkartFieldParser.
-
-This will return return ``InvalidValue`` object that renders just like
-strings, for example::
-
-    InvalidValue(b'se scan')
+.. literalinclude:: ../examples/custom_field_type.py
 
 
 Special Characters in Field Type Names
@@ -68,3 +46,24 @@ You can name your method with::
     'parse3F'
 
 Just replace ``'?'`` with your field type.
+
+
+InvalidValue
+------------
+
+The field parser will normally raise ``ValueError`` when invalid
+values are encountered. If instead you want them returned as raw data
+you can do this:
+
+.. literalinclude:: ../examples/print_invalid_values.py
+
+``InvalidValue`` is a sub class of ``bytes``, and allows you to tell
+invalid data apart from valid data that happens to be byte
+strings. You can test for this with::
+
+    isinstance(value, InvalidData)
+
+You can also tell from the ``repr()`` string::
+
+    >>> value
+    InvalidData(b'not a number')
