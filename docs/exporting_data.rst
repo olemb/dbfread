@@ -7,6 +7,23 @@ Here are some examples of how you can export data to other databases
 or file formats.
 
 
+CSV
+---
+
+::
+
+    import sys
+    import csv
+    from dbfread import DBF
+
+    table = DBF('files/people.dbf')
+    writer = csv.writer(sys.stdout)
+
+    writer.writerow(table.field_names)
+    for record in table:
+        writer.writerow(record.values())
+
+
 dataset (SQL)
 -------------
 
@@ -28,23 +45,6 @@ to move data to a modern database. Here's how you can insert the
     print(table.find_one(name='Alice'))
 
 (This also creates the schema.)
-
-
-CSV
----
-
-::
-
-    import sys
-    import csv
-    from dbfread import DBF
-
-    table = DBF('files/people.dbf')
-    writer = csv.writer(sys.stdout)
-
-    writer.writerow(table.field_names)
-    for record in table:
-        writer.writerow(record.values())
 
 
 dbf2sqlite
