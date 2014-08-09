@@ -106,6 +106,8 @@ class DBase3MemoFile(MemoFile):
                 return data
             data += newdata
             eom = data.find('\x1a\x1a')
+            # Todo: help.dbt has only one separator:
+            # eom = data.find('\x1a')
         return data[:eom]        
 
 class DBase4MemoFile(MemoFile):
