@@ -56,6 +56,7 @@ def test_F():
     with raises(ValueError):
         parse(b'jsdf')
 
+# This also tests parse2B() (+)
 def test_I():
     parse = make_field_parser('I')
 
@@ -81,6 +82,7 @@ def test_L():
         with raises(ValueError):
             parse(char)
 
+# This also tests B, G and P.
 def test_M():
     parse = make_field_parser('M')
 
@@ -102,6 +104,15 @@ def test_N():
     with raises(ValueError):
         parse(b'okasd')
 
+def test_O():
+    """Test double field."""
+    parse = make_field_parser('O')
+
+    assert parse(b'\x00' * 8) == 0.0
+    assert parse(b'\x00\x00\x00\x00\x00\x00\xf0?') == 1.0
+    assert parse(b'\x00\x00\x00\x00\x00\x00Y\xc0') == -100
+
+# This also tests parse40() (@)
 def test_T():
     parse = make_field_parser('T')
 

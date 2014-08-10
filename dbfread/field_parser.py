@@ -113,7 +113,7 @@ class FieldParser:
             raise ValueError(message.format(data))
 
     def parseM(self, field, data):
-        """Parse memo field (M, G or B)
+        """Parse memo field (M, G, B or P)
 
         Returns memo index (an integer), which can be used to look up
         the corresponding memo in the memo file.
@@ -152,7 +152,7 @@ class FieldParser:
 
     def parseO(self, field, data):
         """Parse long field (O) and return float."""
-        return struct.unpack('<d', data)
+        return struct.unpack('d', data)[0]
 
     def parseT(self, field, data):
         """Parse time field (T)

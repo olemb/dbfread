@@ -47,7 +47,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'dbfred'
+project = u'dbfread'
 copyright = u'Ole Martin Bjørndalen'
 
 # The version info for the project you're documenting, acts as replacement for
