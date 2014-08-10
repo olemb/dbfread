@@ -142,8 +142,8 @@ class DB4MemoFile(MemoFile):
         data = self._read(memo_header.length)
         # Todo: fields are terminated in different ways.
         # \x1a is one of them
-        # return data.split('\x1a', 1)[0]
-        return data
+        # \x1f seems to be another (dbase_8b.dbt)
+        return data.split('\x1f', 1)[0]
 
 
 def find_memofile(dbf_filename):
