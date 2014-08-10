@@ -53,17 +53,7 @@ Contents
    dbf_objects
    field_types
    api_changes
-   lib
    resources
    license
    acknowledgements
 
-
-Indices and tables
-------------------
-
-* :ref:`genindex`
-
-* :ref:`modindex`
-
-* :ref:`search`
