@@ -162,19 +162,34 @@ class DBF(object):
 
     @property
     def loaded(self):
+        """``True`` if records are loaded into memory."""
         return self._records is not None
 
     def load(self):
+        """Load records into memory.
+
+        This loads both records and deleted records. The ``records``
+        and ``deleted`` attributes will now be lists of records.
+
+        """
         if not self.loaded:
             self._records = list(self._iter_records(b' '))
             self._deleted = list(self._iter_records(b'*'))
 
     def unload(self):
+        """Unload records from memory.
+
+        The records and deleted attributes will now be instances of
+        ``RecordIterator``, which streams records from disk.
+        """
         self._records = None
         self._deleted = None
 
     @property
     def records(self):
+        """Records (not included deleted ones). When loaded a list of records,
+        when not loaded a new ``RecordIterator`` object.
+        """
         if self.loaded:
             return self._records
         else:
@@ -182,6 +197,9 @@ class DBF(object):
 
     @property
     def deleted(self):
+        """Deleted records. When loaded a list of records, when not loaded a
+        new ``RecordIterator`` object.
+        """
         if self.loaded:
             return self._deleted
         else:
@@ -236,6 +254,7 @@ class DBF(object):
             return FakeMemoFile(self.memofilename)
 
     def _check_headers(self):
+
         """Check headers for possible format errors."""
         for field in self.fields:
 
