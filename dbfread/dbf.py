@@ -83,9 +83,7 @@ class RecordIterator(object):
 
 class DBF(object):
     """DBF table."""
-    def __init__(self, filename,
-                 encoding=None,
-                 ignorecase=True,
+    def __init__(self, filename, encoding=None, ignorecase=True,
                  lowernames=False,
                  parserclass=FieldParser,
                  recfactory=collections.OrderedDict,
@@ -97,8 +95,6 @@ class DBF(object):
         self.ignorecase = ignorecase
         self.lowernames = lowernames
         self.parserclass = parserclass
-        # This must be set later because it caches the encoding,
-        # and we don't know the encoding yet.
         self._field_parser = None
         self.raw = raw
         self.ignore_missing_memofile = ignore_missing_memofile

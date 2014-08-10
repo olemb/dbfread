@@ -4,8 +4,8 @@ Library Reference
 =================
 
 
-This is a bit incomplete at the moment. :doc:`dbf_objects` will
-eventually be moved here.
+This is incomplete at the moment. See :doc:`dbf_objects` for complete
+docunentation.
 
 
 DBF Files
@@ -27,4 +27,3 @@ Exceptions
 .. autoclass:: DBFNotFound
 
 .. autoclass:: MissingMemoFile
-

@@ -34,6 +34,16 @@ You can add new field types by subclassing
 
 .. literalinclude:: ../examples/custom_field_type.py
 
+The ``FieldParser`` object has the following attributes:
+
+self.table
+  A reference to the ``DBF`` objects. This can be used to get the headers
+  to find ``dbversion`` and other things.
+
+self.encoding
+  The character encoding. (A a shortcut for ``self.table.encoding`` to
+  speed things up a bit.)
+
 
 Special Characters in Field Type Names
 --------------------------------------
