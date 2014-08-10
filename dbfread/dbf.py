@@ -135,11 +135,14 @@ class DBF(object):
                                       self.header.month,
                                       self.header.day)
     
-        self.dbversion = get_dbversion_string(self.header.dbversion)
         self.memofilename = self._get_memofilename()
 
         if load:
             self.load()
+
+    @property
+    def dbversion(self):
+        return get_dbversion_string(self.header.dbversion)
 
     def _get_memofilename(self):
         # Does the table have a memo field?
