@@ -131,4 +131,9 @@ def open_memofile(filename, dbversion):
     else:
         # I'm not yet sure how to tell whether it's dBase III or IV+
         # format, so it'll have to be just III for now.
-        return DBase3MemoFile(filename)
+        if dbversion == 0x83:
+            return DBase3MemoFile(filename)
+        else:
+            # return DBase4MemoFile(filename)
+            # Use this for now.
+            return DBase3MemoFile(filename)
