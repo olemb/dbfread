@@ -122,9 +122,9 @@ exception. You can still get the rest of the data out by passing
 returned as ``None``, as would be the case if there was no memo.
 
 dbfread has full support for Visual FoxPro (.FPT) and dBase III (.DBT)
-memo files. It reads dBase IV (.DBT) memo files, but only if they use
-the default block size of 512 bytes. (This will be fixed if I can find
-more files to study.)
+memo files. It reads dBase IV (also .DBT) memo files, but only if they
+use the default block size of 512 bytes. (This will be fixed if I can
+find more files to study.)
 
 
 Record Factories
