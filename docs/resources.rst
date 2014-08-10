@@ -14,3 +14,6 @@ Resources
 
 * `DBase File Structure
   <http://ulisse.elettra.trieste.it/services/doc/dbase/DBFstruct.htm>`_
+
+* `dBase IV limitations
+  <http://www.johnbrown.com.au/approach/webfaq04040210.html>`_
