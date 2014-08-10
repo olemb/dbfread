@@ -3,13 +3,18 @@ Reads data from FPT (memo) files.
 
 FPT files are used to varying lenght text or binary data which is too
 large to fit in a DBF field.
+
+VFP == Visual FoxPro
+DB3 == dBase III
+DB4 == dBase IV
 """
 from collections import namedtuple
 from .ifiles import ifind
 from .struct_parser import StructParser
 
 
-Header = StructParser(
+
+VFPFileHeader = StructParser(
     'FPTHeader',
     '>LHH504s',
     ['nextblock',
@@ -17,18 +22,28 @@ Header = StructParser(
      'blocksize',
      'reserved2'])
 
-BlockHeader = StructParser(
-    'FPTBlock',
+VFPMemoHeader = StructParser(
+    'FoxProMemoHeader',
     '>LL',
     ['type',
      'length'])
 
 # Record type
-VISUAL_FOXPRO_RECORD_TYPES = {
+VFP_RECORD_TYPES = {
     0x0: 'picture',
     0x1: 'memo',
     0x2: 'object',
 }
+
+DB4MemoHeader = StructParser(
+    'DBase4MemoHeader',
+    '<LL',
+    ['reserved',  # Always 0xff 0xff 0x08 0x08.
+     'length'])
+
+# Used for Visual FoxPro memos to distinguish binary from text memos.
+class BinaryMemo(bytes):
+    pass
 
 class MemoFile(object):
     def __init__(self, filename):
@@ -68,12 +83,10 @@ class FakeMemoFile(MemoFile):
 
     _init = _close = _open
 
-class BinaryMemo(bytes):
-    pass
 
-class VisualFoxProMemoFile(MemoFile):
+class VFPMemoFile(MemoFile):
     def _init(self):
-        self.header = Header.read(self.file)
+        self.header = VFPFileHeader.read(self.file)
 
     def __getitem__(self, index):
         """Get a memo from the file."""
@@ -81,18 +94,19 @@ class VisualFoxProMemoFile(MemoFile):
             raise IndexError('memo file got index {}'.format(index))
 
         self._seek(index * self.header.blocksize)
-        block_header = BlockHeader.read(self.file)
+        memo_header = VFPMemoHeader.read(self.file)
 
-        data = self._read(block_header.length)
-        if len(data) != block_header.length:
+        data = self._read(memo_header.length)
+        if len(data) != memo_header.length:
             raise IOError('EOF reached while reading memo')
         
-        if block_header.type == 0x1:
+        if memo_header.type == 0x1:
             return data
         else:
             return BinaryMemo(data)
 
-class DBase3MemoFile(MemoFile):
+
+class DB3MemoFile(MemoFile):
     """dBase III memo file."""
     # Code from dbf.py
     def __getitem__(self, index):
@@ -110,12 +124,21 @@ class DBase3MemoFile(MemoFile):
             # Is this enough for all file though?
             eom = data.find('\x1a')
             # eom = data.find('\x1a\x1a')
+
+            eom = data.find('\x0d\x0a')
         return data[:eom]        
 
-class DBase4MemoFile(MemoFile):
+class DB4MemoFile(MemoFile):
     """dBase IV memo file"""
-    def __init__(self, *args):
-        raise Exception('dBase IV memo files are not yet implemented')
+    def __getitem__(self, index):
+        # Todo: read this from the file header.
+        block_size = 512
+
+        self._seek(index * block_size)
+        memo_header = DB4MemoHeader.read(self.file)
+        print(memo_header)
+        return self._read(memo_header.length)
+
 
 def find_memofile(dbf_filename):
     for ext in ['.fpt', '.dbt']:
@@ -125,15 +148,12 @@ def find_memofile(dbf_filename):
     else:
         return None
 
+
 def open_memofile(filename, dbversion):
     if filename.lower().endswith('.fpt'):
-        return VisualFoxProMemoFile(filename)
+        return VFPMemoFile(filename)
     else:
-        # I'm not yet sure how to tell whether it's dBase III or IV+
-        # format, so it'll have to be just III for now.
         if dbversion == 0x83:
-            return DBase3MemoFile(filename)
+            return DB3MemoFile(filename)
         else:
-            # return DBase4MemoFile(filename)
-            # Use this for now.
-            return DBase3MemoFile(filename)
+            return DB4MemoFile(filename)
