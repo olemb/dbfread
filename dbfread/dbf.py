@@ -243,10 +243,6 @@ class DBF(object):
 
             self.fields.append(fh)
 
-        if len(self.fields) < 1:
-            message = 'dbf file must have at least one field: {!r}'
-            raise ValueError(message.format(self.filename))
-
     def _get_memofile(self):
         if self.memofilename and not self.raw:
             return open_memofile(self.memofilename, self.header.dbversion)
