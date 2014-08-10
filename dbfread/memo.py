@@ -112,9 +112,8 @@ class DB3MemoFile(MemoFile):
     def __getitem__(self, index):
         block_size = 512
         self._seek(index * block_size)
-        eom = -1
         data = ''
-        while eom == -1:
+        while True:
             newdata = self._read(block_size)
             if not newdata:
                 return data
@@ -122,10 +121,14 @@ class DB3MemoFile(MemoFile):
 
             # Todo: some files (help.dbt) has only one field separator.
             # Is this enough for all file though?
-            eom = data.find('\x1a')
-            # eom = data.find('\x1a\x1a')
+            end_of_memo = data.find('\x1a')
+            if end_of_memo != -1:
+                return data[:end_of_memo]
 
-            eom = data.find('\x0d\x0a')
+            # Alternative end of memo markers:
+            # '\x1a\x1a'
+            # '\x0d\x0a'
+
         return data[:eom]        
 
 class DB4MemoFile(MemoFile):
@@ -156,6 +159,7 @@ def open_memofile(filename, dbversion):
     if filename.lower().endswith('.fpt'):
         return VFPMemoFile(filename)
     else:
+        # print('######', dbversion)
         if dbversion == 0x83:
             return DB3MemoFile(filename)
         else:

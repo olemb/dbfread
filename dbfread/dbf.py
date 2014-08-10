@@ -228,7 +228,7 @@ class DBF(object):
 
     def _get_memofile(self):
         if self.memofilename and not self.raw:
-            return open_memofile(self.memofilename, self.dbversion)
+            return open_memofile(self.memofilename, self.header.dbversion)
         else:
             return FakeMemoFile(self.memofilename)
 
