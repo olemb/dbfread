@@ -136,8 +136,10 @@ class DB4MemoFile(MemoFile):
 
         self._seek(index * block_size)
         memo_header = DB4MemoHeader.read(self.file)
-        print(memo_header)
-        return self._read(memo_header.length)
+        data = self._read(memo_header.length)
+        # Todo: fields are terminated in different ways.
+        # \x1a is one of them
+        return data.split('\x1a', 1)[0]
 
 
 def find_memofile(dbf_filename):
