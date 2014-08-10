@@ -142,9 +142,9 @@ class DBF(object):
             self.load()
 
     def _get_memofilename(self):
-
+        # Does the table have a memo field?
         field_types = [field.type for field in self.fields]
-        if not set(field_types) & set('MGB'):
+        if not set(field_types) & set('MGPB'):
             # No memo fields.
             return None
 
@@ -226,11 +226,6 @@ class DBF(object):
             message = 'dbf file must have at least one field: {!r}'
             raise ValueError(message.format(self.filename))
 
-    def _has_memo_field(self):
-        field_types = [field.type for field in self.fields]
-        # Todo: should this be 'MGP' (dbfpy supports "P").
-        return set('MGB') & set(field_types)
-
     def _get_memofile(self):
         if self.memofilename and not self.raw:
             return open_memofile(self.memofilename, self.dbversion)
@@ -285,9 +280,10 @@ class DBF(object):
                             if value is not None:
                                 value = decode_text(value, self.encoding)
 
-                    elif field.type in 'GB':
+                    elif field.type in 'GPB':
                         # G == OLE object
                         # B == binary data
+                        # P == picture
                         value = memofile[value]
 
                 append((field.name, value))

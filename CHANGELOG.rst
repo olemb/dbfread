@@ -12,7 +12,7 @@
 
 * now reads (at least some) DBT files.
 
-* added support for 5 new field types.
+* added support for 6 new field types.
 
 * added ``ignore_missing_memofile`` argument. If ``True`` and the memo
   file is not found all memo fields will be returned as ``None``.

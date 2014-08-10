@@ -196,5 +196,4 @@ class FieldParser:
     parse40 = parseT
 
     # Memo fields.
-    parseB = parseG = parseM
-    # Todo: also P? (dbfpy has this)
+    parseB = parseG = parseP = parseM
