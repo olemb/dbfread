@@ -1,4 +1,4 @@
-include README.rst LICENSE CHANGELOG.rst test_dbfread.py run_tests.py
+include README.rst LICENSE CHANGELOG.rst run_tests.py
 include examples/dbf2sqlite
 recursive-include examples *.dbf *.py
 recursive-include testcases *.dbf *.FPT
