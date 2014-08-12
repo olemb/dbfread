@@ -148,11 +148,6 @@ If you pass ``recfactory=None`` you will get the original ``(name,
 value)`` list. (This is a shortcut for ``recfactory=lambda items:
 items``.)
 
-You can change the ``recfactory`` attribute after opening the table,
-for example before an iterations. Each iterator caches the
-``recfactory`` value, so you can run two iterators at the same time
-with different factories.
-
 
 Custom Field Types
 ------------------
