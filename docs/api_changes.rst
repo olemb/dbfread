@@ -2,7 +2,7 @@ API Changes
 ===========
 
 ``dbfread.open()`` and ``dbfread.read()`` are deprecated as of version
-``1.2``, and will be removed in ``1.4``.
+``2.0``, and will be removed in ``2.2``.
 
 The ``DBF`` class is no longer a subclass of ``list``. This makes the
 API a lot cleaner and easier to understand, but old code that relied

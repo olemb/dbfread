@@ -47,10 +47,10 @@ def warn(message):
 
 def read(filename, load=True, **kwargs):
     warn("dbfread.read() has been replaced by DBF(load=True)"
-         " and will be removed in 1.4.")
+         " and will be removed in 2.2.")
     return DeprecatedDBF(filename, load=True, **kwargs)
 
 def open(filename, load=True, **kwargs):
     warn("dbfread.open() has been replaced by DBF()"
-         " and will be removed in 1.4.")
+         " and will be removed in 2.2.")
     return DeprecatedDBF(filename, load=True, **kwargs)

@@ -52,11 +52,12 @@ ignorecase=True
 parserclass=FieldParser
   The parser to use when parsing field values. You can use this to add
   new field types or do custom parsing by subclassing
-  ``dbfread.FieldParser``. (See ``examples/parserclass.py``.)
+  ``dbfread.FieldParser``. (See :doc:`field_types`.)
 
 ignore_missing_memofile=False
-  If ``True`` and the memo file is not found all memo fields will be
-  returned as ``None``.
+  If you don't have the memo field you can pass
+  ``ignore_missing_memofile=True``. All memo fields will then be
+  returned as ``None``, so you at least get the rest of the data.
 
 raw=False
   Returns all data values as byte strings. This can be used for

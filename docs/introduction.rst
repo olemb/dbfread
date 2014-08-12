@@ -91,40 +91,37 @@ unicode strings.
 
 dbfread will try to detect the character encoding (code page) used in
 the file by looking at the ``language_driver`` byte. If this fails it
-reverts to ASCII.
-
-You can override this by passing ``encoding='my-encoding'``.
-
-The encoding is available in the ``encoding`` attribute.
+reverts to ASCII. You can override this by passing
+``encoding='my-encoding'``. The encoding is available in the
+``encoding`` attribute.
 
 
 Memo Files
 ----------
 
 If there is at least one memo field in the file dbfread will look for
-the corresponding memo file. If ``people.dbf`` had a memo field, the
-memo file would be ``people.fpt``. (This is the extension used by
-Visual FoxPro. More extensions, like ``.dbt``, will be added as they
-are implemented.)
+the corresponding memo file. For ``buildings.dbf`` this would be
+``buildings.fpt`` (for Visual FoxPro) or ``buildings.dbt`` (for other
+databases).
 
 Since the Windows file system is case preserving, the file names may
-end up mixed case. For example, in our database we have::
+end up mixed case. For example, you could have::
 
-    Endreg.dbf ENDREG.fpt
+    Buildings.dbf BUILDINGS.DBT
 
 This creates problems in Linux, where file names are case
 sensitive. dbfread gets around this by ignoring case in file
 names. You can turn this off by passing ``ignorecase=False``.
 
 If the memo file is missing you will get a ``MissingMemoFile``
-exception. You can still get the rest of the data out by passing
+exception. If you still want the rest of the data you can pass
 ``ignore_missing_memofile=True``. All memo field values will now be
 returned as ``None``, as would be the case if there was no memo.
 
-dbfread has full support for Visual FoxPro (.FPT) and dBase III (.DBT)
-memo files. It reads dBase IV (also .DBT) memo files, but only if they
-use the default block size of 512 bytes. (This will be fixed if I can
-find more files to study.)
+dbfread has full support for Visual FoxPro (``.FPT``) and dBase III
+(``.DBT``) memo files. It reads dBase IV (also ``.DBT``) memo files,
+but only if they use the default block size of 512 bytes. (This will
+be fixed if I can find more files to study.)
 
 
 Record Factories
@@ -195,4 +192,3 @@ instead of raising ``ValueError``::
 This will print::
 
     records[0][u'BIRTHDATE'] == InvalidValue(b'NotAYear')
-
