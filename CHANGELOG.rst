@@ -1,14 +1,14 @@
 1.2.0 - 
 ------------------
 
-* records are now returned as ordered dictionaries. This makes it
-  easier to iterate over fields in the same order that they appear in
-  the file.
-
 * ``dbfread.open()`` and ``dbfread.read()`` are now deprecated and
   will be removed in 1.4. Since the ``DBF`` object is no longer a
   subclass of list, these functions instead return backward compatible
   ``DeprecatedDBF`` objects.
+
+* records are now returned as ordered dictionaries. This makes it
+  easier to iterate over fields in the same order that they appear in
+  the file.
 
 * now reads (at least some) DBT files.
 
