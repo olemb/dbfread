@@ -1,4 +1,4 @@
-2.0.0 - 
+2.0.0 - 2014-08-12
 ------------------
 
 * ``dbfread.open()`` and ``dbfread.read()`` are now deprecated and
