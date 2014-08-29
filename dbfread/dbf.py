@@ -227,7 +227,8 @@ class DBF(object):
             infile.seek(-1, 1)
             fh = DBFField.read(infile)
 
-            fieldname = decode_text(fh.name[:fh.name.index(b'\0')],
+            # Field name is b'\0' terminated.
+            fieldname = decode_text(fh.name.split(b'\0')[0],
                                     self.encoding)
             if self.lowernames:
                 fieldname = fieldname.lower()
