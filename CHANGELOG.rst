@@ -1,3 +1,10 @@
+2.0.1 - 
+------------------
+
+* bugfix: didn't handle field names with garbage after b'\0'
+  terminator. (Patch by Cédric Krier.)
+
+
 2.0.0 - 2014-08-12
 ------------------
 
