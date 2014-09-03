@@ -14,13 +14,6 @@ from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import *
 
-PY2 = sys.version_info[0] == 2
-
-if PY2:
-    decode_text = unicode
-else:
-    decode_text = str
-
 DBFHeader = StructParser(
     'DBFHeader',
     '<BBBBLHHHBBLLLBBH',
@@ -228,11 +221,10 @@ class DBF(object):
             fh = DBFField.read(infile)
 
             # Field name is b'\0' terminated.
-            fieldname = decode_text(fh.name.split(b'\0')[0],
-                                    self.encoding)
+            fieldname = fh.name.split(b'\0')[0].decode(self.encoding)
             if self.lowernames:
                 fieldname = fieldname.lower()
-            fieldtype = decode_text(fh.type, self.encoding)
+            fieldtype = fh.type.decode(self.encoding)
 
             fh = fh._replace(name=fieldname,
                              type=fieldtype)
@@ -294,7 +286,7 @@ class DBF(object):
                         # These should not be decoded as string.
                         if not isinstance(value, BinaryMemo):
                             if value is not None:
-                                value = decode_text(value, self.encoding)
+                                value = value.decode(self.encoding)
 
                     elif field.type in 'GPB':
                         # G == OLE object
