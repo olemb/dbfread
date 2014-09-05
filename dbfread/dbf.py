@@ -106,7 +106,7 @@ class DBF(object):
         if ignorecase:
             self.filename = ifind(filename)
             if not self.filename:
-                raise DBFNotFound(repr(filename))
+                raise DBFNotFound('could not find file {!r}'.format(filename))
         else:
             self.filename = filename
 
