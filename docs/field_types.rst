@@ -9,7 +9,7 @@ Supported Field Types
 ==  =============  ========================================================
 \+  autoincrement  int
 @   time           datetime.datetime
-0   flags          int
+0   flags          byte string (int before 2.0)
 B   binary         byte string
 C   text           unicode string
 D   date           datetime.date or None
@@ -24,6 +24,10 @@ O   double         float (floats are doubles in Python)
 P   picture        byte string
 T   time           datetime.datetime
 ==  =============  ========================================================
+
+The '0' field type is used for '_NullFlags' in Visual FoxPro.  It was
+mistakenly though to always be one byte long and was interpreted as an
+integer. From 2.0.1 on it is returned as a byte string.
 
 
 Adding Custom Field Types

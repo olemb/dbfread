@@ -244,11 +244,7 @@ class DBF(object):
         """Check headers for possible format errors."""
         for field in self.fields:
 
-            if field.type == '0' and field.length != 1:
-                message = 'Field of type 0 must have length 1 (was {})'
-                raise ValueError(message.format(field.length))
-
-            elif field.type == 'I' and field.length != 4:
+            if field.type == 'I' and field.length != 4:
                 message = 'Field type I must have length 4 (was {})'
                 raise ValueError(message.format(field.length))
 

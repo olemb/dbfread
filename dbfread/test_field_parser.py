@@ -22,8 +22,8 @@ def make_field_parser(field_type):
 def test_0():
     parse = make_field_parser('0')
 
-    assert parse(b'\x01') == 1
-    assert parse(b'\x00') == 0
+    assert parse(b'\0') == b'\x00'
+    assert parse(b'\xaa\xff') == b'\xaa\xff'
 
 def test_C():
     parse = make_field_parser('C')

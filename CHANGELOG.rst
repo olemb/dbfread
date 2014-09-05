@@ -4,6 +4,9 @@
 * bugfix: didn't handle field names with garbage after b'\0'
   terminator. (Patch by Cédric Krier.)
 
+* now handles 0 (_NullFlags) fields that are more than 1 byte long.
+  0 fields are now returned as byte strings instead of integers.
+
 
 2.0.0 - 2014-08-12
 ------------------

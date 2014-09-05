@@ -68,8 +68,8 @@ class FieldParser:
             return func(field, data)
 
     def parse0(self, field, data):
-        """Parse flags field and return int"""
-        return ord(data)
+        """Parse flags field and return as byte string"""
+        return data
 
     def parseC(self, field, data):
         """Parse char field and return unicode string"""
