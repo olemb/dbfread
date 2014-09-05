@@ -224,7 +224,7 @@ class DBF(object):
             fieldname = fh.name.split(b'\0')[0].decode(self.encoding)
             if self.lowernames:
                 fieldname = fieldname.lower()
-            fieldtype = fh.type.decode(self.encoding)
+            fieldtype = chr(ord(fh.type))
 
             fh = fh._replace(name=fieldname,
                              type=fieldtype)
