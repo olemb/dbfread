@@ -6,6 +6,7 @@
 
 * now handles 0 (_NullFlags) fields that are more than 1 byte long.
   0 fields are now returned as byte strings instead of integers.
+  (Reported by Carlos Huga.)
 
 
 2.0.0 - 2014-08-12
