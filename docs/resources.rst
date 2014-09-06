@@ -17,3 +17,6 @@ Resources
 
 * `dBase IV limitations
   <http://www.johnbrown.com.au/approach/webfaq04040210.html>`_
+
+* `DBF Table File Structure (Microsoft Developer Network)
+  <http://msdn.microsoft.com/en-us/library/st4a0s68%28VS.80%29.aspx>`_
