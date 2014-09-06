@@ -8,6 +8,14 @@
   0 fields are now returned as byte strings instead of integers.
   (Reported by Carlos Huga.)
 
+* the type B field is a double precision floating point numbers in
+  Visual FoxPro. The parser crashed when it tried to interpret this as
+  a string containing a number. (Reported by Carlos Huga.)
+
+* API changes: memo field parsers must now return ``MemoIndex`` objects.
+  Also ``MemoIndex(0)`` is used instead of ``None`` for no memo. This only
+  affects those who have implemented custom memo field types.
+
 
 2.0.0 - 2014-08-12
 ------------------

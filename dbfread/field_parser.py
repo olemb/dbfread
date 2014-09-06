@@ -13,6 +13,10 @@ else:
     decode_text = str
 
 
+class MemoIndex(int):
+    pass
+
+
 class InvalidValue(bytes):
     def __repr__(self):
         text = bytes.__repr__(self)
@@ -30,6 +34,7 @@ class FieldParser:
         encoding is the character encoding to use when parsing
         strings."""
         self.table = table
+        self.dbversion = self.table.header.dbversion
         self._encoding = table.encoding
         self._lookup = self._create_lookup_table()
 
@@ -123,15 +128,15 @@ class FieldParser:
         # to look up the entry in the memo file.)
         if len(data) == 4:
             # Todo: is this 4 bytes on every platform?
-            return struct.unpack('<I', data)[0] or None
+            return MemoIndex(struct.unpack('<I', data)[0] or 0)
         else:
             # All spaces is a NULL value.
             if data.strip(b' \x00') == b'':
-                return None
+                return MemoIndex(0)
 
             # Integer as a string.
             try:
-                return int(data) or None
+                return MemoIndex(int(data) or 0)
             except ValueError:
                 raise ValueError(
                     'Memo index is not an integer: {!r}'.format(data))
@@ -189,6 +194,18 @@ class FieldParser:
         else:
             return None
 
+    def parseB(self, field, data):
+        """Memo field or double precision floating point number
+
+        dBase uses B to represent a memo index (10 bytes), while
+        Visual FoxPro uses it to store a double precision floating
+        point number (8 bytes).
+        """
+        if self.dbversion in [0x30, 0x31, 0x32]:
+            return struct.unpack('d', data)[0]
+        else:
+            return self.parseM(field, data)
+
     # Autoincrement field ('+')
     parse2B = parseI
 
@@ -196,4 +213,4 @@ class FieldParser:
     parse40 = parseT
 
     # Memo fields.
-    parseB = parseG = parseP = parseM
+    parseG = parseP = parseM

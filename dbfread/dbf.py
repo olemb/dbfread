@@ -8,7 +8,7 @@ import collections
 
 from .ifiles import ifind
 from .struct_parser import StructParser
-from .field_parser import FieldParser
+from .field_parser import FieldParser, MemoIndex
 from .memo import find_memofile, open_memofile, FakeMemoFile, BinaryMemo
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
@@ -284,7 +284,11 @@ class DBF(object):
                             if value is not None:
                                 value = value.decode(self.encoding)
 
-                    elif field.type in 'GPB':
+                    elif field.type == 'B':
+                        if isinstance(value, MemoIndex):
+                            value = memofile[value]
+
+                    elif field.type in 'GP':
                         # G == OLE object
                         # B == binary data
                         # P == picture

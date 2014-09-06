@@ -91,7 +91,7 @@ class VFPMemoFile(MemoFile):
     def __getitem__(self, index):
         """Get a memo from the file."""
         if index <= 0:
-            raise IndexError('memo file got index {}'.format(index))
+            return None
 
         self._seek(index * self.header.blocksize)
         memo_header = VFPMemoHeader.read(self.file)
