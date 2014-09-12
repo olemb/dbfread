@@ -8,7 +8,7 @@ import collections
 
 from .ifiles import ifind
 from .struct_parser import StructParser
-from .field_parser import FieldParser, MemoIndex
+from .field_parser import FieldParser
 from .memo import find_memofile, open_memofile, FakeMemoFile, BinaryMemo
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
@@ -88,7 +88,6 @@ class DBF(object):
         self.ignorecase = ignorecase
         self.lowernames = lowernames
         self.parserclass = parserclass
-        self._field_parser = None
         self.raw = raw
         self.ignore_missing_memofile = ignore_missing_memofile
 
@@ -204,8 +203,6 @@ class DBF(object):
             except LookupError as err:
                 self.encoding = 'ascii'
 
-        self._field_parser = self.parserclass(self)
-
         #
         # Read field headers
         #
@@ -241,6 +238,8 @@ class DBF(object):
 
     def _check_headers(self):
 
+        field_parser = self.parserclass(self)
+
         """Check headers for possible format errors."""
         for field in self.fields:
 
@@ -252,52 +251,10 @@ class DBF(object):
                 message = 'Field type L must have length 1 (was {})'
                 raise ValueError(message.format(field.length))
 
-            elif not self._field_parser.field_type_supported(field.type):
+            elif not field_parser.field_type_supported(field.type):
                 # Todo: return as byte string?
                 raise ValueError('Unknown field type: {!r}'.format(field.type))
 
-    def _read_record(self, infile, memofile):
-        items = []  # List of Field
-
-        # Shortcuts for speed.
-        parse = self._field_parser.parse
-        append = items.append
-        read = infile.read
-        
-        if self.raw:
-            items = [(field.name, read(field.length)) for field in self.fields]
-        else:
-            for field in self.fields:
-                value = parse(field, read(field.length))
-
-                #
-                # Decoding memo fields requires a little more
-                # trickery.
-                #
-                # Todo: field.type in.
-                if value is not None:
-                    if field.type == 'M':
-                        value = memofile[value]
-                        # Visual FoxPro allows binary data in memo fields.
-                        # These should not be decoded as string.
-                        if not isinstance(value, BinaryMemo):
-                            if value is not None:
-                                value = value.decode(self.encoding)
-
-                    elif field.type == 'B':
-                        if isinstance(value, MemoIndex):
-                            value = memofile[value]
-
-                    elif field.type in 'GP':
-                        # G == OLE object
-                        # B == binary data
-                        # P == picture
-                        value = memofile[value]
-
-                append((field.name, value))
-
-        return self.recfactory(items)
-        
     def _skip_record(self, infile):
         # -1 for the record separator which was already read.
         infile.seek(self.header.recordlen - 1, 1)
@@ -325,11 +282,15 @@ class DBF(object):
     def _iter_records(self, record_type=b' '):
         with open(self.filename, 'rb') as infile, \
              self._get_memofile() as memofile:
+
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
 
+            if not self.raw:
+                field_parser = self.parserclass(self, memofile)
+                parse = field_parser.parse
+
             # Shortcuts for speed.
-            read_record = self._read_record
             skip_record = self._skip_record
             read = infile.read
 
@@ -337,7 +298,16 @@ class DBF(object):
                 sep = read(1)
 
                 if sep == record_type:
-                    yield read_record(infile, memofile)
+                    if self.raw:
+                        items = [(field.name, read(field.length)) \
+                                 for field in self.fields]
+                    else:
+                        items = [(field.name,
+                                  parse(field, read(field.length))) \
+                                 for field in self.fields]
+
+                    yield self.recfactory(items)
+
                 elif sep in (b'\x1a', b''):
                     # End of records.
                     break

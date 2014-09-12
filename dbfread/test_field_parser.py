@@ -1,6 +1,6 @@
 import datetime
 from pytest import raises
-from .field_parser import FieldParser, MemoIndex
+from .field_parser import FieldParser
 
 class MockHeader(object):
     dbversion = 0x02
@@ -15,10 +15,17 @@ class MockField(object):
         self.type = type
         self.__dict__.update(kwargs)
 
-def make_field_parser(field_type, dbversion=0x02):
+class MockMemoFile(dict):
+    def __getitem__(self, index):
+        if index == 0:
+            return None
+        else:
+            return dict.__getitem__(self, index)
+
+def make_field_parser(field_type, dbversion=0x02, memofile=None):
     dbf = MockDBF()
     dbf.header.dbversion = dbversion
-    parser = FieldParser(dbf)
+    parser = FieldParser(dbf, memofile)
     field = MockField(field_type)
 
     def parse(data):
@@ -91,14 +98,13 @@ def test_L():
 
 # This also tests B, G and P.
 def test_M():
-    parse = make_field_parser('M')
+    parse = make_field_parser('M', memofile=MockMemoFile({1: b'test'}))
 
-    assert parse(b'\x01\x00\x00\x00') == 1
-    assert parse(b'1') == 1
-    assert parse(b'') == 0
+    assert parse(b'\x01\x00\x00\x00') == u'test'
+    assert parse(b'1') == u'test'
+    assert parse(b'') is None
     with raises(ValueError):
         parse(b'NotInteger')
-    assert isinstance(parse(b'1'), MemoIndex)
 
 def test_B():
     # In VisualFox the B field is a double precision floating point number.
@@ -110,9 +116,10 @@ def test_B():
         parse(b'')
     
     # In other db versions it is a memo index.
-    parse = make_field_parser('B', dbversion=0x02)
-    parse(b'1') == 1
-    isinstance(parse(b'1'), MemoIndex)
+    parse = make_field_parser('B', dbversion=0x02,
+                              memofile=MockMemoFile({1: b'test'}))
+    parse(b'1') == b'test'
+    parse(b'') is None
 
 def test_N():
     parse = make_field_parser('N')

@@ -4,6 +4,7 @@ Parser for DBF fields.
 import sys
 import datetime
 import struct
+from .memo import BinaryMemo
 
 PY2 = sys.version_info[0] == 2
 
@@ -11,10 +12,6 @@ if PY2:
     decode_text = unicode
 else:
     decode_text = str
-
-
-class MemoIndex(int):
-    pass
 
 
 class InvalidValue(bytes):
@@ -28,7 +25,7 @@ class InvalidValue(bytes):
         return 'InvalidValue({})'.format(text)
 
 class FieldParser:
-    def __init__(self, table):
+    def __init__(self, table, memofile=None):
         """Create a new field parser
 
         encoding is the character encoding to use when parsing
@@ -37,6 +34,10 @@ class FieldParser:
         self.dbversion = self.table.header.dbversion
         self._encoding = table.encoding
         self._lookup = self._create_lookup_table()
+        if memofile:
+            self.get_memo = memofile.__getitem__
+        else:
+            self.get_memo = lambda x: None
 
     def _create_lookup_table(self):
         """Create a lookup table for field types."""
@@ -117,29 +118,35 @@ class FieldParser:
             message = 'Illegal value for logical field: {!r}'
             raise ValueError(message.format(data))
 
+    def _parse_memo_index(self, data):
+        if len(data) == 4:
+            return struct.unpack('<I', data)[0]
+        else:
+            try:
+                return int(data)
+            except ValueError:
+                if data.strip(b' \x00') == b'':
+                    return 0
+                else:
+                    raise ValueError(
+                        'Memo index is not an integer: {!r}'.format(data))
+
     def parseM(self, field, data):
         """Parse memo field (M, G, B or P)
 
         Returns memo index (an integer), which can be used to look up
         the corresponding memo in the memo file.
         """
-        # Memo field (index as ' '-padded text or
-        # 4 byte unsigned integer little endian. The index is used
-        # to look up the entry in the memo file.)
-        if len(data) == 4:
-            # Todo: is this 4 bytes on every platform?
-            return MemoIndex(struct.unpack('<I', data)[0] or 0)
+        memo = self.get_memo(self._parse_memo_index(data))
+        # Visual FoxPro allows binary data in memo fields.
+        # These should not be decoded as string.
+        if isinstance(memo, BinaryMemo):
+            return memo
         else:
-            # All spaces is a NULL value.
-            if data.strip(b' \x00') == b'':
-                return MemoIndex(0)
-
-            # Integer as a string.
-            try:
-                return MemoIndex(int(data) or 0)
-            except ValueError:
-                raise ValueError(
-                    'Memo index is not an integer: {!r}'.format(data))
+            if memo is None:
+                return None
+            else:
+                return memo.decode(self._encoding)
 
     def parseN(self, field, data):
         """Parse numeric field (N)
@@ -195,7 +202,7 @@ class FieldParser:
             return None
 
     def parseB(self, field, data):
-        """Memo field or double precision floating point number
+        """Binary memo field or double precision floating point number
 
         dBase uses B to represent a memo index (10 bytes), while
         Visual FoxPro uses it to store a double precision floating
@@ -204,13 +211,23 @@ class FieldParser:
         if self.dbversion in [0x30, 0x31, 0x32]:
             return struct.unpack('d', data)[0]
         else:
-            return self.parseM(field, data)
+            return self.get_memo(self._parse_memo_index(data))
+
+    def parseG(self, field, data):
+        """OLE Object stored in memofile.
+
+        The raw data is returned as a binary string."""
+        return self._get_memo(self._parse_memo_index(data))
+
+    def parseP(self, field, data):
+        """Picture stored in memofile.
+
+        The raw data is returned as a binary string."""
+        return self._get_memo(self._parse_memo_index(data))
+
 
     # Autoincrement field ('+')
     parse2B = parseI
 
     # Timestamp field ('@')
     parse40 = parseT
-
-    # Memo fields.
-    parseG = parseP = parseM
