@@ -230,7 +230,7 @@ class DBF(object):
 
             self.fields.append(fh)
 
-    def _get_memofile(self):
+    def _open_memofile(self):
         if self.memofilename and not self.raw:
             return open_memofile(self.memofilename, self.header.dbversion)
         else:
@@ -281,7 +281,7 @@ class DBF(object):
 
     def _iter_records(self, record_type=b' '):
         with open(self.filename, 'rb') as infile, \
-             self._get_memofile() as memofile:
+             self._open_memofile() as memofile:
 
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
