@@ -1,6 +1,9 @@
 Resources
 =========
 
+DBF file format documentation
+-----------------------------
+
 * `Xbase File Format Description
   <http://www.clicketyclick.dk/databases/xbase/format/index.html>`_ by Erik Bachmann
 
