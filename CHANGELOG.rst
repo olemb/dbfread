@@ -1,4 +1,4 @@
-2.0.1 - 
+2.0.1 - 2014-09-19
 ------------------
 
 * bugfix: didn't handle field names with garbage after b'\0'
