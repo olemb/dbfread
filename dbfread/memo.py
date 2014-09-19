@@ -110,6 +110,9 @@ class DB3MemoFile(MemoFile):
     """dBase III memo file."""
     # Code from dbf.py
     def __getitem__(self, index):
+        if index <= 0:
+            return None
+
         block_size = 512
         self._seek(index * block_size)
         data = ''
@@ -134,6 +137,9 @@ class DB3MemoFile(MemoFile):
 class DB4MemoFile(MemoFile):
     """dBase IV memo file"""
     def __getitem__(self, index):
+        if index <= 0:
+            return None
+
         # Todo: read this from the file header.
         block_size = 512
 
