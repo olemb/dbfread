@@ -12,9 +12,10 @@
   Visual FoxPro. The parser crashed when it tried to interpret this as
   a string containing a number. (Reported by Carlos Huga.)
 
-* API changes: memo field parsers must now return ``MemoIndex`` objects.
-  Also ``MemoIndex(0)`` is used instead of ``None`` for no memo. This only
-  affects those who have implemented custom memo field types.
+* API changes: memo field parsers now return the memo data (typically
+  a unicode string or bytes object) instead of returning the
+  index. This makes it easier to implement new memo types or extend
+  the existing ones since memo fields are no longer a special case.
 
 
 2.0.0 - 2014-08-12
