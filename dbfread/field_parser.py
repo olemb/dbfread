@@ -140,7 +140,6 @@ class FieldParser:
         memo = self.get_memo(self._parse_memo_index(data))
         # Visual FoxPro allows binary data in memo fields.
         # These should not be decoded as string.
-        print(type(memo))
         if isinstance(memo, BinaryMemo):
             return memo
         else:
