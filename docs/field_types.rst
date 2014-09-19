@@ -10,7 +10,7 @@ Supported Field Types
 \+  autoincrement  int
 @   time           datetime.datetime
 0   flags          byte string (int before 2.0)
-B   double float   float (Visual FoxPro)
+B   double         float (Visual FoxPro)
 B   binary memo    byte string (other versions)
 C   text           unicode string
 D   date           datetime.date or None
