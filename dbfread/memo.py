@@ -28,13 +28,6 @@ VFPMemoHeader = StructParser(
     ['type',
      'length'])
 
-# Record type
-VFP_RECORD_TYPES = {
-    0x0: 'picture',
-    0x1: 'memo',
-    0x2: 'object',
-}
-
 DB4MemoHeader = StructParser(
     'DBase4MemoHeader',
     '<LL',
@@ -42,8 +35,29 @@ DB4MemoHeader = StructParser(
      'length'])
 
 # Used for Visual FoxPro memos to distinguish binary from text memos.
-class BinaryMemo(bytes):
+
+class VFPMemo(bytes):
     pass
+
+class BinaryMemo(VFPMemo):
+    pass
+
+class PictureMemo(BinaryMemo):
+    pass
+
+class ObjectMemo(BinaryMemo):
+    pass
+
+class TextMemo(VFPMemo):
+    pass
+
+
+VFP_TYPE_MAP = {
+    0x0: PictureMemo,
+    0x1: TextMemo,
+    0x2: ObjectMemo,
+}
+
 
 class MemoFile(object):
     def __init__(self, filename):
@@ -100,10 +114,7 @@ class VFPMemoFile(MemoFile):
         if len(data) != memo_header.length:
             raise IOError('EOF reached while reading memo')
         
-        if memo_header.type == 0x1:
-            return data
-        else:
-            return BinaryMemo(data)
+        return VFP_TYPE_MAP.get(memo_header.type, BinaryMemo)(data)
 
 
 class DB3MemoFile(MemoFile):

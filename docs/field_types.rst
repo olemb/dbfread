@@ -10,7 +10,8 @@ Supported Field Types
 \+  autoincrement  int
 @   time           datetime.datetime
 0   flags          byte string (int before 2.0)
-B   binary         byte string
+B   double float   float (Visual FoxPro)
+B   binary memo    byte string (other versions)
 C   text           unicode string
 D   date           datetime.date or None
 F   float          float
@@ -24,6 +25,11 @@ O   double         float (floats are doubles in Python)
 P   picture        byte string
 T   time           datetime.datetime
 ==  =============  ========================================================
+
+The 'B' field type is used to store double precision (64 bit) floats
+in Visual FoxPro databases and binary memos in other
+versions. ``dbfread`` will look at the database version to parse and
+return the correct data type.
 
 The '0' field type is used for '_NullFlags' in Visual FoxPro.  It was
 mistakenly though to always be one byte long and was interpreted as an
@@ -47,6 +53,31 @@ self.table
 self.encoding
   The character encoding. (A a shortcut for ``self.table.encoding`` to
   speed things up a bit.)
+
+self.dbversion
+  The database version as an integer. (A shortcut for
+  ``self.table.header.dbversion``.)
+
+self.get_memo(index)
+  Returns a memo from the memo file using the index stored in the field data.
+
+  This returns a byte string (``bytes``) which you can then
+  decode.
+
+  For Visual FoxPro (``.FPT``) files it will return ``TextMemo``,
+  ``PictureMemo`` and ``ObjectMemo`` objects depending on the type of
+  memo. These are all subclasses of ``bytes`` so the type is only used
+  to annotate the memo type without breaking code elsewhere. The full
+  class tree::
+
+      bytes
+        VFPMemo
+          TextMemo
+          BinaryMemo
+            PictureMemo
+            ObjectMemo
+
+  These are all found in ``dbfread.memo``.
 
 
 Special Characters in Field Type Names
