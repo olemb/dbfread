@@ -105,7 +105,8 @@ name
   ``shoes``.
 
 date
-  Date when the file was last updated (as ``datetime.date``).
+  Date when the file was last updated (as ``datetime.date``) or
+  ``None`` if the date was all zeroes or invalid.
 
 field_names
   A list of field names in the order they appear in the file. This can

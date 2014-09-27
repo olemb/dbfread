@@ -119,10 +119,14 @@ class DBF(object):
             self._read_headers(infile, ignore_missing_memofile)
             self._check_headers()
             
-            self.date = datetime.date(expand_year(self.header.year),
-                                      self.header.month,
-                                      self.header.day)
-    
+            try:
+                self.date = datetime.date(expand_year(self.header.year),
+                                          self.header.month,
+                                          self.header.day)
+            except ValueError:
+                # Invalid date or '\x00\x00\x00'.
+                self.date = None
+ 
         self.memofilename = self._get_memofilename()
 
         if load:

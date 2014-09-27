@@ -1,3 +1,12 @@
+2.0.2 - 
+------------------
+
+* bugfix: a date with all zeroes in the DBF header resulted in
+  'ValueError: month must be in 1..12'.  (Reported by Andrew Myers.)
+  The ``date`` attribute is now set to ``None`` for any value that is
+  not a valid date.
+
+
 2.0.1 - 2014-09-19
 ------------------
 
