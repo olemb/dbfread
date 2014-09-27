@@ -58,12 +58,4 @@ def ifind(pat, ext=None):
     else:
         return None
 
-if __name__ == '__main__':
-    print(ipat('mixed'))  # => "[Mm]m[Ii]i[Xx]x[Ee]e[Dd]d"
-    print(ifnmatch('test', 'test'))  # => True
-    print(ifnmatch('miXEdCaSe', 'mixedcase'))  # => True
-    print(ifnmatch('CAMELCASE/CamelCase', 'CamelCase/UPPERCASE'))  # => False
-    print(ifind(('/etc/PASSwd')))  # => True or false depending on your OS
-    print(ipat(ipat('This will fail')))  # [[Tt][Tt]][[Hh][Hh]] ... etc. =>
-
-__all__ = [ifnmatch, iglob, ifind]
+__all__ = ['ipat', 'ifnmatch', 'iglob', 'ifind']
