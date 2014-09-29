@@ -1,4 +1,4 @@
-2.0.2 - 
+2.0.2 - 2014-09-29
 ------------------
 
 * bugfix: a date with all zeroes in the DBF header resulted in
