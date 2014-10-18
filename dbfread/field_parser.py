@@ -200,6 +200,16 @@ class FieldParser:
                 return None
         else:
             return None
+            
+    def parseY(self, field, data):
+        """Parse currency field (Y) and return float."""
+        int_val = int.from_bytes(data, byteorder='little')
+        # Can also retrieve int value with struct.unpack('q', data)[0]
+        
+        # Currency fields are stored with 4 points of precision
+        float_val = int_val / 10000
+        return float_val
+
 
     def parseB(self, field, data):
         """Binary memo field or double precision floating point number
