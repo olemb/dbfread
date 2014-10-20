@@ -4,6 +4,7 @@ Parser for DBF fields.
 import sys
 import datetime
 import struct
+from decimal import Decimal
 from .memo import BinaryMemo
 
 PY2 = sys.version_info[0] == 2
@@ -202,13 +203,14 @@ class FieldParser:
             return None
             
     def parseY(self, field, data):
-        """Parse currency field (Y) and return float."""
-        int_val = int.from_bytes(data, byteorder='little')
-        # Can also retrieve int value with struct.unpack('q', data)[0]
-        
+        """Parse currency field (Y) and return decimal.Decimal.
+
+        The field is encoded as a 8-byte little endian integer
+        with 4 digits of precision."""
+        value = struct.unpack('<q', data)[0]
+
         # Currency fields are stored with 4 points of precision
-        float_val = int_val / 10000
-        return float_val
+        return Decimal(value) / 10000
 
 
     def parseB(self, field, data):
