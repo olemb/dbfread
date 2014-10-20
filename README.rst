@@ -43,7 +43,7 @@ Main Features
   tested with Visual FoxPro, but should work well with other
   variants.)
 
-* support for 15 field types. Custom types can be added by subclassing
+* support for 18 field types. Custom types can be added by subclassing
   ``FieldParser``
 
 * reads ``FPT`` and ``DBT`` memo files, both text and binary data

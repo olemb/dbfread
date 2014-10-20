@@ -19,11 +19,12 @@ G   OLE object     byte string
 I   integer        int
 L   logical        True, False or None
 M   memo           unicode string (memo), byte string (picture or object)
-                   or None 
+                   or None
 N   numeric        int, float or None
 O   double         float (floats are doubles in Python)
 P   picture        byte string
 T   time           datetime.datetime
+Y   currency       decimal.Decimal
 ==  =============  ========================================================
 
 The 'B' field type is used to store double precision (64 bit) floats
