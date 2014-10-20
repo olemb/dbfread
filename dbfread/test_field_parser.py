@@ -1,4 +1,5 @@
 import datetime
+from decimal import Decimal
 from pytest import raises
 from .field_parser import FieldParser
 
@@ -149,6 +150,12 @@ def test_T():
     assert parse(b' ') is None
 
     # Todo: add more tests.
+
+def test_Y():
+    parse = make_field_parser('Y')
+
+    assert parse(b'\1\0\0\0\0\0\0\0') == Decimal('0.0001')
+    assert parse(b'\xff\xff\xff\xff\xff\xff\xff\xff') == Decimal('-0.0001')
 
 def test_hex_field():
     class PlusFieldParser(FieldParser):
