@@ -1,4 +1,4 @@
-2.0.3 - 
+2.0.3 - 2014-09-30
 ------------------
 
 * added currency field (Y). (Patch by Stack-of-Pancakes.)
