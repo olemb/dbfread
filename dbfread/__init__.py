@@ -16,7 +16,7 @@ __author__ = 'Ole Martin Bjorndalen'
 __email__ = 'ombdalen@gmail.com'
 __url__ = 'http://nerdly.info/ole/'
 __license__ = 'MIT'
-__version__ = '2.0.2'
+__version__ = '2.0.3'
 
 from .dbf import DBF
 from .deprecated_dbf import open, read
