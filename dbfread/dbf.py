@@ -222,13 +222,12 @@ class DBF(object):
             fh = DBFField.read(infile)
 
             # Field name is b'\0' terminated.
-            fieldname = fh.name.split(b'\0')[0].decode(self.encoding)
+            field_name = fh.name.split(b'\0')[0].decode(self.encoding)
             if self.lowernames:
-                fieldname = fieldname.lower()
-            fieldtype = chr(ord(fh.type))
+                field_name = fieldname.lower()
 
-            fh = fh._replace(name=fieldname,
-                             type=fieldtype)
+            fh.name = field_name
+            fh.type = chr(ord(fh.type))
 
             self.field_names.append(fh.name)
 
