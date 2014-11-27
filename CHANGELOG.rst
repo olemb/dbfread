@@ -1,3 +1,12 @@
+2.0.4 - 
+------------------
+
+* DBF header and field headers are no longer read-only. For example
+  you can now change field names by doing ``table.fields[0].name = 'price'``
+  or read from files where field sizes in the header don't match those
+  in the actual records by doing ``table.fields[0].length = 500``.
+
+
 2.0.3 - 2014-09-30
 ------------------
 
