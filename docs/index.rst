@@ -49,6 +49,7 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+   changes
    installing
    introduction
    exporting_data
