@@ -26,6 +26,8 @@ random access::
 
 Full documentation at http://dbfread.readthedocs.org/
 
+See docs/changes.rst for a full list of changes in each version.
+
 
 Main Features
 -------------
