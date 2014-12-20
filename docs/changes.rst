@@ -12,6 +12,8 @@ Release History
   or read from files where field sizes in the header don't match those
   in the actual records by doing ``table.fields[0].length = 500``.
 
+* fixed some examples that didn't work with Python 3.
+
 
 2.0.3 - 2014-09-30
 ^^^^^^^^^^^^^^^^^^
