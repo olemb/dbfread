@@ -224,7 +224,7 @@ class DBF(object):
             # Field name is b'\0' terminated.
             field_name = fh.name.split(b'\0')[0].decode(self.encoding)
             if self.lowernames:
-                field_name = fieldname.lower()
+                field_name = field_name.lower()
 
             fh.name = field_name
             fh.type = chr(ord(fh.type))
