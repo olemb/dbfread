@@ -4,7 +4,7 @@ Changes
 Release History
 ---------------
 
-2.0.4 - 
+2.0.4 - 2015-02-07
 ^^^^^^^^^^^^^^^^^^
 
 * DBF header and field headers are no longer read-only. For example
