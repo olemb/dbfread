@@ -29,6 +29,7 @@ class StructParser:
         self.names = names
         self.struct = struct.Struct(format)
         self.Class = _make_struct_class(name, names)
+        self.size = self.struct.size
 
     def unpack(self, data):
         """Unpack struct from binary string and return a named tuple."""
