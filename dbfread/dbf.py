@@ -216,10 +216,7 @@ class DBF(object):
                 # End of field headers
                 break
 
-            # sep is the first byte of the field name.
-            # Go back one byte and read field header.
-            infile.seek(-1, 1)
-            fh = DBFField.read(infile)
+            fh = DBFField.unpack(sep + infile.read(DBFField.size - 1))
 
             # Field name is b'\0' terminated.
             field_name = fh.name.split(b'\0')[0].decode(self.encoding)
@@ -240,7 +237,6 @@ class DBF(object):
             return FakeMemoFile(self.memofilename)
 
     def _check_headers(self):
-
         field_parser = self.parserclass(self)
 
         """Check headers for possible format errors."""
