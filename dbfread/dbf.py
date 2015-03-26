@@ -116,7 +116,8 @@ class DBF(object):
         self.field_names = []  # strings
 
         with open(self.filename, mode='rb') as infile:
-            self._read_headers(infile, ignore_missing_memofile)
+            self._read_header(infile)
+            self._read_field_headers(infile)
             self._check_headers()
             
             try:
@@ -197,7 +198,7 @@ class DBF(object):
         else:
             return RecordIterator(self, b'*')
 
-    def _read_headers(self, infile, ignore_missing_memofile):
+    def _read_header(self, infile):
         # Todo: more checks?
         self.header = DBFHeader.read(infile)
 
@@ -207,28 +208,25 @@ class DBF(object):
             except LookupError as err:
                 self.encoding = 'ascii'
 
-        #
-        # Read field headers
-        #
-        while 1:
+    def _read_field_headers(self, infile):
+        while True:
             sep = infile.read(1)
             if sep in (b'\r', b'\n', b''):
                 # End of field headers
                 break
 
-            fh = DBFField.unpack(sep + infile.read(DBFField.size - 1))
+            field = DBFField.unpack(sep + infile.read(DBFField.size - 1))
+
+            field.type = chr(ord(field.type))
 
             # Field name is b'\0' terminated.
-            field_name = fh.name.split(b'\0')[0].decode(self.encoding)
+            field.name = field.name.split(b'\0')[0].decode(self.encoding)
             if self.lowernames:
-                field_name = field_name.lower()
+                field.name = field.name.lower()
 
-            fh.name = field_name
-            fh.type = chr(ord(fh.type))
+            self.field_names.append(field.name)
 
-            self.field_names.append(fh.name)
-
-            self.fields.append(fh)
+            self.fields.append(field)
 
     def _open_memofile(self):
         if self.memofilename and not self.raw:
