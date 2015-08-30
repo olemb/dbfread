@@ -229,13 +229,13 @@ class FieldParser:
         """OLE Object stored in memofile.
 
         The raw data is returned as a binary string."""
-        return self._get_memo(self._parse_memo_index(data))
+        return self.get_memo(self._parse_memo_index(data))
 
     def parseP(self, field, data):
         """Picture stored in memofile.
 
         The raw data is returned as a binary string."""
-        return self._get_memo(self._parse_memo_index(data))
+        return self.get_memo(self._parse_memo_index(data))
 
 
     # Autoincrement field ('+')
