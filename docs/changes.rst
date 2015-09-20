@@ -7,6 +7,9 @@ Release History
 2.0.4 - 2015-02-07
 ^^^^^^^^^^^^^^^^^^
 
+* Bugfix: some field parsers called self._get_memo() instead of
+  self.get_memo(). (Fix by Yu Feng, pull request #9.)
+
 * DBF header and field headers are no longer read-only. For example
   you can now change field names by doing ``table.fields[0].name = 'price'``
   or read from files where field sizes in the header don't match those
