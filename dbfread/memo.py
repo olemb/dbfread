@@ -126,7 +126,7 @@ class DB3MemoFile(MemoFile):
 
         block_size = 512
         self._seek(index * block_size)
-        data = ''
+        data = b''
         while True:
             newdata = self._read(block_size)
             if not newdata:
@@ -135,7 +135,7 @@ class DB3MemoFile(MemoFile):
 
             # Todo: some files (help.dbt) has only one field separator.
             # Is this enough for all file though?
-            end_of_memo = data.find('\x1a')
+            end_of_memo = data.find(b'\x1a')
             if end_of_memo != -1:
                 return data[:end_of_memo]
 
@@ -160,7 +160,7 @@ class DB4MemoFile(MemoFile):
         # Todo: fields are terminated in different ways.
         # \x1a is one of them
         # \x1f seems to be another (dbase_8b.dbt)
-        return data.split('\x1f', 1)[0]
+        return data.split(b'\x1f', 1)[0]
 
 
 def find_memofile(dbf_filename):
