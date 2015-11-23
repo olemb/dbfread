@@ -140,8 +140,8 @@ class DB3MemoFile(MemoFile):
                 return data[:end_of_memo]
 
             # Alternative end of memo markers:
-            # '\x1a\x1a'
-            # '\x0d\x0a'
+            # \x1a\x1a
+            # \x0d\x0a
 
         return data[:eom]        
 
