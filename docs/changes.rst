@@ -8,8 +8,8 @@ Release History
 ^^^^^^^^^^^^^^^^^
 
 * Bugfix: memo field parser used str instead of bytes. (Fix submitted
-  independently by Sebastian (via email) and by Artem Vlasov, pull
-  request #11.)
+  independently by Sebastian Setzer (via email) and by Artem Vlasov,
+  pull request #11.)
 
 * Bugfix: some field parsers called self._get_memo() instead of
   self.get_memo(). (Fix by Yu Feng, pull request #9.)
