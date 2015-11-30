@@ -4,8 +4,8 @@ Changes
 Release History
 ---------------
 
-2.0.5 -
-^^^^^^^^^^^^^^^^^
+2.0.5 - 2015-11-30
+^^^^^^^^^^^^^^^^^^
 
 * Bugfix: memo field parser used str instead of bytes. (Fix submitted
   independently by Sebastian Setzer (via email) and by Artem Vlasov,
