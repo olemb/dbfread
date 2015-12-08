@@ -219,6 +219,12 @@ class DBF(object):
 
             field.type = chr(ord(field.type))
 
+            # For character fields > 255 bytes the high byte
+            # is stored in decimal_count.
+            if field.type in 'C':
+                field.length |= field.decimal_count << 8
+                field.decimal_count = 0
+
             # Field name is b'\0' terminated.
             field.name = field.name.split(b'\0')[0].decode(self.encoding)
             if self.lowernames:
