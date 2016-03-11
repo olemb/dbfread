@@ -1,10 +1,7 @@
 .. highlight:: python
 
-Exporting Data
-==============
-
-Here are some examples of how you can export data to other databases
-or file formats.
+Moving data to SQL, CSV, Pandas etc.
+====================================
 
 
 CSV
@@ -19,6 +16,18 @@ The output is::
     NAME,BIRTHDATE
     Alice,1987-03-01
     Bob,1980-11-12
+
+
+Pandas Data Frames
+------------------
+
+.. literalinclude:: ../examples/pandas_dataframe.py
+
+This will print::
+
+        BIRTHDATE   NAME
+    0  1987-03-01  Alice
+    1  1980-11-12    Bob
 
 
 dataset (SQL)
