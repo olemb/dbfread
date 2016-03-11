@@ -27,6 +27,10 @@ T   time           datetime.datetime
 Y   currency       decimal.Decimal
 ==  =============  ========================================================
 
+Text values ('C') can be up to 65535 bytes long. DBF was originally
+limited to 255 bytes but some vendors have reused the
+``decimal_count`` field to get another byte for field length.
+
 The 'B' field type is used to store double precision (64 bit) floats
 in Visual FoxPro databases and binary memos in other
 versions. ``dbfread`` will look at the database version to parse and
