@@ -57,9 +57,9 @@ Methods
 -------
 
 load()
-   Load records into memory. This loads both records and deleted
-   records. The ``records`` and ``deleted`` attributes will now be
-   lists of records.
+   This loads records or deleted records depending on the contents of the
+   ``deleted`` flag when the StreamDBF was created. The ``records`` or
+   ``deleted`` attributes (as appropriate) will now be lists of records.
 
 unload()
    Unload records from memory. The ``records`` and ``deleted``
@@ -82,6 +82,9 @@ deleted
 
 loaded
   ``True`` if records are loaded into memory.
+
+deletedrecords
+  Indicates if this StreamDBF is set up to read deleted or live records.
 
 dbversion
   The name of the program that created the database (based on the

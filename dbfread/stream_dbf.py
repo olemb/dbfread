@@ -131,8 +131,8 @@ class StreamDBF(object):
         """Load records into memory.
 
         This loads records or deleted records depending on the contents of the
-        ``deleted`` flag when the StreamDBF was created. The ``records`` and
-        ``deleted`` attributes will now be lists of records.
+        ``deleted`` flag when the StreamDBF was created. The ``records`` or
+        ``deleted`` attributes (as appropriate) will now be lists of records.
         """
         if not self.loaded:
             if self.deletedrecords:
