@@ -54,6 +54,7 @@ Contents
    introduction
    exporting_data
    dbf_objects
+   streamdbf_objects
    field_types
    api_changes
    resources
