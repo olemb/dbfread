@@ -104,16 +104,15 @@ class DBF(StreamDBF):
         if self.fileobj.closed:
             self.fileobj = open(self.filename, 'rb')
 
-        with closing(self.fileobj) as infile, \
-             self._open_memofile() as memofile:
+        with closing(self.fileobj) as infile:
 
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
             self._finished = False
 
             # Could use 'yield from' in Python 3
-            for r in StreamDBF._iter_records(self, record_type):
-                yield r
+            for record in StreamDBF._iter_records(self, record_type):
+                yield record
 
     def __iter__(self):
         if self.loaded:
@@ -134,7 +133,7 @@ class DBF(StreamDBF):
     def __enter__(self):
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, exc_type, exc_value, exc_traceback):
         self.unload()
         if not self.fileobj.closed:
             self.fileobj.close()

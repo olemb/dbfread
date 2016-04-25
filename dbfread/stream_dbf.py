@@ -70,7 +70,7 @@ class RecordIterator(object):
             return len(self._table._records)
         else:
             count = 0
-            for r in self._table._iter_records():
+            for _ in self._table._iter_records():
                 count += 1
             return count
 
@@ -176,7 +176,7 @@ class StreamDBF(object):
         if self.encoding is None:
             try:
                 self.encoding = guess_encoding(self.header.language_driver)
-            except LookupError as err:
+            except LookupError:
                 self.encoding = 'ascii'
 
     def _read_field_headers(self):
@@ -287,6 +287,6 @@ class StreamDBF(object):
     def __enter__(self):
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, exc_type, exc_value, exc_traceback):
         self.unload()
         return False
