@@ -136,4 +136,6 @@ class DBF(StreamDBF):
 
     def __exit__(self, type, value, traceback):
         self.unload()
+        if not self.fileobj.closed:
+            self.fileobj.close()
         return False
