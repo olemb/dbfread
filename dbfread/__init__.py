@@ -19,6 +19,7 @@ __license__ = 'MIT'
 __version__ = '2.0.5'
 
 from .dbf import DBF
+from .stream_dbf import StreamDBF
 from .deprecated_dbf import open, read
 from .exceptions import *
 from .field_parser import FieldParser, InvalidValue
