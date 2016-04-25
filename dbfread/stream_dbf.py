@@ -1,8 +1,6 @@
 """
 Class to read DBF files from a file-like stream object.
 """
-import os
-import sys
 import datetime
 import collections
 
@@ -10,7 +8,6 @@ from .struct_parser import StructParser
 from .field_parser import FieldParser
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
-from .exceptions import *
 
 DBFHeader = StructParser(
     'DBFHeader',

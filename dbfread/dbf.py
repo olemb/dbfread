@@ -2,16 +2,13 @@
 Class to read DBF files.
 """
 import os
-import sys
-import datetime
 import collections
 from contextlib import closing
 
 from .stream_dbf import StreamDBF
 from .ifiles import ifind
-from .memo import find_memofile, open_memofile, FakeMemoFile, BinaryMemo
+from .memo import find_memofile, open_memofile, FakeMemoFile
 from .field_parser import FieldParser
-from .codepages import guess_encoding
 from .exceptions import *
 
 class DBF(StreamDBF):
