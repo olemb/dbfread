@@ -1,7 +1,7 @@
 """
 Convert a DBF file to an SQLite table.
 
-Requires dataset: http://dataset.readthedocs.org/
+Requires dataset: https://dataset.readthedocs.io/
 """
 import dataset
 from dbfread import DBF

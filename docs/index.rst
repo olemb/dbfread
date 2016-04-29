@@ -25,15 +25,15 @@ batch jobs and one-off scripts.
 Source code
 -----------
 
-Latest stable release: http://github.com/olemb/dbfread/
+Latest stable release: https://github.com/olemb/dbfread/
 
-Latest development version: http://github.com/olemb/dbfread/tree/develop/
+Latest development version: https://github.com/olemb/dbfread/tree/develop/
 
 
 About This Document
 -------------------
 
-This document is available at http://dbfread.readthedocs.org/
+This document is available at https://dbfread.readthedocs.io/
 
 To build documentation locally::
 

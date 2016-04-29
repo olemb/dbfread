@@ -24,7 +24,7 @@ random access::
     >>> print(table.records[0]['NAME'])
     Alice
 
-Full documentation at http://dbfread.readthedocs.org/
+Full documentation at https://dbfread.readthedocs.io/
 
 See docs/changes.rst for a full list of changes in each version.
 
