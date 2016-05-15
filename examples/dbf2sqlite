@@ -48,14 +48,14 @@ def add_table(cursor, table):
     #
     # Create the table
     #
-    defs = ', '.join(['%s %s' % (f, field_types[f])
+    defs = ', '.join(['"%s" %s' % (f, field_types[f])
                       for f in table.field_names])
-    sql = 'create table %s (%s)' % (table.name, defs)
+    sql = 'create table "%s" (%s)' % (table.name, defs)
     cursor.execute(sql)
 
     # Create data rows
     refs = ', '.join([':' + f for f in table.field_names])
-    sql = 'insert into %s values (%s)' % (table.name, refs)
+    sql = 'insert into "%s" values (%s)' % (table.name, refs)
 
     for rec in table:
         cursor.execute(sql, list(rec.values()))
