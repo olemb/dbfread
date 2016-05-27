@@ -10,6 +10,9 @@ Release History
 * Added support for long character (C) fields (up to 65535 bytes).
   (Requested by Eric Mertens and Marcelo Manzano.)
 
+* Bugfix (dbf2sqlite): some table or field names might actually collide with
+  sql reserved words. (Fix by vthriller, pull request #15.)
+
 
 2.0.5 - 2015-11-30
 ^^^^^^^^^^^^^^^^^^
