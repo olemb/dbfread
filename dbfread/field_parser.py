@@ -243,3 +243,6 @@ class FieldParser:
 
     # Timestamp field ('@')
     parse40 = parseT
+
+    # Varchar field ('V') (Visual FoxPro)
+    parseV = parseC

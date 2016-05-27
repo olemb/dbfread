@@ -24,6 +24,7 @@ N   numeric        int, float or None
 O   double         float (floats are doubles in Python)
 P   picture        byte string
 T   time           datetime.datetime
+V   varchar        unicode string
 Y   currency       decimal.Decimal
 ==  =============  ========================================================
 
@@ -39,6 +40,11 @@ return the correct data type.
 The '0' field type is used for '_NullFlags' in Visual FoxPro.  It was
 mistakenly though to always be one byte long and was interpreted as an
 integer. From 2.0.1 on it is returned as a byte string.
+
+The 'V' field is an alternative character field used by Visual
+FoxPro. The binary version of this field is not yet supported. (See
+https://msdn.microsoft.com/en-us/library/st4a0s68%28VS.80%29.aspx for
+more.)
 
 
 Adding Custom Field Types

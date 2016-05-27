@@ -10,6 +10,9 @@ Release History
 * Added support for long character (C) fields (up to 65535 bytes).
   (Requested by Eric Mertens and Marcelo Manzano.)
 
+* Added support for Visual FoxPro varchar fields (V). (Thanks to Roman
+  Kharin for reporting and bobintetley for providing a solution.)
+
 * Bugfix (dbf2sqlite): some table or field names might actually collide with
   sql reserved words. (Fix by vthriller, pull request #15.)
 
