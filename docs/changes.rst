@@ -4,7 +4,7 @@ Changes
 Release History
 ---------------
 
-2.0.6 - 
+2.0.6 - 2016-06-07
 ^^^^^^^^^^^^^^^^^^
 
 * Added support for long character (C) fields (up to 65535 bytes).

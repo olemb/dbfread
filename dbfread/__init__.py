@@ -16,7 +16,7 @@ __author__ = 'Ole Martin Bjorndalen'
 __email__ = 'ombdalen@gmail.com'
 __url__ = 'https://dbfread.readthedocs.io/'
 __license__ = 'MIT'
-__version__ = '2.0.5'
+__version__ = '2.0.6'
 
 from .dbf import DBF
 from .deprecated_dbf import open, read
