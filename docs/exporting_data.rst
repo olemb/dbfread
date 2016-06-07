@@ -29,6 +29,13 @@ This will print::
     0  1987-03-01  Alice
     1  1980-11-12    Bob
 
+The ``iter()`` is required. Without it Pandas will not realize that it
+can iterate over the table.
+
+Pandas will create a new list internally before converting the records
+to data frames. This means they will all be loaded into memory. There
+seems to be no way around this at the moment.
+
 
 dataset (SQL)
 -------------
