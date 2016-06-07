@@ -16,6 +16,9 @@ Release History
 * Bugfix (dbf2sqlite): some table or field names might actually collide with
   sql reserved words. (Fix by vthriller, pull request #15.)
 
+* Documented how to convert records to Pandas data frames. (Thanks to
+  Roman Yurchak for suggesting this.)
+
 
 2.0.5 - 2015-11-30
 ^^^^^^^^^^^^^^^^^^
