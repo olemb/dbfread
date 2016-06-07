@@ -148,8 +148,9 @@ class DBF(object):
         if path is None:
             if self.ignore_missing_memofile:
                 return None
-            raise MissingMemoFile('missing memo file for {}'.format(
-                self.filename))
+            else:
+                raise MissingMemoFile('missing memo file for {}'.format(
+                    self.filename))
         else:
             return path
 
