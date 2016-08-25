@@ -14,9 +14,10 @@ from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import *
 
+# This header only works with dBase version 7.
 DBFHeader = StructParser(
     'DBFHeader',
-    '<BBBBLHHHBBLLLBBH',
+    '<BBBBLHHHBBLLLBBH36s',
     ['dbversion',
      'year',
      'month',
@@ -33,25 +34,19 @@ DBFHeader = StructParser(
      'mdx_flag',
      'language_driver',
      'reserved4',
+     'header_padding',
      ])
 
+# This header only works with dBase version 7.
 DBFField = StructParser(
     'DBFField',
-    '<11scLBBHBBBB7sB',
+    '<32scBB13s',
     ['name',
      'type',
-     'address',
      'length',
      'decimal_count',
-     'reserved1',
-     'workarea_id',
-     'reserved2',
-     'reserved3',
-     'set_fields_flag',
-     'reserved4',
-     'index_field_flag',
+     'header_padding',
      ])
-
 
 def expand_year(year):
     """Convert 2-digit year to 4-digit year."""
