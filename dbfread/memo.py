@@ -156,7 +156,9 @@ class DB4MemoFile(MemoFile):
 
         self._seek(index * block_size)
         memo_header = DB4MemoHeader.read(self.file)
-        data = self._read(memo_header.length)
+        # Modified for dBase version 7.
+        # Subtract 8 (memo header).
+        data = self._read(memo_header.length - 8)
         # Todo: fields are terminated in different ways.
         # \x1a is one of them
         # \x1f seems to be another (dbase_8b.dbt)
