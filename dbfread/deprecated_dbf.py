@@ -1,5 +1,6 @@
 from __future__ import print_function
 import sys
+import warnings
 from .dbf import DBF
 
 class DeprecatedDBF(DBF, list):
@@ -42,15 +43,12 @@ class DeprecatedDBF(DBF, list):
         else:
             return '<unloaded DBF table {!r}>'.format(self.filename)
 
-def warn(message):
-    print('Deprecation warning: {}'.format(message), file=sys.stderr)
-
 def read(filename, load=True, **kwargs):
-    warn("dbfread.read() has been replaced by DBF(load=True)"
-         " and will be removed in 2.2.")
+    warnings.warn("dbfread.read() has been replaced by DBF(load=True)"
+                  " and will be removed in 2.2.")
     return DeprecatedDBF(filename, load=True, **kwargs)
 
 def open(filename, load=True, **kwargs):
-    warn("dbfread.open() has been replaced by DBF()"
-         " and will be removed in 2.2.")
+    warnings.warn("dbfread.open() has been replaced by DBF()"
+                  " and will be removed in 2.2.")
     return DeprecatedDBF(filename, load=True, **kwargs)
