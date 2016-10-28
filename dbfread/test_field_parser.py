@@ -68,6 +68,10 @@ def test_F():
     assert parse(b'-1') == -1
     assert parse(b'3.14') == 3.14
 
+    # In some files * is used for padding.
+    assert parse(b'0.01**') == 0.01
+    assert parse(b'******') is None
+
     with raises(ValueError):
         parse(b'jsdf')
 

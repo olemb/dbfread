@@ -96,7 +96,10 @@ class FieldParser:
     
     def parseF(self, field, data):
         """Parse float field and return float or None"""
-        if data.strip():
+        # In some files * is used for padding.
+        data = data.strip().strip(b'*')
+
+        if data:
             return float(data)
         else:
             return None
