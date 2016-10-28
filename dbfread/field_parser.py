@@ -157,6 +157,9 @@ class FieldParser:
 
         Returns int, float or None if the field is empty.
         """
+        # In some files * is used for padding.
+        data = data.strip().strip(b'*')
+
         try:
             return int(data)
         except ValueError:
