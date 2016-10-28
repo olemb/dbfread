@@ -4,6 +4,14 @@ Changes
 Release History
 ---------------
 
+2.0.7 -
+^^^^^^^^^^^^^^^^^^
+
+* Sometimes numeric (N) and float fields (F) are padded with
+  '*'. These are now stripped. (Reported by sgiangola and Matungos,
+  issue #10.)
+
+
 2.0.6 - 2016-06-07
 ^^^^^^^^^^^^^^^^^^
 
