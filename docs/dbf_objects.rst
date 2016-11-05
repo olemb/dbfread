@@ -30,6 +30,17 @@ encoding=None
   ``language_driver`` byte. If this fails it falls back on
   ASCII.
 
+char_decode_errors='strict'
+
+  The error handling scheme to use for the handling of decoding
+  errors.  This is passed as the ``errors`` option to the
+  ``bytes.decode()`` method. From the documentation of that method:
+
+  "The default is 'strict' meaning that decoding errors raise a
+  UnicodeDecodeError. Other possible values are 'ignore' and 'replace'
+  as well as any other name registered with codecs.register_error that
+  can handle UnicodeDecodeErrors."
+
 lowernames=False
   Field names are typically uppercase. If you pass ``True`` all field
   names will be converted to lowercase.

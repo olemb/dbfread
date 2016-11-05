@@ -65,3 +65,4 @@ If you get character encoding errors you can pass ``--encoding`` to
 override the encoding, for example::
 
     dbf2sqlite --encoding=latin1 ...
+

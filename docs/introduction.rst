@@ -95,6 +95,11 @@ reverts to ASCII. You can override this by passing
 ``encoding='my-encoding'``. The encoding is available in the
 ``encoding`` attribute.
 
+There may still be characters that won't decode. You can choose how to
+handle these by passing the ``char_decode_errors`` option. This is
+passed straight to ``bytes.decode``. See ``pydoc bytes.decode`` for
+more.
+
 
 Memo Files
 ----------

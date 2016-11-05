@@ -65,6 +65,9 @@ self.encoding
   The character encoding. (A a shortcut for ``self.table.encoding`` to
   speed things up a bit.)
 
+self.char_decode_errors
+  Error handling scheme to use while decoding. (A shortcut for ``self.table.char_decode_errors``.)
+
 self.dbversion
   The database version as an integer. (A shortcut for
   ``self.table.header.dbversion``.)
