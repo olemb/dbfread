@@ -82,7 +82,8 @@ class DBF(object):
                  recfactory=collections.OrderedDict,
                  load=False,
                  raw=False,
-                 ignore_missing_memofile=False):
+                 ignore_missing_memofile=False,
+                 char_decode_errors='strict'):
 
         self.encoding = encoding
         self.ignorecase = ignorecase
@@ -90,6 +91,7 @@ class DBF(object):
         self.parserclass = parserclass
         self.raw = raw
         self.ignore_missing_memofile = ignore_missing_memofile
+        self.char_decode_errors = char_decode_errors
 
         if recfactory is None:
             self.recfactory = lambda items: items
