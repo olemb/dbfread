@@ -41,6 +41,9 @@ class FieldParser:
         else:
             self.get_memo = lambda x: None
 
+    def decode_text(self, text):
+        return decode_text(text, self.encoding, errors=self.char_decode_errors)
+
     def _create_lookup_table(self):
         """Create a lookup table for field types."""
         lookup = {}
@@ -81,7 +84,7 @@ class FieldParser:
 
     def parseC(self, field, data):
         """Parse char field and return unicode string"""
-        return decode_text(data.rstrip(b'\0 '), self.encoding, errors=self.char_decode_errors)
+        return self.decode_text(data.rstrip(b'\0 '))
 
     def parseD(self, field, data):
         """Parse date field and return datetime.date or None"""
@@ -151,7 +154,7 @@ class FieldParser:
             if memo is None:
                 return None
             else:
-                return memo.decode(self.encoding)
+                return self.decode_text(memo)
 
     def parseN(self, field, data):
         """Parse numeric field (N)

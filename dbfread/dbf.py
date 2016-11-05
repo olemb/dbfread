@@ -211,6 +211,9 @@ class DBF(object):
             except LookupError as err:
                 self.encoding = 'ascii'
 
+    def _decode(self, data):
+        return data.decode(self.encoding, errors=self.char_decode_errors)
+
     def _read_field_headers(self, infile):
         while True:
             sep = infile.read(1)
@@ -229,7 +232,7 @@ class DBF(object):
                 field.decimal_count = 0
 
             # Field name is b'\0' terminated.
-            field.name = field.name.split(b'\0')[0].decode(self.encoding)
+            field.name = self._decode(field.name.split(b'\0')[0])
             if self.lowernames:
                 field.name = field.name.lower()
 
