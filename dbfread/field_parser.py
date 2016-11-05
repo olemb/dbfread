@@ -34,6 +34,7 @@ class FieldParser:
         self.table = table
         self.dbversion = self.table.header.dbversion
         self.encoding = table.encoding
+        self.char_decode_errors = table.char_decode_errors
         self._lookup = self._create_lookup_table()
         if memofile:
             self.get_memo = memofile.__getitem__
@@ -80,7 +81,7 @@ class FieldParser:
 
     def parseC(self, field, data):
         """Parse char field and return unicode string"""
-        return decode_text(data.rstrip(b'\0 '), self.encoding)
+        return decode_text(data.rstrip(b'\0 '), self.encoding, errors=self.char_decode_errors)
 
     def parseD(self, field, data):
         """Parse date field and return datetime.date or None"""
