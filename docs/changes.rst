@@ -15,6 +15,8 @@ Release History
   handle characters that can't be decoded. (Implemented by ZHU Enwei,
   pull request #16.)
 
+* added ``--char-decode-errors`` option to ``dbf2sqlite``.
+
 
 2.0.6 - 2016-06-07
 ^^^^^^^^^^^^^^^^^^
