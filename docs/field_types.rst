@@ -93,6 +93,11 @@ self.get_memo(index)
 
   These are all found in ``dbfread.memo``.
 
+self.decode_text(text)
+
+  This will decode the text using the correct encoding and the user
+  supplied ``char_decode_errors`` option.
+
 
 Special Characters in Field Type Names
 --------------------------------------
