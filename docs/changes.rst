@@ -11,6 +11,10 @@ Release History
   '*'. These are now stripped. (Reported by sgiangola and Matungos,
   issue #10.)
 
+* added ``char_decode_errors`` option which lets you choose how to
+  handle characters that can't be decoded. (Implemented by ZHU Enwei,
+  pull request #16.)
+
 
 2.0.6 - 2016-06-07
 ^^^^^^^^^^^^^^^^^^

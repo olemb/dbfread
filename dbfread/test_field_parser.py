@@ -10,6 +10,7 @@ class MockDBF(object):
     def __init__(self):
         self.header = MockHeader()
         self.encoding = 'ascii'
+        self.char_decode_errors = 'strict'
 
 class MockField(object):
     def __init__(self, type='', **kwargs):
