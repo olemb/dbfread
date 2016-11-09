@@ -17,6 +17,8 @@ Release History
 
 * added ``--char-decode-errors`` option to ``dbf2sqlite``.
 
+* added ``dbfread.version_info``.
+
 
 2.0.6 - 2016-06-07
 ^^^^^^^^^^^^^^^^^^

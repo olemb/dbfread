@@ -16,12 +16,12 @@ __author__ = 'Ole Martin Bjorndalen'
 __email__ = 'ombdalen@gmail.com'
 __url__ = 'https://dbfread.readthedocs.io/'
 __license__ = 'MIT'
-__version__ = '2.0.6'
 
 from .dbf import DBF
 from .deprecated_dbf import open, read
 from .exceptions import *
 from .field_parser import FieldParser, InvalidValue
+from .version import version_info, version as __version__
 
 # Prevent splat import.
 __all__ = []
