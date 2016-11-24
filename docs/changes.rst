@@ -4,7 +4,7 @@ Changes
 Release History
 ---------------
 
-2.0.7 -
+2.0.7 - 2016-11-24
 ^^^^^^^^^^^^^^^^^^
 
 * Sometimes numeric (N) and float fields (F) are padded with
