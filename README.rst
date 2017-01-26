@@ -78,9 +78,7 @@ This requires Sphinx. The resulting files can be found in
 Source code
 ------------
 
-Latest stable release: http://github.com/olemb/dbfread/
-
-Development version: http://github.com/olemb/dbfread/tree/develop/
+http://github.com/olemb/dbfread/
 
 
 API Changes

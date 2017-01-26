@@ -25,9 +25,7 @@ batch jobs and one-off scripts.
 Source code
 -----------
 
-Latest stable release: https://github.com/olemb/dbfread/
-
-Latest development version: https://github.com/olemb/dbfread/tree/develop/
+https://github.com/olemb/dbfread/
 
 
 About This Document
