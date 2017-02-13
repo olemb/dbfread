@@ -323,6 +323,14 @@ class DBF(object):
                 else:
                     skip_record(infile)
 
+    def to_dataframe(self):
+        """Convert records to a pandas.DataFrame"""
+        import pandas as pd
+        iterator = self._iter_records(b' ')
+        df = pd.DataFrame(iterator)
+
+        return df
+
     def __iter__(self):
         if self.loaded:
             return list.__iter__(self._records)
