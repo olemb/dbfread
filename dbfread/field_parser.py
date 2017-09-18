@@ -3,6 +3,7 @@ Parser for DBF fields.
 """
 import sys
 import datetime
+import string
 import struct
 from decimal import Decimal
 from .memo import BinaryMemo
@@ -102,6 +103,8 @@ class FieldParser:
         """Parse float field and return float or None"""
         # In some files * is used for padding.
         data = data.strip().strip(b'*')
+        # Some files have chr(31), which we need to remove
+        data = filter(string.printable.__contains__, data)
 
         if data:
             return float(data)
