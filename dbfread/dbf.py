@@ -303,6 +303,10 @@ class DBF(object):
             skip_record = self._skip_record
             read = infile.read
 
+            # Record-length might be larger then the sum of the field lengths
+            sum_field_lengths = sum(field.length for field in self.fields)
+            skip_length = max(0, self.header.recordlen - 1 - sum_field_lengths)
+
             while True:
                 sep = read(1)
 
@@ -314,6 +318,10 @@ class DBF(object):
                         items = [(field.name,
                                   parse(field, read(field.length))) \
                                  for field in self.fields]
+
+                    # skip to the next record
+                    if skip_length:
+                        infile.seek(skip_length, 1)
 
                     yield self.recfactory(items)
 
