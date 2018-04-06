@@ -20,6 +20,7 @@ from dbfread import DBF
 from pandas import DataFrame
 
 dbf = DBF('files/people.dbf')
+dbf.load()
 frame = pd.DataFrame()
 frame = frame.from_records(dbf.records)
 
