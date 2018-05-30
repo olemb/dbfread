@@ -51,7 +51,7 @@ Streaming or Loading Records
 By default records are streamed directly off disk, which means only
 one record is in memory at a time.
 
-If have enough memory, you can load the records into a list by passing
+If you have enough memory, you can load the records into a list by passing
 ``load=True``. This allows for random access::
 
     >>> table = DBF('people.dbf', load=True)
