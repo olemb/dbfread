@@ -341,6 +341,11 @@ class DBF(object):
                 else:
                     skip_record(infile)
 
+    def DataFrame(self):
+        import pandas as pd
+        df = pd.DataFrame()
+        return df.from_records(self.records)
+
     def __iter__(self):
         if self.loaded:
             return list.__iter__(self._records)
