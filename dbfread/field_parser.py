@@ -91,7 +91,7 @@ class FieldParser:
         try:
             return datetime.date(int(data[:4]), int(data[4:6]), int(data[6:8]))
         except ValueError:
-            if ''.join(data.decode().split('\x00')) == '':
+            if (''.join(data.decode().split('\x00')) == '') or (data.strip(b' 0') == b''):
                 # A record containing only spaces and/or zeros is
                 # a NULL value.
                 return None
