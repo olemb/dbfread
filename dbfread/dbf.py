@@ -3,6 +3,7 @@ Class to read DBF files.
 """
 import os
 import sys
+import io
 import datetime
 import collections
 
@@ -93,48 +94,65 @@ class DBF(object):
         self.ignore_missing_memofile = ignore_missing_memofile
         self.char_decode_errors = char_decode_errors
 
-        if recfactory is None:
-            self.recfactory = lambda items: items
-        else:
-            self.recfactory = recfactory
+        
+        try:
+            zfile = None
+            if filename.endswith(".zip"):
+                from zipfile import ZipFile
+                zfile = ZipFile(filename)
+                self.io = zfile
+                self.fname = zfile.namelist()[-1]
+                self.mode = "r"
+            else:
+                self.io = io
+                self.fname = filename
+                self.mode = "rb"
+                
+            if recfactory is None:
+                self.recfactory = lambda items: items
+            else:
+                self.recfactory = recfactory
+    
+            # Name part before .dbf is the table name
+            self.name = os.path.basename(filename)
+            self.name = os.path.splitext(self.name)[0].lower()
+            self._records = None
+            self._deleted = None
+    
+            if ignorecase:
+                self.filename = ifind(filename)
+                if not self.filename:
+                    raise DBFNotFound('could not find file {!r}'.format(filename))
+            else:
+                self.filename = filename
+    
+            # Filled in by self._read_headers()
+            self.memofilename = None
+            self.header = None
+            self.fields = []       # namedtuples
+            self.field_names = []  # strings
 
-        # Name part before .dbf is the table name
-        self.name = os.path.basename(filename)
-        self.name = os.path.splitext(self.name)[0].lower()
-        self._records = None
-        self._deleted = None
-
-        if ignorecase:
-            self.filename = ifind(filename)
-            if not self.filename:
-                raise DBFNotFound('could not find file {!r}'.format(filename))
-        else:
-            self.filename = filename
-
-        # Filled in by self._read_headers()
-        self.memofilename = None
-        self.header = None
-        self.fields = []       # namedtuples
-        self.field_names = []  # strings
-
-        with open(self.filename, mode='rb') as infile:
-            self._read_header(infile)
-            self._read_field_headers(infile)
-            self._check_headers()
-            
-            try:
-                self.date = datetime.date(expand_year(self.header.year),
-                                          self.header.month,
-                                          self.header.day)
-            except ValueError:
-                # Invalid date or '\x00\x00\x00'.
-                self.date = None
- 
-        self.memofilename = self._get_memofilename()
-
-        if load:
-            self.load()
-
+            with self.io.open(self.fname, mode = self.mode) as infile:
+                self._read_header(infile)
+                self._read_field_headers(infile)
+                self._check_headers()
+                
+                try:
+                    self.date = datetime.date(expand_year(self.header.year),
+                                              self.header.month,
+                                              self.header.day)
+                except ValueError:
+                    # Invalid date or '\x00\x00\x00'.
+                    self.date = None
+     
+            self.memofilename = self._get_memofilename()
+    
+            if load:
+                self.load()
+        finally:
+            if zfile is not None:
+                zfile.close()
+        
     @property
     def dbversion(self):
         return get_dbversion_string(self.header.dbversion)
@@ -271,7 +289,7 @@ class DBF(object):
     def _count_records(self, record_type=b' '):
         count = 0
 
-        with open(self.filename, 'rb') as infile:
+        with self.io.open(self.fname, mode = self.mode) as infile:
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
 
@@ -289,7 +307,7 @@ class DBF(object):
         return count
 
     def _iter_records(self, record_type=b' '):
-        with open(self.filename, 'rb') as infile, \
+        with self.io.open(self.fname, mode = self.mode) as infile, \
              self._open_memofile() as memofile:
 
             # Skip to first record.
@@ -322,6 +340,11 @@ class DBF(object):
                     break
                 else:
                     skip_record(infile)
+
+    def DataFrame(self):
+        import pandas as pd
+        df = pd.DataFrame()
+        return df.from_records(self.records)
 
     def __iter__(self):
         if self.loaded:
