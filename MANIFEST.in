@@ -1,4 +1,4 @@
-include README.rst LICENSE
+include README.rst LICENSE CONTRIBUTING.md tox.ini
 include examples/dbf2sqlite
 recursive-include examples *.dbf *.py
 recursive-include tests *.py

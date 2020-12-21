@@ -16,6 +16,8 @@ Release History
 * dbf2sqlite: table name was not escaped for DROP TABLE (fix by k2s,
   pull request #34).
 
+* added local tox tests (added by shawnbrown, pull request #54.)
+
 * tests were broken by incorrect use of fixtures (fix by Stanislav
   Levin, pull request #33.)
 
