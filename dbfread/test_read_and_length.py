@@ -24,19 +24,20 @@ deleted_records = [{u'NAME': u'Deleted Guy',
                     u'BIRTHDATE': datetime.date(1979, 12, 22),
                     u'MEMO': u'Deleted Guy memo'}]
 
-def test_len():
-    assert len(table()) == 2
-    assert len(table().deleted) == 1
+def test_lent(table, loaded_table):
+    assert len(table) == 2
+    assert len(table.deleted) == 1
 
-    assert len(loaded_table()) == 2
-    assert len(loaded_table().deleted) == 1
+    assert len(loaded_table) == 2
+    assert len(loaded_table.deleted) == 1
 
-def test_list():
-    assert list(table()) == records
-    assert list(table().deleted) == deleted_records
+
+def test_list(table, loaded_table):
+    assert list(table) == records
+    assert list(table.deleted) == deleted_records
     
-    assert list(loaded_table()) == records
-    assert list(loaded_table().deleted) == deleted_records
+    assert list(loaded_table) == records
+    assert list(loaded_table.deleted) == deleted_records
 
     # This should not return old style table which was a subclass of list.
-    assert not isinstance(table(), list)
+    assert not isinstance(table, list)

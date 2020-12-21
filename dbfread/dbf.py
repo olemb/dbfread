@@ -120,7 +120,7 @@ class DBF(object):
             self._read_header(infile)
             self._read_field_headers(infile)
             self._check_headers()
-            
+
             try:
                 self.date = datetime.date(expand_year(self.header.year),
                                           self.header.month,
@@ -128,7 +128,7 @@ class DBF(object):
             except ValueError:
                 # Invalid date or '\x00\x00\x00'.
                 self.date = None
- 
+
         self.memofilename = self._get_memofilename()
 
         if load:
