@@ -37,26 +37,27 @@ typemap = {
 def add_table(cursor, table):
     """Add a dbase table to an open sqlite database."""
 
-    cursor.execute('drop table if exists "%s"' % table.name)
+    cursor.execute('drop table if exists "{}"'.format(table.name))
 
     field_types = {}
-    for f in table.fields:
-        field_types[f.name] = typemap.get(f.type, 'TEXT')
+    for field in table.fields:
+        field_types[field.name] = typemap.get(field.type, 'TEXT')
 
     #
     # Create the table
     #
-    defs = ', '.join(['"%s" %s' % (f, field_types[f])
+    defs = ', '.join(['"{}" {}'.format(f, field_types[f])
                       for f in table.field_names])
-    sql = 'create table "%s" (%s)' % (table.name, defs)
+    sql = 'create table "{}" ({})'.format(table.name, defs)
     cursor.execute(sql)
 
     # Create data rows
-    refs = ', '.join([':' + f for f in table.field_names])
-    sql = 'insert into "%s" values (%s)' % (table.name, refs)
+    refs = ', '.join([':' + field for field in table.field_names])
+    sql = 'insert into "{}" values ({})'.format(table.name, refs)
 
     for rec in table:
         cursor.execute(sql, list(rec.values()))
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -89,6 +90,7 @@ def parse_args():
 
     return parser.parse_args()
 
+
 def main():
     args = parse_args()
 
@@ -118,6 +120,7 @@ def main():
     if not args.output_file:
         for line in conn.iterdump():
             print(line)
+
 
 if __name__ == '__main__':
     main()
