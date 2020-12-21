@@ -24,7 +24,7 @@ deleted_records = [{u'NAME': u'Deleted Guy',
                     u'BIRTHDATE': datetime.date(1979, 12, 22),
                     u'MEMO': u'Deleted Guy memo'}]
 
-def test_lent(table, loaded_table):
+def test_len(table, loaded_table):
     assert len(table) == 2
     assert len(table.deleted) == 1
 
