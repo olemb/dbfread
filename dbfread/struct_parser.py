@@ -5,7 +5,6 @@ The struct can be read from a file or a byte string.
 """
 
 import struct
-import collections
 
 
 def _make_struct_class(name, names):

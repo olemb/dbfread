@@ -6,4 +6,3 @@ class MissingMemoFile(IOError):
     """Raised if the corresponding memo file was not found."""
 
 __all__ = ['DBFNotFound', 'MissingMemoFile']
-

@@ -1,5 +1,4 @@
-from .ifiles import *
-from .ifiles import ipat
+from .ifiles import ipat, ifnmatch
 
 assert ipat('mixed') == '[Mm][Ii][Xx][Ee][Dd]'
 assert ifnmatch('test', 'test') == True

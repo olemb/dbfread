@@ -8,10 +8,8 @@ VFP == Visual FoxPro
 DB3 == dBase III
 DB4 == dBase IV
 """
-from collections import namedtuple
 from .ifiles import ifind
 from .struct_parser import StructParser
-
 
 
 VFPFileHeader = StructParser(
@@ -78,7 +76,7 @@ class MemoFile(object):
         self.file.close()
 
     def __getitem__(self, index):
-        raise NotImplemented
+        raise NotImplementedError
 
     def __enter__(self):
         return self
@@ -144,7 +142,7 @@ class DB3MemoFile(MemoFile):
             # \x0d\x0a
 
         # TODO: this is never reached. Whey is it here?
-        return data[:eom]
+        # return data[:eom]
 
 class DB4MemoFile(MemoFile):
     """dBase IV memo file"""

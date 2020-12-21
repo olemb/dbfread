@@ -8,10 +8,11 @@ import collections
 from .ifiles import ifind
 from .struct_parser import StructParser
 from .field_parser import FieldParser
-from .memo import find_memofile, open_memofile, FakeMemoFile, BinaryMemo
+from .memo import find_memofile, open_memofile, FakeMemoFile
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
-from .exceptions import *
+from .exceptions import DBFNotFound, MissingMemoFile
+
 
 DBFHeader = StructParser(
     'DBFHeader',
@@ -207,7 +208,7 @@ class DBF(object):
         if self.encoding is None:
             try:
                 self.encoding = guess_encoding(self.header.language_driver)
-            except LookupError as err:
+            except LookupError:
                 self.encoding = 'ascii'
 
     def _decode_text(self, data):
