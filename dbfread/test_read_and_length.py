@@ -35,7 +35,7 @@ def test_lent(table, loaded_table):
 def test_list(table, loaded_table):
     assert list(table) == records
     assert list(table.deleted) == deleted_records
-    
+
     assert list(loaded_table) == records
     assert list(loaded_table.deleted) == deleted_records
 

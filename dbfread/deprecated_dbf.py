@@ -24,7 +24,7 @@ class DeprecatedDBF(DBF, list):
         # Also, unloading twice has no consequences.
         del self[:]
         self._deleted = None
-        
+
     def __iter__(self):
         if self.loaded:
             return list.__iter__(self)

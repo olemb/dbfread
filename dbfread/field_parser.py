@@ -22,7 +22,7 @@ class InvalidValue(bytes):
             # Make sure the string starts with "b'" in
             # "InvalidValue(b'value here')".
             text = 'b' + text
-            
+
         return 'InvalidValue({})'.format(text)
 
 class FieldParser:
@@ -97,7 +97,7 @@ class FieldParser:
                 return None
             else:
                 raise ValueError('invalid date {!r}'.format(data))
-    
+
     def parseF(self, field, data):
         """Parse float field and return float or None"""
         # In some files * is used for padding.
@@ -211,7 +211,7 @@ class FieldParser:
                 return None
         else:
             return None
-            
+
     def parseY(self, field, data):
         """Parse currency field (Y) and return decimal.Decimal.
 

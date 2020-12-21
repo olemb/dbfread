@@ -113,7 +113,7 @@ class VFPMemoFile(MemoFile):
         data = self._read(memo_header.length)
         if len(data) != memo_header.length:
             raise IOError('EOF reached while reading memo')
-        
+
         return VFP_TYPE_MAP.get(memo_header.type, BinaryMemo)(data)
 
 
@@ -143,7 +143,8 @@ class DB3MemoFile(MemoFile):
             # \x1a\x1a
             # \x0d\x0a
 
-        return data[:eom]        
+        # TODO: this is never reached. Whey is it here?
+        return data[:eom]
 
 class DB4MemoFile(MemoFile):
     """dBase IV memo file"""

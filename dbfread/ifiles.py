@@ -18,7 +18,7 @@ def ipat(pat):
 
     (dirname, pat) = os.path.split(pat)
 
-    # Convert '/path/to/test.fpt' => '/path/to/[Tt][Ee][Ss][Tt].[]' 
+    # Convert '/path/to/test.fpt' => '/path/to/[Tt][Ee][Ss][Tt].[]'
     newpat = ''
     for c in pat:
         if c.isalpha:

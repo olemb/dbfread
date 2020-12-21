@@ -6,6 +6,6 @@ assert ifnmatch('test', 'test') == True
 assert ifnmatch('miXEdCaSe', 'mixedcase') == True
 assert ifnmatch('CAMELCASE/CamelCase', 'CamelCase/UPPERCASE') == False
 
-# Pattern with 
+# Pattern with
 # assert ipat('[A]') == '[[Aa]]'
 

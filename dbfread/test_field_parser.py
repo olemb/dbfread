@@ -120,7 +120,7 @@ def test_B():
     # Data must be exactly 8 bytes.
     with raises(Exception):
         parse(b'')
-    
+
     # In other db versions it is a memo index.
     parse = make_field_parser('B', dbversion=0x02,
                               memofile=MockMemoFile({1: b'test'}))
