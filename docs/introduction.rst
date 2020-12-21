@@ -22,6 +22,8 @@ This returns a ``DBF`` object. You can now iterate over records::
     OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
     OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
 
+.. note:: In Python 3.7 and up records will be returned as normal dictionaries since these are now ordered.
+
 and count records::
 
     >>> len(table)

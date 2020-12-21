@@ -6,7 +6,7 @@ Arguments
 
 filename
   The DBF file to open.
- 
+
   The file name is case insensitive, which means ``DBF('PEOPLE.DBF')``
   will open the file ``people.dbf``. If there is a memo file, it too
   will be looked for in a case insensitive manner, so
@@ -22,7 +22,7 @@ load=False
 
   You can load and unload records at any time with the ``load()`` and
   ``unload()`` methods.
- 
+
 encoding=None
   Specify character encoding to use.
 
@@ -45,7 +45,7 @@ lowernames=False
   Field names are typically uppercase. If you pass ``True`` all field
   names will be converted to lowercase.
 
-recfactory=collections.OrderedDict
+recfactory=collections.OrderedDict (dict in Python 3.7 and up)
 
   Takes a function that will be used to produce new records. The
   function will be called with a list of ``(name, value)`` pairs.

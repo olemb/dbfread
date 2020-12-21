@@ -6,7 +6,7 @@ FoxBase+. This library reads DBF files and returns the data as native
 Python data types for further processing. It is primarily intended for
 batch jobs and one-off scripts.
 
-::
+.. code-block:: python
 
     >>> from dbfread import DBF
     >>> for record in DBF('people.dbf'):
@@ -14,9 +14,22 @@ batch jobs and one-off scripts.
     OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
     OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
 
+In Python 3.7 and up you will get normal dictionaries instead since these are
+now are ordered:
+
+.. code-block:: python
+
+    >>> for record in DBF('people.dbf'):
+    ...     print(record)
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
+    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+
+
 By default records are streamed directly from the file.  If you have
 enough memory you can instead load them into a list. This allows for
-random access::
+random access:
+
+.. code-block:: python
 
     >>> table = DBF('people.dbf', load=True)
     >>> print(table.records[1]['NAME'])

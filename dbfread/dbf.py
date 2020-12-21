@@ -2,6 +2,7 @@
 Class to read DBF files.
 """
 import os
+import sys
 import datetime
 import collections
 
@@ -12,6 +13,13 @@ from .memo import find_memofile, open_memofile, FakeMemoFile
 from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import DBFNotFound, MissingMemoFile
+
+
+if (sys.version_info.major, sys.version_info.minor) >= (3, 7):
+    # Dictionaries are guaranteed to be ordered from 3.7 on.
+    ORDERED_DICT = dict
+else:
+    ORDERED_DICT = collections.OrderedDict
 
 
 DBFHeader = StructParser(
@@ -79,7 +87,7 @@ class DBF(object):
     def __init__(self, filename, encoding=None, ignorecase=True,
                  lowernames=False,
                  parserclass=FieldParser,
-                 recfactory=collections.OrderedDict,
+                 recfactory=ORDERED_DICT,
                  load=False,
                  raw=False,
                  ignore_missing_memofile=False,

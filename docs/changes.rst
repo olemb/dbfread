@@ -4,6 +4,13 @@ Changes
 Release History
 ---------------
 
+(Next Version)
+^^^^^^^^^^^^^^^^^^
+
+* records are now returned ``dict`` instead of ``collections.OrderedDict``
+  in Python 3.7 and up since normal Python dictionaries are now ordered.
+
+
 2.0.7 - 2016-11-24
 ^^^^^^^^^^^^^^^^^^
 

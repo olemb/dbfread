@@ -6,8 +6,8 @@ Example:
     >>> from dbfread import DBF
     >>> for record in DBF('people.dbf'):
     ...     print(record)
-    OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
-    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
+    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
 Full documentation at https://dbfread.readthedocs.io/
 
