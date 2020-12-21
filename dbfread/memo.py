@@ -32,19 +32,23 @@ DB4MemoHeader = StructParser(
     ['reserved',  # Always 0xff 0xff 0x08 0x08.
      'length'])
 
-# Used for Visual FoxPro memos to distinguish binary from text memos.
 
 class VFPMemo(bytes):
     pass
 
+
+# Used for Visual FoxPro memos to distinguish binary from text memos.
 class BinaryMemo(VFPMemo):
     pass
+
 
 class PictureMemo(BinaryMemo):
     pass
 
+
 class ObjectMemo(BinaryMemo):
     pass
+
 
 class TextMemo(VFPMemo):
     pass
@@ -143,6 +147,7 @@ class DB3MemoFile(MemoFile):
 
         # TODO: this is never reached. Whey is it here?
         # return data[:eom]
+
 
 class DB4MemoFile(MemoFile):
     """dBase IV memo file"""

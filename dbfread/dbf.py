@@ -304,7 +304,8 @@ class DBF(object):
             infile.seek(self.header.headerlen, 0)
 
             if self.raw:
-                parse = lambda _, data: data
+                def parse(_, data):
+                    return data
             else:
                 field_parser = self.parserclass(self, memofile)
                 parse = field_parser.parse

@@ -10,7 +10,7 @@ from .memo import BinaryMemo
 PY2 = sys.version_info[0] == 2
 
 if PY2:
-    decode_text = unicode
+    decode_text = unicode  # noqa: F821
 else:
     decode_text = str
 
@@ -24,6 +24,7 @@ class InvalidValue(bytes):
             text = 'b' + text
 
         return 'InvalidValue({})'.format(text)
+
 
 class FieldParser:
     def __init__(self, table, memofile=None):
@@ -205,7 +206,7 @@ class FieldParser:
             day, msec = struct.unpack('<LL', data)
             if day:
                 dt = datetime.datetime.fromordinal(day - offset)
-                delta = datetime.timedelta(seconds=msec/1000)
+                delta = datetime.timedelta(seconds=msec / 1000)
                 return dt + delta
             else:
                 return None
@@ -221,7 +222,6 @@ class FieldParser:
 
         # Currency fields are stored with 4 points of precision
         return Decimal(value) / 10000
-
 
     def parseB(self, field, data):
         """Binary memo field or double precision floating point number
@@ -246,7 +246,6 @@ class FieldParser:
 
         The raw data is returned as a binary string."""
         return self.get_memo(self._parse_memo_index(data))
-
 
     # Autoincrement field ('+')
     parse2B = parseI

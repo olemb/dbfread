@@ -19,9 +19,9 @@ __license__ = 'MIT'
 
 from .dbf import DBF
 from .deprecated_dbf import open, read
-from .exceptions import *
+from .exceptions import DBFNotFound, MissingMemoFile
 from .field_parser import FieldParser, InvalidValue
 from .version import version_info, version as __version__
 
-# Prevent splat import.
+# Prevent star import.
 __all__ = []
