@@ -45,7 +45,7 @@ lowernames=False
   Field names are typically uppercase. If you pass ``True`` all field
   names will be converted to lowercase.
 
-recfactory=collections.OrderedDict (dict in Python 3.7 and up)
+recfactory=dict (collections.OrderedDict in older versions of Python)
 
   Takes a function that will be used to produce new records. The
   function will be called with a list of ``(name, value)`` pairs.

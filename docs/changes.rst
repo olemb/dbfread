@@ -8,7 +8,8 @@ Release History
 ^^^^^^^^^^^^^^^^^^
 
 * records are now returned ``dict`` instead of ``collections.OrderedDict``
-  in Python 3.7 and up since normal Python dictionaries are now ordered.
+  in Python 3.7 and up (as well as CPython 3.6) since normal Python
+  dictionaries are now ordered.
 
 * null values in D, F and L fields that are padded with ``'\0'`` bytes
   should now work return ``None``. (Fix by william-andre, pull request #35.)

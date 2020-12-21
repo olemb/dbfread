@@ -11,19 +11,18 @@ batch jobs and one-off scripts.
     >>> from dbfread import DBF
     >>> for record in DBF('people.dbf'):
     ...     print(record)
-    OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
-    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
+    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-In Python 3.7 and up you will get normal dictionaries instead since these are
-now are ordered:
+In older versions where dictionaries are not ordered you will instead get a
+``collections.OrderedDict``:
 
 .. code-block:: python
 
     >>> for record in DBF('people.dbf'):
     ...     print(record)
-    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
-    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
-
+    OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
+    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
 
 By default records are streamed directly from the file.  If you have
 enough memory you can instead load them into a list. This allows for

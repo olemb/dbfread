@@ -6,7 +6,7 @@ dbfread - Read DBF Files with Python
 ====================================
 
 Version |version|
- 
+
 DBF is a file format used by databases such dBase, Visual FoxPro, and
 FoxBase+. This library reads DBF files and returns the data as native
 Python data types for further processing. It is primarily intended for
@@ -18,8 +18,9 @@ batch jobs and one-off scripts.
     >>> from dbfread import DBF
     >>> for record in DBF('people.dbf'):
     ...     print(record)
-    OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
-    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
+    {'NAME': 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
+
 
 
 Source code
@@ -35,7 +36,7 @@ This document is available at https://dbfread.readthedocs.io/
 
 To build documentation locally::
 
-    python setup.py docs                                                        
+    python setup.py docs
 
 This requires Sphinx. The resulting files can be found in
 ``docs/_build/``.

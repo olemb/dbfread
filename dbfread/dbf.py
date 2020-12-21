@@ -4,6 +4,7 @@ Class to read DBF files.
 import os
 import sys
 import datetime
+import platform
 import collections
 
 from .ifiles import ifind
@@ -14,9 +15,9 @@ from .codepages import guess_encoding
 from .dbversions import get_dbversion_string
 from .exceptions import DBFNotFound, MissingMemoFile
 
-
-if (sys.version_info.major, sys.version_info.minor) >= (3, 7):
-    # Dictionaries are guaranteed to be ordered from 3.7 on.
+_py_version = (sys.version_info.major, sys.version_info.minor)
+_py_impl = platform.python_implementation()
+if _py_version >= (3, 7) or (_py_version == (3, 6) and _py_impl == 'CPython'):
     ORDERED_DICT = dict
 else:
     ORDERED_DICT = collections.OrderedDict

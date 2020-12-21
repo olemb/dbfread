@@ -10,35 +10,44 @@ you can find ``people.dbf`` in ``examples/files/``.
 Opening a DBF File
 ------------------
 
-::
+.. code-block:: python
 
     >>> from dbfread import DBF
     >>> table = DBF('people.dbf')
 
-This returns a ``DBF`` object. You can now iterate over records::
+This returns a ``DBF`` object. You can now iterate over records:
+
+.. code-block:: python
 
     >>> for record in table:
     ...     print(record)
-    OrderedDict([('NAME', 'Alice'), ('BIRTHDATE', datetime.date(1987, 3, 1))])
-    OrderedDict([('NAME', 'Bob'), ('BIRTHDATE', datetime.date(1980, 11, 12))])
+    {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
+    {'NAME', 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-.. note:: In Python 3.7 and up records will be returned as normal dictionaries since these are now ordered.
+.. note:: In older versions where dictionaries are not ordered you will instead get a
+``collections.OrderedDict``:
 
-and count records::
+and count records:
+
+.. code-block:: python
 
     >>> len(table)
     2
 
-Deleted records are available in ``deleted``::
+Deleted records are available in ``deleted``:
+
+.. code-block:: python
 
     >>> for record in table.deleted:
     ...     print(record)
-    OrderedDict([('NAME', 'Deleted Guy'), ('BIRTHDATE', datetime.date(1979, 12, 22))])
+    {'NAME': 'Deleted Guy', 'BIRTHDATE': datetime.date(1979, 12, 22)}
 
     >>> len(table.deleted)
     1
 
-You can also use the ``with`` statement::
+You can also use the ``with`` statement:
+
+.. code-block:: python
 
     with DBF('people.dbf') as table:
         ...
@@ -54,7 +63,9 @@ By default records are streamed directly off disk, which means only
 one record is in memory at a time.
 
 If you have enough memory, you can load the records into a list by passing
-``load=True``. This allows for random access::
+``load=True``. This allows for random access:
+
+.. code-block:: python
 
     >>> table = DBF('people.dbf', load=True)
     >>> print(table.records[1]['NAME'])
@@ -71,7 +82,9 @@ function which returns a list of tables in a directory and load only
 the ones you need.
 
 If you just want a list of records and you don't care about the other
-table attributes you can do::
+table attributes you can do:
+
+.. code-block:: python
 
     >>> records = list(DBF('people.dbf'))
 
@@ -141,7 +154,9 @@ factory.
 A record factory is a function that takes a list of ``(name, value)``
 pairs and returns a record.  You can do whatever you like with this
 data. Here's a function that creates a record object with fields as
-attributes::
+attributes:
+
+.. code-block:: python
 
     class Record(object):
         def __init__(self, items):
@@ -161,7 +176,9 @@ Custom Field Types
 
 If the included message types are not enough you can add your own by
 subclassing ``FieldParser``. As a silly example, here how you can read
-text (``C``) fields in reverse::
+text (``C``) fields in reverse:
+
+.. code-block:: python
 
     from dbfread import DBF, FieldParser
 
@@ -174,7 +191,9 @@ text (``C``) fields in reverse::
         print(record['NAME'])
 
 and here's how you can return invalid values as ``InvalidValue``
-instead of raising ``ValueError``::
+instead of raising ``ValueError``:
+
+.. code-block:: python
 
     from dbfread import DBF, FieldParser, InvalidValue
 
