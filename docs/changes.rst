@@ -13,6 +13,9 @@ Release History
 * null values in D, F and L fields that are padded with ``'\0'`` bytes
   should now work return ``None``. (Fix by william-andre, pull request #35.)
 
+* dbf2sqlite: table name was not escaped for DROP TABLE (fix by k2s,
+  pull request #34).
+
 
 2.0.7 - 2016-11-24
 ^^^^^^^^^^^^^^^^^^
