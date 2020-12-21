@@ -3,6 +3,7 @@ __pycache__
 *.pyo
 *~
 .cache/
+.tox/
 /docs/_build/
 /dist/
 /build/
