@@ -2,7 +2,6 @@
 Class to read DBF files.
 """
 import os
-import sys
 import datetime
 import collections
 
@@ -55,7 +54,7 @@ DBFField = StructParser(
 
 def expand_year(year):
     """Convert 2-digit year to 4-digit year."""
-    
+
     if year < 80:
         return 2000 + year
     else:
@@ -69,7 +68,7 @@ class RecordIterator(object):
 
     def __iter__(self):
         return self._table._iter_records(self._record_type)
- 
+
     def __len__(self):
         return self._table._count_records(self._record_type)
 
@@ -295,7 +294,9 @@ class DBF(object):
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
 
-            if not self.raw:
+            if self.raw:
+                parse = lambda _, data: data
+            else:
                 field_parser = self.parserclass(self, memofile)
                 parse = field_parser.parse
 
@@ -307,14 +308,10 @@ class DBF(object):
                 sep = read(1)
 
                 if sep == record_type:
-                    if self.raw:
-                        items = [(field.name, read(field.length)) \
-                                 for field in self.fields]
-                    else:
-                        items = [(field.name,
-                                  parse(field, read(field.length))) \
-                                 for field in self.fields]
-
+                    items = [
+                        (field.name, parse(field, read(field.length)))
+                        for field in self.fields
+                    ]
                     yield self.recfactory(items)
 
                 elif sep in (b'\x1a', b''):
