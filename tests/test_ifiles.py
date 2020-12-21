@@ -1,4 +1,4 @@
-from .ifiles import ipat, ifnmatch
+from dbfread.ifiles import ipat, ifnmatch
 
 assert ipat('mixed') == '[Mm][Ii][Xx][Ee][Dd]'
 assert ifnmatch('test', 'test') == True

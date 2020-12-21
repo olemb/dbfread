@@ -1,7 +1,7 @@
 import datetime
 from decimal import Decimal
 from pytest import raises
-from .field_parser import FieldParser
+from dbfread.field_parser import FieldParser
 
 class MockHeader(object):
     dbversion = 0x02
