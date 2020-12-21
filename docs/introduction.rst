@@ -27,7 +27,9 @@ This returns a ``DBF`` object. You can now iterate over records:
 .. note:: In older versions where dictionaries are not ordered you will instead get a
 ``collections.OrderedDict``:
 
-and count records:
+Records will be returned in the order they appear in the file.
+
+You can count records:
 
 .. code-block:: python
 
