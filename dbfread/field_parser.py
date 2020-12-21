@@ -91,7 +91,7 @@ class FieldParser:
         try:
             return datetime.date(int(data[:4]), int(data[4:6]), int(data[6:8]))
         except ValueError:
-            if data.strip(b' 0') == b'':
+            if data.strip(b' 0\0') == b'':
                 # A record containing only spaces and/or zeros is
                 # a NULL value.
                 return None
@@ -119,7 +119,7 @@ class FieldParser:
             return True
         elif data in b'FfNn':
             return False
-        elif data in b'? ':
+        elif data in b'? \0':
             return None
         else:
             # Todo: return something? (But that would be misleading!)
@@ -162,7 +162,7 @@ class FieldParser:
         Returns int, float or None if the field is empty.
         """
         # In some files * is used for padding.
-        data = data.strip().strip(b'*')
+        data = data.strip().strip(b'*\0')
 
         try:
             return int(data)
