@@ -37,7 +37,7 @@ typemap = {
 def add_table(cursor, table):
     """Add a dbase table to an open sqlite database."""
 
-    cursor.execute('drop table if exists %s' % table.name)
+    cursor.execute('drop table if exists "%s"' % table.name)
 
     field_types = {}
     for f in table.fields:
