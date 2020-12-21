@@ -16,6 +16,9 @@ Release History
 * dbf2sqlite: table name was not escaped for DROP TABLE (fix by k2s,
   pull request #34).
 
+* tests were broken by incorrect use of fixtures (fix by Stanislav
+  Levin, pull request #33.)
+
 
 2.0.7 - 2016-11-24
 ^^^^^^^^^^^^^^^^^^
