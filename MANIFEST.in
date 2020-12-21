@@ -1,7 +1,8 @@
-include README.rst LICENSE run_tests.py
+include README.rst LICENSE
 include examples/dbf2sqlite
 recursive-include examples *.dbf *.py
-recursive-include testcases *.dbf *.FPT
+recursive-include tests *.py
+recursive-include tests/cases *.dbf *.FPT
 recursive-include docs *.bat
 recursive-include docs *.py
 recursive-include docs *.rst
