@@ -24,8 +24,8 @@ This returns a ``DBF`` object. You can now iterate over records:
     {'NAME': 'Alice', 'BIRTHDATE': datetime.date(1987, 3, 1)}
     {'NAME', 'Bob', 'BIRTHDATE': datetime.date(1980, 11, 12)}
 
-.. note:: In older versions where dictionaries are not ordered you will instead get a
-``collections.OrderedDict``:
+.. note:: In older versions where dictionaries are not ordered you will
+          instead get a ``collections.OrderedDict``.
 
 Records will be returned in the order they appear in the file.
 
