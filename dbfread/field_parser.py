@@ -170,6 +170,8 @@ class FieldParser:
         except ValueError:
             if not data.strip():
                 return None
+            elif isinstance(data, (bytes, bytearray)):
+                return int.from_bytes(data, byteorder='big', signed=True)            
             else:
                 # Account for , in numeric fields
                 return float(data.replace(b',', b'.'))
