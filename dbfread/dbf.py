@@ -224,7 +224,9 @@ class DBF(object):
         return data.decode(self.encoding, errors=self.char_decode_errors)
 
     def _read_field_headers(self, infile):
-        while True:
+        sizeFieldHeader = self.header.headerlen - DBFField.size - 1
+        fields = int(sizeFieldHeader / DBFField.size)
+        for i in range(fields):
             sep = infile.read(1)
             if sep in (b'\r', b'\n', b''):
                 # End of field headers
