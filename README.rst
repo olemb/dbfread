@@ -44,7 +44,7 @@ See docs/changes.rst for a full list of changes in each version.
 Main Features
 -------------
 
-* written for Python 3.6, but also works in 2.7
+* tested on Python versions 2.7, 3.6, 3.7, 3.8, 3.9, 3.10, pypy, and pypy3
 
 * simple but flexible API
 
@@ -70,7 +70,7 @@ Main Features
 Installing
 ----------
 
-Requires Python 3.6 or 2.7.
+Requires Python 2.7, 3.6, 3.7, 3.8, 3.9, 3.10, pypy, or pypy3.
 
 ::
 
