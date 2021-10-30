@@ -171,8 +171,13 @@ class FieldParser:
             if not data.strip():
                 return None
             else:
-                # Account for , in numeric fields
-                return float(data.replace(b',', b'.'))
+
+                # Eliminate the lone comma entry
+                if len ( data ) >= 2:
+                    return float ( data.replace ( b',', b'.' ) )
+
+                # The default ultimate failure should be a NaN value
+                return float ( "NaN" )
 
     def parseO(self, field, data):
         """Parse long field (O) and return float."""
