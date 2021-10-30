@@ -135,6 +135,7 @@ def test_N():
     assert parse(b'1') == 1
     assert parse(b'-99') == -99
     assert parse(b'3.14') == 3.14
+    assert parse(b',') == 'NaN'
 
     # In some files * is used for padding.
     assert parse(b'0.01**') == 0.01
