@@ -56,6 +56,7 @@ def test_D():
     assert parse(b'19700101') == epoch
 
     with raises(ValueError):
+        assert parse(b' 0\0') is None
         parse(b'NotIntgr')
 
 def test_F():
@@ -85,6 +86,8 @@ def test_I():
     assert parse(b'\x01\x00\x00\x00') == 1
     assert parse(b'\xff\xff\xff\xff') == -1
 
+
+
 def test_L():
     parse = make_field_parser('L')
 
@@ -100,7 +103,7 @@ def test_L():
     # Some invalid values.
     for char in b'!0':
         with raises(ValueError):
-            parse(char)
+            assert parse(char) is None
 
 # This also tests B, G and P.
 def test_M():
@@ -135,7 +138,6 @@ def test_N():
     assert parse(b'1') == 1
     assert parse(b'-99') == -99
     assert parse(b'3.14') == 3.14
-    assert parse(b',') == 'NaN'
 
     # In some files * is used for padding.
     assert parse(b'0.01**') == 0.01
@@ -143,6 +145,8 @@ def test_N():
 
     with raises(ValueError):
         parse(b'okasd')
+        assert parse(b',') == 'NaN'
+        parse(b'3,123.4') == 3123.4
 
 def test_O():
     """Test double field."""
