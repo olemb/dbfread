@@ -5,7 +5,7 @@ import sys
 import datetime
 import struct
 from decimal import Decimal
-from .memo import BinaryMemo
+from dbfread.memo import BinaryMemo
 
 PY2 = sys.version_info[0] == 2
 
@@ -92,12 +92,11 @@ class FieldParser:
         try:
             return datetime.date(int(data[:4]), int(data[4:6]), int(data[6:8]))
         except ValueError:
-
-            if data == b' ' or data == b'\0':
+            if data.strip(b' 0\0') == b'':
                 # A record containing only spaces and/or zeros is
                 # a NULL value.
                 return None
-            raise ValueError('invalid date {!r}'.format(data))
+            raise ValueError ( 'invalid date {!r}'.format ( data ) )
 
     def parseF(self, field, data):
         """Parse float field and return float or None"""
@@ -117,10 +116,9 @@ class FieldParser:
         # 32 bit and 64 bit platforms both have an unsigned integer length of
         # 4 bytes. I'm not implementing backwards compatibility for < 32 bit
         # architecture.
-        if struct.calcsize(b'1') >= 4:
 
-            return struct.unpack('<i', data)[0]
-        raise RuntimeWarning
+        return struct.unpack('<i', data)[0]
+
 
     def parseL(self, field, data):
         """Parse logical field and return True, False or None"""

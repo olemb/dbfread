@@ -234,25 +234,25 @@ class DBF(object):
                     self.encoding = 'ascii'
         except FileNotFoundError:
             self.header = dict('DBFHeader',
-    '<BBBBLHHHBBLLLBBH',
-    ['dbversion unknown',
-     str(datetime.year),
-     str(datetime.month),
-     str(datetime.day),
-     'numrecords unknown',
-     'headerlen unknown',
-     'recordlen unknown',
-     'reserved1 unknown',
-     'incomplete_transaction unknown',
-     'encryption_flag unknown',
-     'free_record_thread unknown',
-     'reserved2 unknown',
-     'reserved3 unknown',
-     'mdx_flag unknown',
-     'language_driver unknown',
-     'reserved4 unknown',
-     ])
-    raise FileNotFoundError
+                                '<BBBBLHHHBBLLLBBH',
+                                ['dbversion unknown',
+                                 str(datetime.year),
+                                 str(datetime.month),
+                                 str(datetime.day),
+                                 'numrecords unknown',
+                                 'headerlen unknown',
+                                 'recordlen unknown',
+                                 'reserved1 unknown',
+                                 'incomplete_transaction unknown',
+                                 'encryption_flag unknown',
+                                 'free_record_thread unknown',
+                                 'reserved2 unknown',
+                                 'reserved3 unknown',
+                                 'mdx_flag unknown',
+                                 'language_driver unknown',
+                                 'reserved4 unknown',
+                                 ])
+            raise FileNotFoundError
 
     def _decode_text(self, data):
         return data.decode(self.encoding, errors=self.char_decode_errors)

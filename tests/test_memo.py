@@ -1,6 +1,9 @@
 from pytest import raises
-from dbfread import DBF
-from dbfread import MissingMemoFile
+
+from dbfread.memo import *
+from dbfread.exceptions import MissingMemoFile
+from dbfread.dbf import DBF
+
 
 def test_missing_memofile():
     with raises(MissingMemoFile):
