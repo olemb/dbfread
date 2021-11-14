@@ -212,13 +212,47 @@ class DBF(object):
 
     def _read_header(self, infile):
         # Todo: more checks?
-        self.header = DBFHeader.read(infile)
+        '''
+        Reads the dbf header into memory.
 
-        if self.encoding is None:
-            try:
-                self.encoding = guess_encoding(self.header.language_driver)
-            except LookupError:
-                self.encoding = 'ascii'
+        What could go wrong with reading the DBF header? The structure of the header is found
+        here: https://www.dbase.com/Knowledgebase/INT/db7_file_fmt.htm.
+
+        1. The read operation could fail because the DBF Header does not exist. In this case,
+        the program should either generate a user message or generate a blank header file.
+        :param infile:
+        :return:
+        '''
+
+        try:
+            self.header = DBFHeader.read(infile)
+
+            if self.encoding is None:
+                try:
+                    self.encoding = guess_encoding ( self.header.language_driver )
+                except LookupError:
+                    self.encoding = 'ascii'
+        except FileNotFoundError:
+            self.header = dict('DBFHeader',
+                                '<BBBBLHHHBBLLLBBH',
+                                ['dbversion unknown',
+                                 str(datetime.year),
+                                 str(datetime.month),
+                                 str(datetime.day),
+                                 'numrecords unknown',
+                                 'headerlen unknown',
+                                 'recordlen unknown',
+                                 'reserved1 unknown',
+                                 'incomplete_transaction unknown',
+                                 'encryption_flag unknown',
+                                 'free_record_thread unknown',
+                                 'reserved2 unknown',
+                                 'reserved3 unknown',
+                                 'mdx_flag unknown',
+                                 'language_driver unknown',
+                                 'reserved4 unknown',
+                                 ])
+            raise FileNotFoundError
 
     def _decode_text(self, data):
         return data.decode(self.encoding, errors=self.char_decode_errors)

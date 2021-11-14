@@ -1,7 +1,7 @@
 import datetime
 from decimal import Decimal
 from pytest import raises
-from dbfread.field_parser import FieldParser
+from dbfread.field_parser import *
 
 class MockHeader(object):
     dbversion = 0x02
@@ -11,6 +11,15 @@ class MockDBF(object):
         self.header = MockHeader()
         self.encoding = 'ascii'
         self.char_decode_errors = 'strict'
+
+    def set_encoding(self, new_encoding):
+        self.encoding = new_encoding
+
+    def set_year(self, year):
+        '''
+        Access self.header.year and change the year
+        '''
+        self.header.year = year
 
 class MockField(object):
     def __init__(self, type='', **kwargs):
@@ -24,11 +33,16 @@ class MockMemoFile(dict):
         else:
             return dict.__getitem__(self, index)
 
-def make_field_parser(field_type, dbversion=0x02, memofile=None):
+def make_field_parser(field_type, dbversion=0x02, memofile=None, encoding=None, year=None):
     dbf = MockDBF()
     dbf.header.dbversion = dbversion
     parser = FieldParser(dbf, memofile)
     field = MockField(field_type)
+
+    if encoding is not None:
+        dbf.set_encoding(encoding)
+    if year is not None:
+        dbf.set_year(year)
 
     def parse(data):
         return parser.parse(field, data)
@@ -47,7 +61,7 @@ def test_C():
     assert type(parse(b'test')) == type(u'')
 
 def test_D():
-    parse = make_field_parser('D')
+    parse = make_field_parser('D', year=21)
 
     assert parse(b'00000000') is None
     assert parse(b'        ') is None
@@ -55,7 +69,11 @@ def test_D():
     epoch = datetime.date(1970, 1, 1)
     assert parse(b'19700101') == epoch
 
+    new_century = datetime.date(2021,1,1)
+    assert parse(b'00210101') == new_century
+
     with raises(ValueError):
+        assert parse(b' 0\0') is None
         parse(b'NotIntgr')
 
 def test_F():
@@ -85,6 +103,8 @@ def test_I():
     assert parse(b'\x01\x00\x00\x00') == 1
     assert parse(b'\xff\xff\xff\xff') == -1
 
+
+
 def test_L():
     parse = make_field_parser('L')
 
@@ -100,7 +120,7 @@ def test_L():
     # Some invalid values.
     for char in b'!0':
         with raises(ValueError):
-            parse(char)
+            assert parse(char) is None
 
 # This also tests B, G and P.
 def test_M():
@@ -142,6 +162,8 @@ def test_N():
 
     with raises(ValueError):
         parse(b'okasd')
+        assert parse(b',') == 'NaN'
+        parse(b'3,123.4') == 3123.4
 
 def test_O():
     """Test double field."""

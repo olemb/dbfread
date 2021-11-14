@@ -5,7 +5,7 @@ import sys
 import datetime
 import struct
 from decimal import Decimal
-from .memo import BinaryMemo
+from dbfread.memo import BinaryMemo
 
 PY2 = sys.version_info[0] == 2
 
@@ -96,8 +96,7 @@ class FieldParser:
                 # A record containing only spaces and/or zeros is
                 # a NULL value.
                 return None
-            else:
-                raise ValueError('invalid date {!r}'.format(data))
+            raise ValueError ( 'invalid date {!r}'.format ( data ) )
 
     def parseF(self, field, data):
         """Parse float field and return float or None"""
@@ -111,8 +110,15 @@ class FieldParser:
 
     def parseI(self, field, data):
         """Parse integer or autoincrement field and return int."""
-        # Todo: is this 4 bytes on every platform?
+
+
+        # Check to make sure integers are 4 bytes on this platform
+        # 32 bit and 64 bit platforms both have an unsigned integer length of
+        # 4 bytes. I'm not implementing backwards compatibility for < 32 bit
+        # architecture.
+
         return struct.unpack('<i', data)[0]
+
 
     def parseL(self, field, data):
         """Parse logical field and return True, False or None"""
@@ -126,6 +132,7 @@ class FieldParser:
             # Todo: return something? (But that would be misleading!)
             message = 'Illegal value for logical field: {!r}'
             raise ValueError(message.format(data))
+            return None
 
     def _parse_memo_index(self, data):
         if len(data) == 4:
@@ -171,8 +178,15 @@ class FieldParser:
             if not data.strip():
                 return None
             else:
-                # Account for , in numeric fields
-                return float(data.replace(b',', b'.'))
+
+                # Eliminate the lone comma entry
+                if str(data).count(',') == 1:
+                    return float(data.replace(b',',b''))
+                elif len ( data ) >= 2:
+                    return float ( data.replace ( b',', b'' ) )
+
+                # The default ultimate failure should be a NaN value
+                return float ( 'NaN' )
 
     def parseO(self, field, data):
         """Parse long field (O) and return float."""
@@ -195,7 +209,7 @@ class FieldParser:
 
         # Offset from julian days (used in the file) to proleptic Gregorian
         # ordinals (used by the datetime module)
-        offset = 1721425  # Todo: will this work?
+        offset = 1721425
 
         if data.strip():
             # Note: if the day number is 0, we return None
