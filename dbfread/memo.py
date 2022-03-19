@@ -168,7 +168,7 @@ class DB4MemoFile(MemoFile):
 
 
 def find_memofile(dbf_filename):
-    for ext in ['.fpt', '.dbt']:
+    for ext in ['.fpt', '.dbt', '.frt']:
         name = ifind(dbf_filename, ext=ext)
         if name:
             return name
@@ -177,7 +177,7 @@ def find_memofile(dbf_filename):
 
 
 def open_memofile(filename, dbversion):
-    if filename.lower().endswith('.fpt'):
+    if filename.lower().endswith('.fpt') or filename.lower().endswith('.frt'):
         return VFPMemoFile(filename)
     else:
         # print('######', dbversion)
