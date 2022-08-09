@@ -122,6 +122,8 @@ class FieldParser:
             return False
         elif data in b'? \0':
             return None
+        elif type(data) == bytes:
+            return data.decode()
         else:
             # Todo: return something? (But that would be misleading!)
             message = 'Illegal value for logical field: {!r}'
