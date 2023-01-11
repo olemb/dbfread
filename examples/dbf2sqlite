@@ -77,6 +77,13 @@ def parse_args():
         default=None,
         help='character encoding in DBF file')
 
+    arg('-i', '--ignore-missing-memofile',
+        action='store',
+        dest='ignore_missing_memofile',
+        default=True,
+        help='If you dont have the memo file, then all memo field text will be none, balance of data still accessible.'
+        '(default is to include memo fields)')
+
     arg('--char-decode-errors',
         action='store',
         dest='char_decode_errors',
@@ -102,6 +109,7 @@ def main():
             add_table(cursor, DBF(table_file,
                                   lowernames=True,
                                   encoding=args.encoding,
+                                  ignore_missing_memofile=args.ignore_missing_memofile,
                                   char_decode_errors=args.char_decode_errors))
         except UnicodeDecodeError:
             traceback.print_exc()
