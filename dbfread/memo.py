@@ -166,9 +166,31 @@ class DB4MemoFile(MemoFile):
         # \x1f seems to be another (dbase_8b.dbt)
         return data.split(b'\x1f', 1)[0]
 
+class SCTMemoFile(MemoFile):
+    def __getitem__(self, index):
+        if index <= 0:
+            return None
+
+        # Skip ahead by 8 bytes. Might be related to header?
+        index = index + 8
+
+        # Addresses are in 1-byte blocks for SCX/SCT file pairs.
+        block_size = 1
+        self._seek(index * block_size)
+        data = b''
+        while True:
+            newdata = self._read(block_size)
+            if not newdata:
+                return data
+            data += newdata
+
+            # Null byte indicates end.
+            end_of_memo = data.find(b'\x00')
+            if end_of_memo != -1:
+                return data[:end_of_memo]
 
 def find_memofile(dbf_filename):
-    for ext in ['.fpt', '.dbt']:
+    for ext in ['.fpt', '.dbt', '.sct']:
         name = ifind(dbf_filename, ext=ext)
         if name:
             return name
@@ -179,6 +201,8 @@ def find_memofile(dbf_filename):
 def open_memofile(filename, dbversion):
     if filename.lower().endswith('.fpt'):
         return VFPMemoFile(filename)
+    elif filename.lower().endswith('.sct'):
+        return SCTMemoFile(filename)
     else:
         # print('######', dbversion)
         if dbversion == 0x83:
