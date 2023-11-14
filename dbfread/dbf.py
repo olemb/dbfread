@@ -224,6 +224,9 @@ class DBF(object):
         return data.decode(self.encoding, errors=self.char_decode_errors)
 
     def _read_field_headers(self, infile):
+        field_names = set()
+        field_counter = {}
+
         while True:
             sep = infile.read(1)
             if sep in (b'\r', b'\n', b''):
@@ -245,8 +248,15 @@ class DBF(object):
             if self.lowernames:
                 field.name = field.name.lower()
 
-            self.field_names.append(field.name)
+            # Check for duplicate field names and append a suffix
+            original_name = field.name
+            if field.name in field_names:
+                field_counter[original_name] = field_counter.get(original_name, 0) + 1
+                field.name = f"{original_name}_{field_counter[original_name]}"
+            else:
+                field_names.add(field.name)
 
+            self.field_names.append(field.name)
             self.fields.append(field)
 
     def _open_memofile(self):
