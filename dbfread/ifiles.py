@@ -53,6 +53,16 @@ def ifind(pat, ext=None):
     if ext:
         pat = os.path.splitext(pat)[0] + ext
 
+    # Try a literal filename first, since DBF and memo filenames may contain
+    # glob characters such as brackets (including in the directory name).
+    dirname, basename = os.path.split(pat)
+    try:
+        for name in os.listdir(dirname or '.'):
+            if name.lower() == basename.lower():
+                return os.path.join(dirname, name)
+    except OSError:
+        pass
+
     files = iglob(pat)
     if files:
         return files[0]  # Return an arbitrary file
