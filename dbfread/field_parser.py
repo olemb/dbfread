@@ -6,6 +6,7 @@ import datetime
 import struct
 from decimal import Decimal
 from .memo import BinaryMemo
+from .dbversions import VFP_DBVERSIONS
 
 PY2 = sys.version_info[0] == 2
 
@@ -230,7 +231,7 @@ class FieldParser:
         Visual FoxPro uses it to store a double precision floating
         point number (8 bytes).
         """
-        if self.dbversion in [0x30, 0x31, 0x32]:
+        if self.dbversion in VFP_DBVERSIONS:
             return struct.unpack('d', data)[0]
         else:
             return self.get_memo(self._parse_memo_index(data))

@@ -12,7 +12,7 @@ from .struct_parser import StructParser
 from .field_parser import FieldParser
 from .memo import find_memofile, open_memofile, FakeMemoFile
 from .codepages import guess_encoding
-from .dbversions import get_dbversion_string
+from .dbversions import get_dbversion_string, VFP_DBVERSIONS
 from .exceptions import DBFNotFound, MissingMemoFile
 
 _py_version = (sys.version_info.major, sys.version_info.minor)
@@ -151,7 +151,11 @@ class DBF(object):
     def _get_memofilename(self):
         # Does the table have a memo field?
         field_types = [field.type for field in self.fields]
-        if not set(field_types) & set('MGPB'):
+        memo_types = set('MGPB')
+        if self.header.dbversion in VFP_DBVERSIONS:
+            # Visual FoxPro uses B for an inline double, not a memo index.
+            memo_types.remove('B')
+        if not set(field_types) & memo_types:
             # No memo fields.
             return None
 
