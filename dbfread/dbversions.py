@@ -3,6 +3,9 @@ Based on the list found here:
 
 http://www.dbf2002.com/dbf-file-format.html
 """
+VFP_DBVERSIONS = (0x30, 0x31, 0x32)
+
+
 DBVERSION_STRINGS = {
     0x02: 'FoxBASE',
     0x03: 'FoxBASE+/Dbase III plus, no memory',
